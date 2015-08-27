@@ -1,0 +1,279 @@
+#parse ("common/iframe_page_header.htm")
+#parse ("common/customerInfor.htm")
+
+<body>
+  <div class="content_main">
+    <div class="contentinner">
+      <div class="place">
+        <div class="title">客户维护计划信息</div>
+      </div>
+      
+      <div class="inquiry">
+<!-----------搜索------------------------------------------->  
+  <div class="search_tag">#i18n("label.browse.filter")</div>
+     <div class="search">
+          <form id="submitForm">
+            <ul>
+              <li>
+                <span>客户经理：<select id="customerManagerId" name="customerManagerId">
+                <option value="">请选择...</option>
+                #web($forms,$!result.filter.customerManagerId)
+                  </select>
+                </span>
+              </li>
+              <li>
+               <span>客户名称：<input type="text" id="customerName" name="customerName" /></span>
+              </li>
+              <li>
+               <span>证件号码：<input type="text" id="cardId" name="cardId" /></span>
+              </li>
+              <li>
+              <li class="search_button">
+                <input id="id_browse_button" type="button" value="#i18n('button.browse')" class="search_button_inquiry"
+                  title="#i18n('button.browse.hint')" style="height: 26px; line-height: 24px;" />
+              </li>
+            </ul>
+          </form>
+        </div>
+<!-------------- 信息显示 ------------------------------------->        
+        <div id="topDiv" class="inquiry_list inquiry_top">
+          <table>
+            <colgroup>
+              <col width="5%" />
+			  <col width="10%" />
+              <col width="10%" />
+              <col width="10%" />
+              <col width="10%" />
+              <col width="10%" />
+            <!--   <col width="10%" /> -->
+              <col width="10%" />
+            </colgroup>
+            <tr class="title">
+              <th nowrap="nowrap"></th>
+              <!-- <th nowrap="nowrap">客户名称</th>
+              <th nowrap="nowrap">维护目标</th>
+              <th nowrap="nowrap">维护天数</th>
+              <th nowrap="nowrap">维护方式</th>
+              <th nowrap="nowrap">维护备注</th>
+              <th nowrap="nowrap">创建方式</th>
+              <th nowrap="nowrap">实施记录数目</th>
+              <th nowrap="nowrap">维护结束时间</th> -->
+              <th nowrap="nowrap">客户名称</th>
+              <th nowrap="nowrap">证件号码</th>
+              <th nowrap="nowrap">产品名称</th>
+              <th nowrap="nowrap">计划维护时间</th>
+              <th nowrap="nowrap">剩余本金</th>
+              <th nowrap="nowrap">所属客户经理</th>
+            </tr>
+          </table>
+        </div>
+        <div id="downDiv" class="inquiry_list inquiry_down">
+          <table>
+            <colgroup>
+              <col width="5%" />
+              <col width="10%" />
+              <col width="10%" />
+              <col width="10%" />
+              <col width="10%" />
+              <col width="10%" /> 
+		  <!--<col width="10%" />-->
+              <col width="10%" />
+            </colgroup>
+            #foreach ($customer in $result.items)
+            <tr onclick = "validate()">
+              <td class="checkbox"><input type="radio" name="checkbox" value="$!customer.id/$!customer.appId/$!date.format("yyyy-MM-dd HH:mm:dd",$!customer.endDay)/$!customer.customerManagerId"/>
+                 <!--   #if ($!request.getParameter("recordId") == $!customer.id) checked="checked" #end -->
+              <td nowrap="nowrap">$!customer.chineseName</td>
+              <td nowrap="nowrap">$!customer.cardId</td>
+              <td nowrap="nowrap">$!customer.productName</td>
+              <td nowrap="nowrap">$!date.format("yyyy-MM-dd HH:mm:dd",$!customer.startDay)-$!date.format("yyyy-MM-dd HH:mm:dd",$!customer.endDay)</td>
+              <td nowrap="nowrap"></td>
+              <td nowrap="nowrap">$!customer.userName</td>
+            </tr>
+            #end
+          </table>
+        </div>
+      </div>
+      <div class="pagebar">
+        <div class="controlbtn">
+          #btnpriv("create")<a id="id_create_button" class="btn_g" href="javascript:void(0);" title="#i18n('button.create.hint')">#i18n("button.create")</a>#end 
+          #btnpriv("change")<a id="id_change_button" class="btn_g" href="javascript:void(0);" title="修改">修改</a>#end
+          #btnpriv("display")<a id="id_display_button" class="btn_gr" href="javascript:void(0);" title="#i18n('button.display.hint')">#i18n("button.display")</a>#end
+        </div>
+        #parse ("common/pagination.htm")
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+</body>
+<script language="javascript" type="text/javascript">
+	var layout = new TableLayout(2);
+	window.top.currentWindow.setLayout(layout);
+	url = "${modulePath}/browse.page";
+	
+	//切换行时 显示和隐藏按钮
+	$("input[type='radio']").bind("click", function(e) {  
+		  validate();
+	});
+	
+	//初始化隐藏按钮
+    $("#id_change_button").hide();
+    $("#id_display_button").hide();
+	
+	$(document).ready(function() {
+		var opsObj = new Object();
+		opsObj.formObj = $("#submitForm");
+	    opsObj.createUrl = "${modulePath}/create.page";
+		opsObj.displayUrl = "${modulePath}/display.page";
+	    opsObj.changeUrl = "${modulePath}/change.page";
+		opsObj.browseUrl = "${modulePath}/browse.page";
+		//新增
+		if (opsObj.createUrl) {
+	        $("#id_create_button").click(function() {
+	         if ($(".checkbox :checked").length == 1) {
+	        	    $("#id_create_button").unbind();
+	                var rowid = $($(".checkbox :checked")[0]).attr("value");
+	                var url ="";
+	                if(opsObj.createUrl.indexOf("?")>=0){
+	                	url = opsObj.createUrl + "&id=" + rowid;
+	                }else{
+	                	url = opsObj.createUrl + "?id=" + rowid;
+	                }
+	        	 
+	            if (opsObj.formObj) {
+	                // 回调URL
+	                var callBackUrlObj = opsObj.formObj.find("div.pagebar div.page a.current");
+	                if (callBackUrlObj) {
+	                	if(url.indexOf("?")>=0){
+	                		url += "&" + $.param({
+		                        'callBackUrl': callBackUrlObj.length == 0 ? window.location.href: callBackUrlObj[0].href
+		                    });
+	                	}else{
+		                    url += "?" + $.param({
+		                        'callBackUrl': callBackUrlObj.length == 0 ? window.location.href: callBackUrlObj[0].href
+		                    });
+	                	}
+	                }
+	            }
+	            window.location.href = url;
+	         } else {
+	                Dialog.message("请选择一行");
+	         } 
+	        });
+	    }
+		
+		//修改
+		if (opsObj.changeUrl) {
+	        $("#id_change_button").click(function() {
+	         if ($(".checkbox :checked").length == 1) {
+	        	    var rowid = $($(".checkbox :checked")[0]).attr("value");
+		  			var time = rowid.split("/")[2];//计划时间
+		  			var currentdate = new Date();//系统时间
+		  			var now = currentdate.toLocaleDateString()+" "+currentdate.toLocaleTimeString();
+		  			now = now.replace("年","-").replace("月","-").replace("日",""); 
+		  		    now = new Date(now.replace(/-/g,"/")); 
+		  		    time = new Date(time.replace(/-/g,"/"));
+		  			if(time==null || Date.parse(time) - Date.parse(now) < 0){
+		  				Dialog.message("不能修改已过期的维护计划！");
+		  				return;
+		  			}
+	        	    $("#id_change_button").unbind();
+	                var url ="";
+	                if(opsObj.changeUrl.indexOf("?")>=0){
+	                	url = opsObj.changeUrl + "&id=" + rowid;
+	                }else{
+	                	url = opsObj.changeUrl + "?id=" + rowid;
+	                }
+	        	 
+	            if (opsObj.formObj) {
+	                // 回调URL
+	                var callBackUrlObj = opsObj.formObj.find("div.pagebar div.page a.current");
+	                if (callBackUrlObj) {
+	                	if(url.indexOf("?")>=0){
+	                		url += "&" + $.param({
+		                        'callBackUrl': callBackUrlObj.length == 0 ? window.location.href: callBackUrlObj[0].href
+		                    });
+	                	}else{
+		                    url += "?" + $.param({
+		                        'callBackUrl': callBackUrlObj.length == 0 ? window.location.href: callBackUrlObj[0].href
+		                    });
+	                	}
+	                }
+	            }
+	            window.location.href = url;
+	         } else {
+	                Dialog.message("请选择一行");
+	         } 
+	        });
+	    }
+		
+		//显示
+		if (opsObj.displayUrl) {
+			 $("#id_display_button").click(function() {
+		         if ($(".checkbox :checked").length == 1) {
+		        	    var rowid = $($(".checkbox :checked")[0]).attr("value");
+		        	    $("#id_display_button").unbind();
+		                var url ="";
+		                if(opsObj.displayUrl.indexOf("?")>=0){
+		                	url = opsObj.displayUrl + "&id=" + rowid;
+		                }else{
+		                	url = opsObj.displayUrl + "?id=" + rowid;
+		                }
+		        	 
+		            if (opsObj.formObj) {
+		                // 回调URL
+		                var callBackUrlObj = opsObj.formObj.find("div.pagebar div.page a.current");
+		                if (callBackUrlObj) {
+		                	if(url.indexOf("?")>=0){
+		                		url += "&" + $.param({
+			                        'callBackUrl': callBackUrlObj.length == 0 ? window.location.href: callBackUrlObj[0].href
+			                    });
+		                	}else{
+			                    url += "?" + $.param({
+			                        'callBackUrl': callBackUrlObj.length == 0 ? window.location.href: callBackUrlObj[0].href
+			                    });
+		                	}
+		                }
+		            }
+		            window.location.href = url;
+		         } else {
+		                Dialog.message("请选择一行");
+		         } 
+		        });
+		}
+		
+		//browe
+		if (opsObj.browseUrl) {
+			 $("#id_browse_button").click(function() {
+		            var url = opsObj.browseUrl;
+		            if (opsObj.formObj) {
+		                opsObj.formObj.action = opsObj.browseUrl;
+		                opsObj.formObj.submit();
+		            }
+		        });
+		}
+	});
+	
+	
+	
+	 //切换行时
+	 function validate(){
+	   if ($(".checkbox :checked").length == 1) {
+		     var changeBtn = document.getElementById("id_change_button");
+			 var disPlayBtn = document.getElementById("id_display_button");
+			 var rowid = $($(".checkbox :checked")[0]).attr("value");	
+			 var str ="";
+			 str = rowid.split("/");
+	         if(str[0]==""){
+	         	changeBtn.style.display = "none";//隐藏
+	         	disPlayBtn.style.display = "none";//隐藏
+	         }else{
+	        	changeBtn.style.display = "block";//显示
+	         	disPlayBtn.style.display = "block"; //显示
+	         }
+		}  
+	}
+	
+	
+</script>
+#parse ("common/iframe_page_footer.htm")
