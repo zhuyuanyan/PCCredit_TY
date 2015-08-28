@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cardpay.pccredit.intopieces.dao.LocalExcelDao" >
+  <resultMap id="BaseResultMap" type="com.cardpay.pccredit.intopieces.web.LocalExcelForm" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="VARCHAR" />
+    <result column="CHINESE_NAME" property="customerName" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="APPLICATION_ID" property="applicationId" jdbcType="VARCHAR" />
+    <result column="ATTACHMENT" property="attachment" jdbcType="VARCHAR" />
+    <result column="URI" property="uri" jdbcType="VARCHAR" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findByProductAndCustomer" resultMap="BaseResultMap">
+      SELECT * FROM
+		(SELECT ROW_.*,ROWNUM ROWNUM_
+		FROM (
+		    select t.*,bci.chinese_name,pa.product_name
+		    from local_excel t
+		    left join BASIC_CUSTOMER_INFORMATION bci on t.customer_id = bci.id
+		    left join PRODUCT_ATTRIBUTE pa on t.product_id = pa.id
+		    where 
+		    product_id=#{productId} and customer_id=#{customerId}
+		    
+		    <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+					]]>
+  </select>
+  <select id="findCountByProductAndCustomer" resultType="int">
+    select count(0) from local_excel
+    where 
+    product_id=#{productId} and customer_id=#{customerId}
+  </select>
+  <select id="findById" resultType="com.cardpay.pccredit.intopieces.model.LocalExcel">
+      select t.*
+	    from local_excel t
+	    where 
+	    id=#{id}
+  </select>
+  <select id="findByApplication" resultType="com.cardpay.pccredit.intopieces.model.LocalExcel">
+    select
+    id,
+    application_id as applicationId, 
+    customer_id as customerId,
+    product_id as productId,
+    sheet_fz as sheetFz,
+    sheet_sy as sheetSy,
+    sheet_jl as sheetJl,
+    sheet_jc as sheetJc
+    
+    from local_excel
+    where application_id=#{applicationId}
+  </select>
+</mapper>

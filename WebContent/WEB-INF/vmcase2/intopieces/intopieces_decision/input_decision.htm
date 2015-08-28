@@ -1,0 +1,123 @@
+#parse ("common/iframe_page_header.htm")
+#parse ("common/macro.htm")
+  <link rel="stylesheet" type="text/css" href="${uicasePath}/css/specialtab.css" />
+<body class="whitebg">
+  <div class="content_main">
+    <div class="contentinner">
+      <div class="place">
+        <div class="title">填写审议结论>审议结论</div>
+      </div>
+       
+      <form id="id_module_form" action="${contextPath}/intopieces/intopiecesdecision/update.json"/>
+      <input type="hidden" name="id" value="$!customerApplicationInfo.id"/>
+         <div class="form-bd" id="formsId" style="margin-top: 0px;padding-top: 0px;">
+          <table cellpadding="0" cellspacing="0" class="table-bd" border="1" bordercolor="#cccccc" style="width: 100%">
+            <colgroup>
+              <col width="10%" />
+              <col width="30%" />
+              <col width="10%" />
+              <col width="30%" />
+            </colgroup>
+              <tr><td class="titlec" colspan="4" style="text-align: center;">审议结论</td></tr>
+            <tr>
+              <td class="titlefc3"><label for="status">审议结论:</label></td>
+              <td><select class="rinpsty" id="status" name="status" >
+                  	#dict("intopieces_decision",$!customerApplicationInfo.status)
+                  </select></td>
+              <td class="titlefc3"><label for=decisionRefusereason>拒绝原因:</label></td>
+              <td><textarea name="decisionRefusereason">$!customerApplicationInfo.decisionRefusereason</textarea></td>
+            </tr>
+            <tr>
+			  <td class="titlefc3"><label for="decisionAmount">金额:</label></td>
+              <td><input class="rinpsty"  type="text" name="decisionAmount" value="$!customerApplicationInfo.decisionAmount" />(元)</td>
+              <td class="titlefc3"><label for="decisionRate">利率:</label></td>
+              <td><input class="rinpsty"  type="text" name="decisionRate" value="$!customerApplicationInfo.decisionRate" />(%)</td>
+            </tr>
+            <tr>
+              <td class="titlefc3"><label for="decisionTerm">期限:</label></td>
+              <td><select class="rinpsty" name="decisionTerm">
+                  	#dict("decision_term",$!customerApplicationInfo.decisionTerm)
+                  </select>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </form>
+      <div class="submit">
+        <input id="id_save_button" type="button" value="#i18n('button.save')" class="current" />
+      </div>
+    </div>
+  </div>
+ 
+  <script type="text/javascript">
+  	#set ($formName = "'#id_module_form'")
+	#parse ("intopieces/intopieces_decision/input_decision_validation.js")
+	var layout = new FormsLayout("formsId");
+	window.top.currentWindow.setLayout(layout);
+	
+	$(document).ready(function() {		
+		$("#id_save_button").click(function() {
+			
+			$(".myerror").remove();
+			
+			var status = $("select[name=status]").val();
+			if( status == "approved"){
+				if($("input[name=decision_amount]").val() == ""){
+					 $("input[name='decision_amount']").after("<label class='error myerror' generated='true' >金额不能为空</label>");   
+				}
+				if($("input[name=decision_rate]").val() == ""){
+					 $("input[name='decision_rate']").after("<label class='error myerror'generated='true' >利率不能为空</label>");   
+				}
+			}
+			
+			if( status == "refuse"){
+				if($("textarea[name=decision_refusereason]").val() == ""){
+					 $("textarea[name='decision_refusereason']").after("<label class='error myerror' generated='true' >拒绝原因不能为空</label>");   
+				}
+			}
+			
+			var leng = 0;
+	    	leng = $(".myerror").length;
+	    	if(leng > 0){
+	    		return;
+	    	}else{
+	    		if ($($formName).valid()) {
+					var formjson = $($formName).serialize();
+		 	          $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
+		 	            if (data.success) {
+		 	            	topWin.Dialog.message("保存成功!");
+		 	            	window.location.href="${contextPath}/intopieces/intopiecesdecision/browse.page";
+		 	            }
+		 	          });
+				}
+	    	}
+			
+		});
+		
+		$("#status").change(function (){
+			$(".myerror").remove();
+			
+			var status = $("select[name=status]").val();
+			if( status == "approved"){
+				if($("input[name=decision_amount]").val() == ""){
+					 $("input[name='decision_amount']").after("<label class='error myerror' generated='true' >金额不能为空</label>");   
+				}
+				if($("input[name=decision_rate]").val() == ""){
+					 $("input[name='decision_rate']").after("<label class='error myerror'generated='true' >利率不能为空</label>");   
+				}
+			}
+			
+			if( status == "refuse"){
+				if($("textarea[name=decision_refusereason]").val() == ""){
+					 $("textarea[name='decision_refusereason']").after("<label class='error myerror' generated='true' >拒绝原因不能为空</label>");   
+				}
+			}
+			
+		});
+	});
+	
+	
+  </script>
+  
+</body>
+#parse ("common/iframe_page_footer.htm")
