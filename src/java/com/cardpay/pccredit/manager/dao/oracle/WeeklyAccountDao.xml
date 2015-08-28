@@ -96,17 +96,24 @@
 		</if>
 		
 		AND w.CUSTOMER_MANAGER_ID = s.ID
-		AND (
-		 w.CUSTOMER_MANAGER_ID IN (
-		SELECT
-			T.CHILD_ID 
-		FROM
-			manager_belong_map T
-		LEFT JOIN account_manager_parameter amp ON amp. ID = T .child_id
-		WHERE
-			amp.user_id = #{loginId}
-		)
-		)
+		<if test="subManagerIds != null and subManagerIds.size() > 0 ">
+			and w.CUSTOMER_MANAGER_ID in
+			<foreach item="item" index="index" collection="subManagerIds" open="("  
+				     separator="," close=")">  
+				     #{item}
+		    </foreach>
+		</if>
+<!-- 		AND ( -->
+<!-- 		 w.CUSTOMER_MANAGER_ID IN ( -->
+<!-- 		SELECT -->
+<!-- 			T.CHILD_ID  -->
+<!-- 		FROM -->
+<!-- 			manager_belong_map T -->
+<!-- 		LEFT JOIN account_manager_parameter amp ON amp. ID = T .child_id -->
+<!-- 		WHERE -->
+<!-- 			amp.user_id = #{loginId} -->
+<!-- 		) -->
+<!-- 		) -->
 		ORDER BY
 		w.CREATED_TIME DESC
 		 <![CDATA[		
