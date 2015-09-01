@@ -225,6 +225,7 @@
 						AND b.user_id = #{customerManagerId}
 					 </if>
 					 
+					 
 					
 		 <![CDATA[		
 							) ROW_
