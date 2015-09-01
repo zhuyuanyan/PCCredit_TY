@@ -225,9 +225,7 @@
 						AND b.user_id = #{customerManagerId}
 					 </if>
 					 
-					 <if test="id != null and id != '' ">
-						AND m.app_id = #{id}
-					 </if>
+					
 		 <![CDATA[		
 							) ROW_
 						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
@@ -266,9 +264,7 @@
 		 <if test="productId != null and productId != '' ">
 			AND c.product_id=#{productId}
 		 </if>
-		 <if test="id != null and id != '' ">
-			AND m.app_id = #{id}
-		</if>
+		 
 	</select>
 	<select id="findMaintenanceById" resultMap="MaintenanceResultMap">
 		select m.*,b.chinese_name
