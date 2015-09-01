@@ -1,5 +1,7 @@
 package com.cardpay.pccredit.manager.filter;
 
+import java.util.List;
+
 import com.wicresoft.jrad.base.web.filter.BaseQueryFilter;
 
 public class WeeklyAccountManagerFilter extends BaseQueryFilter {
@@ -21,6 +23,17 @@ public class WeeklyAccountManagerFilter extends BaseQueryFilter {
 	private String resistanceDifficultCollect;
 	private String improvementSuggestionsMeasure;
 	private String displayName;
+	//add field
+	private List<String> subManagerIds;
+	
+	
+	public List<String> getSubManagerIds() {
+		return subManagerIds;
+	}
+
+	public void setSubManagerIds(List<String> subManagerIds) {
+		this.subManagerIds = subManagerIds;
+	}
 
 	public String getDisplayName() {
 		return displayName;

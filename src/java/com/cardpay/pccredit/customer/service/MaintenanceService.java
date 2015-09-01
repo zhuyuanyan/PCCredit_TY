@@ -61,6 +61,18 @@ public class MaintenanceService {
 		QueryResult<MaintenanceForm> qr = new QueryResult<MaintenanceForm>(size,plans);
 		return qr;
 	}
+	
+	/**
+	 * 得到维护计划(browse)
+	 * @param filter
+	 * @return
+	 */
+	public QueryResult<MaintenanceForm> findMaintenancePlansList(MaintenanceFilter filter){
+		List<MaintenanceForm> plans = maintenanceDao.findMaintenancePlansList(filter);
+		int size = maintenanceDao.findMaintenancePlansCountList(filter);
+		QueryResult<MaintenanceForm> qr = new QueryResult<MaintenanceForm>(size,plans);
+		return qr;
+	}
 	/**
 	 * 得到维护计划(browse)(下属)
 	 * @param filter
