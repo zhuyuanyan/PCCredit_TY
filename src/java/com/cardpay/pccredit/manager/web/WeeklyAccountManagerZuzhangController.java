@@ -1,5 +1,6 @@
 package com.cardpay.pccredit.manager.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,8 +68,22 @@ public class WeeklyAccountManagerZuzhangController extends BaseController {
 		String loginId = user.getId();
 		filter.setLoginId(loginId);
 		List<AccountManagerParameterForm> apf = managerBelongMapService.findSubListManagerByManagerId(loginId);
-		QueryResult<WeeklyAccountManagerForm> result = weeklyAccountService.findSubWeeklyAccountManagersByFilter(filter);
-		JRadPagedQueryResult<WeeklyAccountManagerForm> pagedResult = new JRadPagedQueryResult<WeeklyAccountManagerForm>(filter, result);
+		JRadPagedQueryResult<WeeklyAccountManagerForm> pagedResult = null;
+		if(apf.size() > 0){
+			List<String> subManagerIds = new ArrayList<String>();
+			for(AccountManagerParameterForm managerParameterForm : apf){
+				subManagerIds.add(managerParameterForm.getUserId());
+			}
+			filter.setSubManagerIds(subManagerIds);
+			QueryResult<WeeklyAccountManagerForm> result = weeklyAccountService.findSubWeeklyAccountManagersByFilter(filter);
+			pagedResult = new JRadPagedQueryResult<WeeklyAccountManagerForm>(filter, result);
+		}else{
+			QueryResult<WeeklyAccountManagerForm> result = weeklyAccountService.findSubWeeklyAccountManagersByFilter(filter);
+			pagedResult = new JRadPagedQueryResult<WeeklyAccountManagerForm>(filter, result);
+				
+		}
+		
+		
 		JRadModelAndView mv = new JRadModelAndView("/manager/weekreport/week_browse_zuzhang", request);
 		mv.addObject(PAGED_RESULT, pagedResult);
 		mv.addObject("apf", apf);
@@ -107,8 +122,8 @@ public class WeeklyAccountManagerZuzhangController extends BaseController {
 	@JRadOperation(JRadOperation.CHANGE)
 	public JRadReturnMap update(@ModelAttribute WeeklyAccountManagerForm weeklyAccountManagerForm, HttpServletRequest request) {
 
-		JRadReturnMap returnMap = WebRequestHelper.requestValidation(getModuleName(), weeklyAccountManagerForm);
-		if (returnMap.isSuccess()) {
+		JRadReturnMap returnMap = new JRadReturnMap();//WebRequestHelper.requestValidation(getModuleName(), weeklyAccountManagerForm);
+		//if (returnMap.isSuccess()) {
 			try {
 				WeeklyAccountManager weeklyAccountManager = weeklyAccountManagerForm.createModel(WeeklyAccountManager.class);
 				weeklyAccountService.updateWeeklyAccount(weeklyAccountManager);
@@ -117,7 +132,7 @@ public class WeeklyAccountManagerZuzhangController extends BaseController {
 			} catch (Exception e) {
 				return WebRequestHelper.processException(e);
 			}
-		}
+		//}
 
 		return returnMap;
 	}
