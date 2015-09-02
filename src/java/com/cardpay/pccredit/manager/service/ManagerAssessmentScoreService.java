@@ -3,8 +3,13 @@
  */
 package com.cardpay.pccredit.manager.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +21,11 @@ import com.cardpay.pccredit.manager.dao.ManagerAssessmentScoreDao;
 import com.cardpay.pccredit.manager.dao.comdao.ManagerAssessmentScoreCommDao;
 import com.cardpay.pccredit.manager.filter.ManagerAssessmentScoreFilter;
 import com.cardpay.pccredit.manager.model.ManagerAssessmentScore;
+import com.cardpay.pccredit.manager.model.TyManagerAssessment;
 import com.cardpay.pccredit.manager.web.ManagerAssessmentScoreForm;
 import com.wicresoft.jrad.base.database.dao.common.CommonDao;
 import com.wicresoft.jrad.base.database.model.QueryResult;
+import com.wicresoft.util.format.DateFormat;
 
 /**
  * 
@@ -49,11 +56,11 @@ public class ManagerAssessmentScoreService {
 	 * @param filter
 	 * @return
 	 */
-	public QueryResult<ManagerAssessmentScoreForm> findManagerAssessmentScoreByFilter(
+	public QueryResult<TyManagerAssessment> findManagerAssessmentScoreByFilter(
 			ManagerAssessmentScoreFilter filter) {
-		List<ManagerAssessmentScoreForm> assessmentScoreForms = managerAssessmentScoreDao.findManagerAssessmentScoreByFilter(filter);
+		List<TyManagerAssessment> assessmentScoreForms = managerAssessmentScoreDao.findManagerAssessmentScoreByFilter(filter);
 		int size = managerAssessmentScoreDao.findManagerAssessmentScoreCountByFilter(filter);
-		QueryResult<ManagerAssessmentScoreForm> qs = new QueryResult<ManagerAssessmentScoreForm>(size, assessmentScoreForms);
+		QueryResult<TyManagerAssessment> qs = new QueryResult<TyManagerAssessment>(size, assessmentScoreForms);
 		return qs;
 	}
 	
@@ -62,7 +69,7 @@ public class ManagerAssessmentScoreService {
 	 * @param id
 	 * @return
 	 */
-	public ManagerAssessmentScoreForm findManagerAssessmentScoreById(String id){
+	public TyManagerAssessment findManagerAssessmentScoreById(String id){
 		return managerAssessmentScoreDao.findManagerAssessmentScoreById(id);
 	}
 
@@ -91,5 +98,35 @@ public class ManagerAssessmentScoreService {
 		} else {
 			return 0.0;
 		}
+	}
+	/**
+	 * 保存评估
+	 * @param managerAssessmentScore
+	 * @throws ParseException 
+	 */
+	public void saveAssessmentScore(HttpServletRequest request) throws ParseException {
+		String assessId = request.getParameter("assessId");
+		String remark = request.getParameter("remark");
+		String totalScore = request.getParameter("totalScore");
+		String score = request.getParameter("avgScore");
+		String createTime = request.getParameter("createTime");
+		String createUser = request.getParameter("createUser");
+		TyManagerAssessment assessment = commonDao.findObjectById(TyManagerAssessment.class, assessId);
+		assessment.setRemark(remark);
+		assessment.setTotalScore(totalScore);
+		assessment.setScore(score);
+		assessment.setCreateUser(createUser);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");//小写的mm表示的是分钟  
+		java.util.Date date=sdf.parse(createTime); 
+		assessment.setCreateTime(date);
+		commonDao.updateObject(assessment);
+	}
+	
+	/*
+	 * 根据年月获取评估结果
+	 */
+	public List<TyManagerAssessment> getAssessByMonth(int year,int month){
+		String sql = "select * from ty_manager_assessment where year='"+year+"' and month='"+month+"'";
+		return commonDao.queryBySql(TyManagerAssessment.class, sql, null);
 	}
 }
