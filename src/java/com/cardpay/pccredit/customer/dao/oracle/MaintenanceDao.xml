@@ -225,6 +225,10 @@
 						AND b.user_id = #{customerManagerId}
 					 </if>
 					 
+					 <if test="id != null and id != '' ">
+						AND m.app_id = #{id}
+					 </if>
+					 
 					 
 		 <![CDATA[		
 							) ROW_
@@ -263,6 +267,10 @@
 		 </if>
 		 <if test="productId != null and productId != '' ">
 			AND c.product_id=#{productId}
+		 </if>
+		 
+		 <if test="id != null and id != '' ">
+			AND m.app_id = #{id}
 		 </if>
 		 
 	</select>
