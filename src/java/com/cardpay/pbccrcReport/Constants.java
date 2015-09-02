@@ -11,6 +11,7 @@ package com.cardpay.pbccrcReport;
  * @date 2014-12-2 上午11:52:33
  */
 public class Constants {
+	
 	public final static String PBOC_REQUEST_RESULT_0 = "0";
 	public final static String PBOC_REQUEST_RESULT_1 = "1";
 	public final static String PBOC_REQUEST_RESULT_2 = "2";
