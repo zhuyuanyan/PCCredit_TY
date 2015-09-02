@@ -112,8 +112,8 @@ public class WeeklyAccountManagerFuzerenController extends BaseController {
 	@JRadOperation(JRadOperation.CHANGE)
 	public JRadReturnMap update(@ModelAttribute WeeklyAccountManagerForm weeklyAccountManagerForm, HttpServletRequest request) {
 
-		JRadReturnMap returnMap = WebRequestHelper.requestValidation(getModuleName(), weeklyAccountManagerForm);
-		if (returnMap.isSuccess()) {
+		JRadReturnMap returnMap = new JRadReturnMap();
+		//if (returnMap.isSuccess()) {
 			try {
 				WeeklyAccountManager weeklyAccountManager = weeklyAccountManagerForm.createModel(WeeklyAccountManager.class);
 				weeklyAccountService.updateWeeklyAccount(weeklyAccountManager);
@@ -122,7 +122,7 @@ public class WeeklyAccountManagerFuzerenController extends BaseController {
 			} catch (Exception e) {
 				return WebRequestHelper.processException(e);
 			}
-		}
+		//}
 
 		return returnMap;
 	}

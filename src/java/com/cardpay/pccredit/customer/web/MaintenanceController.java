@@ -79,41 +79,27 @@ public class MaintenanceController extends BaseController{
 	@RequestMapping(value = "browse.page", method = { RequestMethod.GET })
 	@JRadOperation(JRadOperation.BROWSE)
 	public AbstractModelAndView browse(@ModelAttribute MaintenanceFilter filter, HttpServletRequest request) {
-		/*filter.setRequest(request);
-		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
-		String userId = user.getId(); 
-		filter.setCustomerManagerId(userId);
-		QueryResult<MaintenanceForm> result = maintenanceService.findMaintenancePlansByFilter(filter);
-		JRadPagedQueryResult<MaintenanceForm> pagedResult = new JRadPagedQueryResult<MaintenanceForm>(filter, result);
-		JRadModelAndView mv = new JRadModelAndView("/customer/maintenance/maintenance_plan_browse", request);
-		mv.addObject(PAGED_RESULT, pagedResult);
-		return mv;*/
-		
 		JRadModelAndView mv = new JRadModelAndView("/customer/maintenance/maintenance_plan_browse", request);
 		filter.setRequest(request);
 		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
-		//String userId = user.getId(); 
-		//List<AccountManagerParameterForm> forms = managerBelongMapService.findSubListManagerByManagerId(userId);//old version 
 		//查询客户经理
 		List<AccountManagerParameterForm> forms = maintenanceService.findSubListManagerByManagerId(user);
 		String customerManagerId = filter.getCustomerManagerId();
 		QueryResult<MaintenanceForm> result = null;
 		if(customerManagerId!=null && !customerManagerId.equals("")){
-			result = maintenanceService.findMaintenancePlansByFilter(filter);
+			result = maintenanceService.findMaintenancePlansList(filter);
 		}else{
 			if(forms.size()>0){
 				filter.setCustomerManagerIds(forms);
-				result = maintenanceService.findMaintenancePlansByFilter(filter);
+				result = maintenanceService.findMaintenancePlansList(filter);
 			}else{
 				//直接返回页面
 				return mv;
 			}
 		}
 		JRadPagedQueryResult<MaintenanceForm> pagedResult = new JRadPagedQueryResult<MaintenanceForm>(filter, result);
-		//List<SysOrganizationForm>  organForms = maintenanceService.findSubListOrgByUserId(user);
 		mv.addObject(PAGED_RESULT, pagedResult);
 		mv.addObject("forms", forms);
-		//mv.addObject("organForms", organForms);
 		return mv;
 	}
 
@@ -188,6 +174,28 @@ public class MaintenanceController extends BaseController{
 
 		return mv;
 	}
+	
+	/**
+	 * 显示维护计划列表页面
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "displayInfo.page", method = { RequestMethod.GET })
+	@JRadOperation(JRadOperation.BROWSE)
+	public AbstractModelAndView displayInfo(@ModelAttribute MaintenanceFilter filter,HttpServletRequest request) {
+		JRadModelAndView mv = new JRadModelAndView("/customer/maintenance/maintenance_plan_displayInfo", request);
+		String [] str = RequestHelper.getStringValue(request, ID).split("/");
+		String appId = str[1];
+		filter.setId(appId);
+		filter.setRequest(request);
+		QueryResult<MaintenanceForm> result = maintenanceService.findMaintenancePlansByFilter(filter);
+		JRadPagedQueryResult<MaintenanceForm> pagedResult = new JRadPagedQueryResult<MaintenanceForm>(filter, result);
+		mv.addObject(PAGED_RESULT, pagedResult);
+		mv.addObject("appId", appId);
+		return mv;
+	}
+	
 	/**
 	 * 添加催收计划
 	 * @param form

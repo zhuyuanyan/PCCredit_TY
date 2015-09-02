@@ -81,10 +81,8 @@
 				success : function(data) {
 					if (data.success) {
 						if(data.message == 'nextmaintain'){
-		            		//url = "${modulePath}/browse.page?recordId="+data.recordId;
 							window.location.href= contextPath+"/customer/maintenance/browse.page" ;
 		            	}else{
-		            		//url = "${modulePath}/display.page?id="+data.id+"&recordId="+data.recordId;
 		            		window.location.href= contextPath+"/customer/maintenance/display.page?id="+data.id ;
 		            	}
 						topWin.Dialog.message("保存成功！");

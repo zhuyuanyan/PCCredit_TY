@@ -68,8 +68,6 @@
 				data : formjson,
 				success : function(data) {
 					if (data.success) {
-						//var url = "${modulePath}/display.page";
-			            //url += "?id="+data.id+"&recordId="+data.recordId;
 		                window.location.href= contextPath+"/customer/maintenance/display.page?id="+data.id ;
 						topWin.Dialog.message("保存成功！");
 					}

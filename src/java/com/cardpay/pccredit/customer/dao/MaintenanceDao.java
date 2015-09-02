@@ -26,6 +26,20 @@ public interface MaintenanceDao {
 	 * @return
 	 */
 	List<MaintenanceForm> findMaintenancePlansByFilter(MaintenanceFilter filter);
+	
+	/**
+	 * 得到维护计划(browse)
+	 * @param filter
+	 * @return
+	 */
+	List<MaintenanceForm> findMaintenancePlansList(MaintenanceFilter filter);
+	
+	/**
+	 * 得到维护计划数量
+	 * @return
+	 */
+	int findMaintenancePlansCountList(MaintenanceFilter filter);
+	
 	/**
 	 * 得到维护计划(browse)(下属)
 	 * @param filter
