@@ -83,5 +83,5 @@ public interface ManagerSalaryDao {
 	public String getRewardIncentiveInformation(@Param("year") int year,@Param("month") int month,@Param("id") String id);
 	
 	
-	
+
 }

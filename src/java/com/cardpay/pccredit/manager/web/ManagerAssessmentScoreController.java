@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cardpay.pccredit.manager.constant.ManagerBelongMapConstants;
 import com.cardpay.pccredit.manager.filter.ManagerAssessmentScoreFilter;
 import com.cardpay.pccredit.manager.model.ManagerAssessmentScore;
+import com.cardpay.pccredit.manager.model.TyManagerAssessment;
 import com.cardpay.pccredit.manager.service.ManagerAssessmentScoreService;
 import com.cardpay.pccredit.manager.service.ManagerBelongMapService;
 import com.wicresoft.jrad.base.auth.IUser;
@@ -68,18 +69,18 @@ public class ManagerAssessmentScoreController extends BaseController{
 		filter.setRequest(request);
 		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 		List<AccountManagerParameterForm> managerParameterForms = managerBelongMapService.findSubListManagerByManagerId(user.getId());
-		JRadPagedQueryResult<ManagerAssessmentScoreForm> pagedResult = null;
+		JRadPagedQueryResult<TyManagerAssessment> pagedResult = null;
 		if(managerParameterForms.size() > 0){
 			List<String> subManagerIds = new ArrayList<String>();
 			for(AccountManagerParameterForm managerParameterForm : managerParameterForms){
 				subManagerIds.add(managerParameterForm.getUserId());
 			}
 			filter.setSubManagerIds(subManagerIds);
-			QueryResult<ManagerAssessmentScoreForm> result = managerAssessmentScoreService.findManagerAssessmentScoreByFilter(filter);
-			pagedResult = new JRadPagedQueryResult<ManagerAssessmentScoreForm>(filter, result);
+			QueryResult<TyManagerAssessment> result = managerAssessmentScoreService.findManagerAssessmentScoreByFilter(filter);
+			pagedResult = new JRadPagedQueryResult<TyManagerAssessment>(filter, result);
 		} else {
-			QueryResult<ManagerAssessmentScoreForm> result = new QueryResult<ManagerAssessmentScoreForm>(0, new ArrayList<ManagerAssessmentScoreForm>());
-			pagedResult = new JRadPagedQueryResult<ManagerAssessmentScoreForm>(filter, result);
+			QueryResult<TyManagerAssessment> result = new QueryResult<TyManagerAssessment>(0, new ArrayList<TyManagerAssessment>());
+			pagedResult = new JRadPagedQueryResult<TyManagerAssessment>(filter, result);
 		}
 		JRadModelAndView mv = new JRadModelAndView("/manager/assessmentscore/manager_assessmentscore_browse", request);
 		mv.addObject(PAGED_RESULT, pagedResult);
@@ -98,23 +99,18 @@ public class ManagerAssessmentScoreController extends BaseController{
 	public AbstractModelAndView change(HttpServletRequest request) {
 		JRadModelAndView mv = new JRadModelAndView("/manager/assessmentscore/manager_assessmentscore_change", request);
 		String id = RequestHelper.getStringValue(request, ID);
-		if (StringUtils.isNotEmpty(id)) {
-			ManagerAssessmentScoreForm managerAssessmentScoreForm = managerAssessmentScoreService.findManagerAssessmentScoreById(id);
-			if(StringUtils.isNotEmpty(managerAssessmentScoreForm.getAssessor())){
-				User user = Beans.get(UserService.class).getUserById(managerAssessmentScoreForm.getAssessor());
-				managerAssessmentScoreForm.setAssessor(user.getId());
-				managerAssessmentScoreForm.setAssessorName(user.getDisplayName());
-			}else {
-				IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
-				managerAssessmentScoreForm.setAssessor(user.getId());
-				managerAssessmentScoreForm.setAssessorName(user.getDisplayName());
-				managerAssessmentScoreForm.setAssessmentDate(new Date());
-			}
-			
-			this.dealWithView(managerAssessmentScoreForm);
-			
-			mv.addObject("assessmentScoreForm", managerAssessmentScoreForm);
-		}
+//		if (StringUtils.isNotEmpty(id)) {
+//			TyManagerAssessment managerAssessmentScoreForm = managerAssessmentScoreService.findManagerAssessmentScoreById(id);
+//			if(StringUtils.isNotEmpty(managerAssessmentScoreForm.getAssessor())){
+//				User user = Beans.get(UserService.class).getUserById(managerAssessmentScoreForm.getAssessor());
+//			}else {
+//				IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
+//			}
+//			
+//			this.dealWithView(managerAssessmentScoreForm);
+//			
+//			mv.addObject("assessmentScoreForm", managerAssessmentScoreForm);
+//		}
 		return mv;
 	}
 
@@ -160,18 +156,18 @@ public class ManagerAssessmentScoreController extends BaseController{
 	public AbstractModelAndView display(HttpServletRequest request) {
 		JRadModelAndView mv = new JRadModelAndView("/manager/assessmentscore/manager_assessmentscore_display", request);
 		String id = RequestHelper.getStringValue(request, ID);
-		if (StringUtils.isNotEmpty(id)) {
-			ManagerAssessmentScoreForm managerAssessmentScoreForm = managerAssessmentScoreService.findManagerAssessmentScoreById(id);
-			if(StringUtils.isNotEmpty(managerAssessmentScoreForm.getAssessor())){
-				User user = Beans.get(UserService.class).getUserById(managerAssessmentScoreForm.getAssessor());
-				managerAssessmentScoreForm.setAssessor(user.getId());
-				managerAssessmentScoreForm.setAssessorName(user.getDisplayName());
-			}
-			
-			this.dealWithView(managerAssessmentScoreForm);
-			
-			mv.addObject("assessmentScoreForm", managerAssessmentScoreForm);
-		}
+//		if (StringUtils.isNotEmpty(id)) {
+//			ManagerAssessmentScoreForm managerAssessmentScoreForm = managerAssessmentScoreService.findManagerAssessmentScoreById(id);
+//			if(StringUtils.isNotEmpty(managerAssessmentScoreForm.getAssessor())){
+//				User user = Beans.get(UserService.class).getUserById(managerAssessmentScoreForm.getAssessor());
+//				managerAssessmentScoreForm.setAssessor(user.getId());
+//				managerAssessmentScoreForm.setAssessorName(user.getDisplayName());
+//			}
+//			
+//			this.dealWithView(managerAssessmentScoreForm);
+//			
+//			mv.addObject("assessmentScoreForm", managerAssessmentScoreForm);
+//		}
 		return mv;
 	}
 	

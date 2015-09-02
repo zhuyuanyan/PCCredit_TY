@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cardpay.pccredit.manager.dao.comdao.ManagerMonthAssessmentComdao;
 import com.cardpay.pccredit.manager.model.MangerMonthAssessment;
+import com.cardpay.pccredit.manager.model.TyManagerAssessment;
 import com.wicresoft.jrad.base.auth.IUser;
 import com.wicresoft.jrad.base.database.dao.common.CommonDao;
 import com.wicresoft.jrad.base.web.security.LoginManager;

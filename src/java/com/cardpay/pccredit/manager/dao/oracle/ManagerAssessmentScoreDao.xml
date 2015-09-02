@@ -39,34 +39,40 @@
 		<result property="customerManagerLevel" column="CUSTOMER_MANAGER_LEVEL" />
 	</resultMap>
 	
-	<select id="findManagerAssessmentScoreByFilter" resultMap="ResultMap" 
+		<resultMap id="ResultMap1" type="com.cardpay.pccredit.manager.model.TyManagerAssessment">
+		<result property="id" column="ID" />
+		<result property="customerId" column="CUSTOMER_ID" />
+		<result property="totalScore" column="TOTAL_SCORE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createUser" column="CREATE_USER" />
+		<result property="customerName" column="CUSTOMER_NAME" />
+	</resultMap>
+	
+	<select id="findManagerAssessmentScoreByFilter" resultMap="ResultMap1" 
 		parameterType="com.cardpay.pccredit.manager.filter.ManagerAssessmentScoreFilter">
 		SELECT * FROM
 			(SELECT ROW_.*,ROWNUM ROWNUM_
 				FROM (
-					 SELECT mas.*,
-							su.DISPLAY_NAME
-					 FROM  manager_assessment_score mas
-					 LEFT JOIN sys_user su
-					    ON su.id = mas.assessed
+					 SELECT mas.*
+					 FROM  ty_manager_assessment mas
 					 WHERE 1=1 
 					 <if test="assessedName != null and assessedName != '' ">
-						<![CDATA[ and su.DISPLAY_NAME like '%'||#{assessedName}||'%']]>
+						<![CDATA[ and mas.customer_name like '%'||#{assessedName}||'%']]>
 					</if>
 					<if test="dataYear != null and dataYear != '' ">
-						and mas.DATA_YEAR = #{dataYear}
+						and mas.DAyear = #{dataYear}
 					</if>
 					<if test="dataMonth != null and dataMonth != '' ">
-						and mas.DATA_MONTH = #{dataMonth}
+						and mas.month = #{dataMonth}
 					</if>
 					<if test="subManagerIds != null and subManagerIds.size() > 0 ">
-						and mas.assessed in
+						and mas.customer_id in
 						<foreach item="item" index="index" collection="subManagerIds" open="("  
 				            separator="," close=")">  
 				            #{item}
 				        </foreach>
 					</if>
-					order by mas.modified_time desc
+					order by mas.CREATE_TIME desc
   			<![CDATA[		
 					) ROW_
 				WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
@@ -77,34 +83,29 @@
 	<select id="findManagerAssessmentScoreCountByFilter" resultType="int" 
 		parameterType="com.cardpay.pccredit.manager.filter.ManagerAssessmentScoreFilter">
 		SELECT count(*)
-		 FROM  manager_assessment_score mas
-		 LEFT JOIN sys_user su
-		    ON su.id = mas.assessed
-		 WHERE 1=1 
+					 FROM  ty_manager_assessment mas
+					 WHERE 1=1 
 		 <if test="assessedName != null and assessedName != '' ">
-			<![CDATA[ and su.DISPLAY_NAME like '%'||#{assessedName}||'%']]>
-		</if>
-		<if test="dataYear != null and dataYear != '' ">
-			and mas.DATA_YEAR = #{dataYear}
-		</if>
-		<if test="dataMonth != null and dataMonth != '' ">
-			and mas.DATA_MONTH = #{dataMonth}
-		</if>
-		<if test="subManagerIds != null and subManagerIds.size() > 0 ">
-			and mas.assessed in
-			<foreach item="item" index="index" collection="subManagerIds" open="("  
-	            separator="," close=")">  
-	            #{item}
-	        </foreach>
-		</if>
+						<![CDATA[ and mas.customer_name like '%'||#{assessedName}||'%']]>
+					</if>
+					<if test="dataYear != null and dataYear != '' ">
+						and mas.DAyear = #{dataYear}
+					</if>
+					<if test="dataMonth != null and dataMonth != '' ">
+						and mas.month = #{dataMonth}
+					</if>
+					<if test="subManagerIds != null and subManagerIds.size() > 0 ">
+						and mas.customer_id in
+						<foreach item="item" index="index" collection="subManagerIds" open="("  
+				            separator="," close=")">  
+				            #{item}
+				        </foreach>
+					</if>
 	</select>
 	 
-	<select id="findManagerAssessmentScoreById" resultMap="ResultMap">
-		 SELECT mas.*,
-				su.DISPLAY_NAME
-		 FROM  manager_assessment_score mas
-		 LEFT JOIN sys_user su
-		    ON su.id = mas.assessed
+	<select id="findManagerAssessmentScoreById" resultMap="ResultMap1">
+		 SELECT mas.*
+		 FROM  ty_manager_assessment mas
 		 WHERE mas.id = #{id}
 	</select>
 

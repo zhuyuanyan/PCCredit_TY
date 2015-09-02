@@ -71,7 +71,9 @@ public class ManagerSalaryController extends BaseController {
 		returnMap.setSuccess(true);
 		if (returnMap.isSuccess()) {
 			try {
-				managerSalaryService.calculateMonthlySalary(Integer.valueOf(form.getYear()), Integer.valueOf(form.getMonth()));
+//				managerSalaryService.calculateMonthlySalary(Integer.valueOf(form.getYear()), Integer.valueOf(form.getMonth()));
+				//太原工资计算（泉州）
+				managerSalaryService.calculateMonthlySalaryTy(Integer.valueOf(form.getYear()), Integer.valueOf(form.getMonth()));
 				returnMap.addGlobalMessage(CHANGE_SUCCESS);
 			}
 			catch (Exception e) {

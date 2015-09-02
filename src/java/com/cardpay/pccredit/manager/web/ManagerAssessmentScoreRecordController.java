@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cardpay.pccredit.manager.constant.ManagerBelongMapConstants;
 import com.cardpay.pccredit.manager.filter.ManagerAssessmentScoreFilter;
+import com.cardpay.pccredit.manager.model.TyManagerAssessment;
 import com.cardpay.pccredit.manager.service.ManagerAssessmentScoreService;
 import com.cardpay.pccredit.manager.service.ManagerBelongMapService;
 import com.wicresoft.jrad.base.auth.IUser;
@@ -24,7 +25,9 @@ import com.wicresoft.jrad.base.database.model.QueryResult;
 import com.wicresoft.jrad.base.web.JRadModelAndView;
 import com.wicresoft.jrad.base.web.controller.BaseController;
 import com.wicresoft.jrad.base.web.result.JRadPagedQueryResult;
+import com.wicresoft.jrad.base.web.result.JRadReturnMap;
 import com.wicresoft.jrad.base.web.security.LoginManager;
+import com.wicresoft.jrad.base.web.utility.WebRequestHelper;
 import com.wicresoft.jrad.modules.dictionary.DictionaryManager;
 import com.wicresoft.jrad.modules.dictionary.model.Dictionary;
 import com.wicresoft.jrad.modules.dictionary.model.DictionaryItem;
@@ -70,9 +73,9 @@ public class ManagerAssessmentScoreRecordController extends BaseController{
 			subManagerIds.add(managerParameterForm.getUserId());
 		}
 		filter.setSubManagerIds(subManagerIds);
-		QueryResult<ManagerAssessmentScoreForm> result = managerAssessmentScoreService.findManagerAssessmentScoreByFilter(filter);
-		JRadPagedQueryResult<ManagerAssessmentScoreForm> pagedResult = new JRadPagedQueryResult<ManagerAssessmentScoreForm>(filter, result);
-		JRadModelAndView mv = new JRadModelAndView("/manager/assessmentscore/manager_assessmentscore_record_browse", request);
+		QueryResult<TyManagerAssessment> result = managerAssessmentScoreService.findManagerAssessmentScoreByFilter(filter);
+		JRadPagedQueryResult<TyManagerAssessment> pagedResult = new JRadPagedQueryResult<TyManagerAssessment>(filter, result);
+		JRadModelAndView mv = new JRadModelAndView("/manager/assessmentscore/ty_assessmentscore_record_browse", request);
 		mv.addObject(PAGED_RESULT, pagedResult);
 		return mv;
 	}
@@ -87,22 +90,41 @@ public class ManagerAssessmentScoreRecordController extends BaseController{
 	@RequestMapping(value = "display.page")
 	@JRadOperation(JRadOperation.DISPLAY)
 	public AbstractModelAndView display(HttpServletRequest request) {
-		JRadModelAndView mv = new JRadModelAndView("/manager/assessmentscore/manager_assessmentscore_display", request);
+		JRadModelAndView mv = new JRadModelAndView("/manager/assessmentscore/ty_assessment_change", request);
 		String id = RequestHelper.getStringValue(request, ID);
+		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 		if (StringUtils.isNotEmpty(id)) {
-			ManagerAssessmentScoreForm managerAssessmentScoreForm = managerAssessmentScoreService.findManagerAssessmentScoreById(id);
-			if(StringUtils.isNotEmpty(managerAssessmentScoreForm.getAssessor())){
-				User user = Beans.get(UserService.class).getUserById(managerAssessmentScoreForm.getAssessor());
-				managerAssessmentScoreForm.setAssessor(user.getId());
-				managerAssessmentScoreForm.setAssessorName(user.getDisplayName());
+			TyManagerAssessment managerAssessmentScoreForm = managerAssessmentScoreService.findManagerAssessmentScoreById(id);
+			if(managerAssessmentScoreForm.getCreateUser()==null){
+				managerAssessmentScoreForm.setCreateUser(user.getDisplayName());
 			}
-			
-			this.dealWithView(managerAssessmentScoreForm);
-			
 			mv.addObject("assessmentScoreForm", managerAssessmentScoreForm);
 		}
 		return mv;
 	}
+	
+	/**
+	 * 保存页面
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "save.json")
+	@JRadOperation(JRadOperation.DISPLAY)
+	public JRadReturnMap save(HttpServletRequest request) {
+		JRadReturnMap returnMap = new JRadReturnMap();
+		try {
+			managerAssessmentScoreService.saveAssessmentScore(request);
+			returnMap.addGlobalMessage(CHANGE_SUCCESS);
+			return returnMap;
+		} catch (Exception e) {
+			return WebRequestHelper.processException(e);
+		}
+	}
+	
+	
+	
 	
 	/**
 	 * 处理页面显示

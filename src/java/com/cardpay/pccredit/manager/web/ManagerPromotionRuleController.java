@@ -18,10 +18,12 @@ import com.cardpay.pccredit.manager.model.DownGradeRule;
 import com.cardpay.pccredit.manager.model.MaintenanceAccountManager;
 import com.cardpay.pccredit.manager.model.ManagerPromotionRule;
 import com.cardpay.pccredit.manager.model.MangerMonthAssessment;
+import com.cardpay.pccredit.manager.model.TyPerformanceParameters;
 import com.cardpay.pccredit.manager.service.AccountManagerParameterService;
 import com.cardpay.pccredit.manager.service.MaintenanceAccountManagerService;
 import com.cardpay.pccredit.manager.service.ManagerDownRuleService;
 import com.cardpay.pccredit.manager.service.ManagerMonthAssessmentService;
+import com.cardpay.pccredit.manager.service.ManagerPerformanceParametersService;
 import com.cardpay.pccredit.manager.service.ManagerPromotionRuleService;
 import com.wicresoft.jrad.base.auth.JRadModule;
 import com.wicresoft.jrad.base.auth.JRadOperation;
@@ -55,6 +57,9 @@ public class ManagerPromotionRuleController {
 	
 	@Autowired
 	private ManagerDownRuleService managerDownRuleService;
+	
+	@Autowired
+	private ManagerPerformanceParametersService managerPerformanceParametersService;
 	
 	
 	
@@ -433,5 +438,47 @@ public class ManagerPromotionRuleController {
 		}
 		return mv;
 	}
+	/**
+	 * 客户经理绩效参数配置
+	 * 
+	 * @param filter
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "updatePerformance.page", method = { RequestMethod.GET })
+	@JRadOperation(JRadOperation.CREATE)
+	public AbstractModelAndView updatePerformance(HttpServletRequest request) {
+		List<TyPerformanceParameters> parmeters = managerPerformanceParametersService.getManagerPerformanceParamers();
+		JRadModelAndView mv = new JRadModelAndView("/manager/performanceParameters/manager_performance_update", request);
+		DictionaryManager dictMgr = Beans.get(DictionaryManager.class);
+		// 根据指定名得到字典值列表
+		Dictionary dictionary = dictMgr.getDictionaryByName("CUSTOMERMANAGERLEVEL");
+		List<DictionaryItem> dictItems = dictionary.getItems();
+		mv.addObject("parmeters",parmeters);
+		mv.addObject("dictItems",dictItems);
+		return mv;
+	}
+	/**
+	 * 客户经降级级规则保存
+	 * 
+	 * @param request
+	 * @return
+	 */
 
+	@ResponseBody
+	@RequestMapping(value = "savePerformance.page", method = { RequestMethod.POST })
+	@JRadOperation(JRadOperation.CHANGE)
+	public AbstractModelAndView savePerformance(HttpServletRequest request) {
+		JRadModelAndView mv = new JRadModelAndView("/manager/performanceParameters/manager_performance_update", request);
+		try {
+			managerPerformanceParametersService.updateManagerPerformanceParamers(request);
+			List<TyPerformanceParameters> parmeters = managerPerformanceParametersService.getManagerPerformanceParamers();
+			mv.addObject("parmeters",parmeters);
+		} catch (Exception e) {
+            //TODO 有日志功能，在这一步应保持返回统一，出错以后查看日志
+			logger.error("执行修改客户经理绩效参数"+e.getMessage());
+		}
+		return mv;
+	}
 }
