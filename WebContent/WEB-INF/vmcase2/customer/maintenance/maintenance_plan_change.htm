@@ -10,6 +10,7 @@
         <div class="forms" id="formsId">
           <input type="hidden" name="id" value="$!maintenance.id" />
           <input type="hidden" name="customerId" value="$!maintenance.customerId"/>
+            <input type="hidden" name="appId" value="$!appId"/>
           <table class="rule">
             <colgroup>
               <col width="10%" />
@@ -73,7 +74,7 @@
 				success : function(data) {
 					if (data.success) {
 						topWin.Dialog.message("保存成功！");
-						window.location.href= contextPath+"/customer/maintenance/browse.page" ;
+						window.location.href= contextPath+"/customer/maintenance/displayInfo.page?id=$!appId" ;
 					}
 					else{
 						topWin.Dialog.message(data.message);
