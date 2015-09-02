@@ -225,8 +225,8 @@
 						AND b.user_id = #{customerManagerId}
 					 </if>
 					 
-					 <if test="id != null and id != '' ">
-						AND m.app_id = #{id}
+					 <if test="appId != null and appId != '' ">
+						AND m.app_id = #{appId}
 					 </if>
 					 
 					 
@@ -269,8 +269,8 @@
 			AND c.product_id=#{productId}
 		 </if>
 		 
-		 <if test="id != null and id != '' ">
-			AND m.app_id = #{id}
+		 <if test="appId != null and appId != '' ">
+			AND m.app_id = #{appId}
 		 </if>
 		 
 	</select>
