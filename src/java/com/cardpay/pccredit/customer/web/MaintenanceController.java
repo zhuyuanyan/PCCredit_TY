@@ -187,7 +187,7 @@ public class MaintenanceController extends BaseController{
 		JRadModelAndView mv = new JRadModelAndView("/customer/maintenance/maintenance_plan_displayInfo", request);
 		String [] str = RequestHelper.getStringValue(request, ID).split("/");
 		String appId = str[1];
-		filter.setId(appId);
+		filter.setAppId(appId);
 		filter.setRequest(request);
 		QueryResult<MaintenanceForm> result = maintenanceService.findMaintenancePlansByFilter(filter);
 		JRadPagedQueryResult<MaintenanceForm> pagedResult = new JRadPagedQueryResult<MaintenanceForm>(filter, result);

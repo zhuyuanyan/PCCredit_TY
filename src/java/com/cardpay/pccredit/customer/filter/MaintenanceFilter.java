@@ -30,6 +30,16 @@ public class MaintenanceFilter extends BaseQueryFilter{
 	
 	private String productId;
 	
+	private String appId;
+	
+	
+	
+	public String getAppId() {
+		return appId;
+	}
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
 	public String getCardId() {
 		return cardId;
 	}

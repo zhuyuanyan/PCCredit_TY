@@ -58,9 +58,9 @@
       </div>
       <div class="pagebar">
         <div class="controlbtn">
-        <!-- #btnpriv("create")<a id="id_create_button" class="btn_g" href="javascript:void(0);" title="#i18n('button.create.hint')">#i18n("button.create")</a>#end 
-          #btnpriv("change")<a id="id_change_button" class="btn_g" href="javascript:void(0);" title="修改">修改</a>#end -->
+          #btnpriv("change")<a id="id_change_button" class="btn_g" href="javascript:void(0);" title="修改">修改</a>#end
           #btnpriv("display")<a id="id_display_button" class="btn_gr" href="javascript:void(0);" title="#i18n('button.display.hint')">#i18n("button.display")</a>#end
+          #btnpriv("change")<a  class="btn_gr" onclick="toBrowse();"  value="#i18n('button.back')" >返回</a>#end
         </div>
         #parse ("common/pagination.htm")
         <div class="clear"></div>
@@ -73,46 +73,17 @@
 	window.top.currentWindow.setLayout(layout);
 	url = "${modulePath}/browse.page";
 	
+	function toBrowse(){
+		var url = "${modulePath}/browse.page?recordId=$!maintenance.id";
+		navigateTo(url);
+	}
 	
 	$(document).ready(function() {
 		var opsObj = new Object();
 		opsObj.formObj = $("#submitForm");
-	    opsObj.createUrl = "${modulePath}/log_create.page";
-		opsObj.displayUrl = "${modulePath}/log_display.page";
-	    opsObj.changeUrl = "${modulePath}/log_change.page";
+		opsObj.displayUrl = "${modulePath}/display.page";
+	    opsObj.changeUrl = "${modulePath}/change.page";
 		opsObj.browseUrl = "${modulePath}/browse.page";
-		//prepareOperations(opsObj);
-		//新增
-		if (opsObj.createUrl) {
-	        $("#id_create_button").click(function() {
-	        	var appId = $("#appId").val();
-	        	    $("#id_create_button").unbind();
-	                var rowid = $($(".checkbox :checked")[0]).attr("value");
-	                var url ="";
-	                if(opsObj.createUrl.indexOf("?")>=0){
-	                	url = opsObj.createUrl + "&id=" + appId;
-	                }else{
-	                	url = opsObj.createUrl + "?id=" + appId;
-	                }
-	        	 
-	            if (opsObj.formObj) {
-	                // 回调URL
-	                var callBackUrlObj = opsObj.formObj.find("div.pagebar div.page a.current");
-	                if (callBackUrlObj) {
-	                	if(url.indexOf("?")>=0){
-	                		url += "&" + $.param({
-		                        'callBackUrl': callBackUrlObj.length == 0 ? window.location.href: callBackUrlObj[0].href
-		                    });
-	                	}else{
-		                    url += "?" + $.param({
-		                        'callBackUrl': callBackUrlObj.length == 0 ? window.location.href: callBackUrlObj[0].href
-		                    });
-	                	}
-	                }
-	            }
-	            window.location.href = url;
-	        });
-	    }
 		
 		//修改
 		if (opsObj.changeUrl) {
@@ -158,6 +129,8 @@
 	         } 
 	        });
 	    }
+		
+		
 		//显示
 		if (opsObj.displayUrl) {
 			 $("#id_display_button").click(function() {
@@ -204,7 +177,7 @@
 		        });
 		}
 	});
-	
+	 initClickEvent();
 	
 	
 </script>
