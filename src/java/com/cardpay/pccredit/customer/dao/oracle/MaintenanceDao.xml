@@ -226,7 +226,6 @@
 					 </if>
 					 
 					 
-					
 		 <![CDATA[		
 							) ROW_
 						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
