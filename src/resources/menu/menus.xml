@@ -51,8 +51,8 @@
             <menu id="070009" name="managerriskcenter" title="创建客户经理警示书（卡中心）" url="/manager/managerriskcenter/browse.page" img="" operations="create|change|delete|display|browse"/>
 		    <menu id="070010" name="managersalary" title="客户经理工资信息列表" url="/manager/managersalary/browse.page" img="" operations="change|browse"/>
 		    <!--<menu id="070110" name="manageraccountmaintenance" title="客户经理层级参数维护（卡中心）" url="/manager/manageraccountmaintenance/update.page" img="" operations="create|change|delete|display|browse"/>-->	
-		    <menu id="070011" name="assessmentscore" title="所属客户经理评估列表" url="/manager/assessmentscore/browse.page" img="" operations="change|display|browse"/>		    
-		    <menu id="070012" name="assessmentscorerecord" title="客户经理评估查询" url="/manager/assessmentscorerecord/browse.page" img="" operations="display|browse"/>
+		    <!-- <menu id="070011" name="assessmentscore" title="所属客户经理评估列表" url="/manager/assessmentscore/browse.page" img="" operations="change|display|browse"/> -->		    
+		    <menu id="070012" name="assessmentscorerecord" title="客户经理评估列表" url="/manager/assessmentscorerecord/browse.page" img="" operations="display|browse"/>
 			<menu id="070013" name="weeklyaccount" title="客户经理周报" url="/manager/weeklyaccount/browse.page" img="" operations="change|display|browse"/>
 			<menu id="070014" name="weeklyaccountzuzhang" title="所属客户经理周报列表" url="/manager/weeklyaccountzuzhang/browse.page" img="" operations="change|display|browse"/>
 			<menu id="070015" name="weeklyaccountfuzeren" title="客户经理周报(团队负责人)" url="/manager/weeklyaccountfuzeren/browse.page" img="" operations="change|display|browse"/>

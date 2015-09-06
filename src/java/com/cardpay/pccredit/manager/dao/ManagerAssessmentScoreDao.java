@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.cardpay.pccredit.manager.filter.ManagerAssessmentScoreFilter;
+import com.cardpay.pccredit.manager.model.TyManagerAssessment;
 import com.cardpay.pccredit.manager.web.ManagerAssessmentScoreForm;
 import com.wicresoft.util.annotation.Mapper;
 
@@ -22,7 +23,7 @@ public interface ManagerAssessmentScoreDao {
 	 * @param filter
 	 * @return
 	 */
-	List<ManagerAssessmentScoreForm> findManagerAssessmentScoreByFilter(ManagerAssessmentScoreFilter filter);
+	List<TyManagerAssessment> findManagerAssessmentScoreByFilter(ManagerAssessmentScoreFilter filter);
 
 	/**
 	 * 分页查询统计 
@@ -36,6 +37,7 @@ public interface ManagerAssessmentScoreDao {
 	 * @param id
 	 * @return
 	 */
-	ManagerAssessmentScoreForm findManagerAssessmentScoreById(@Param("id") String id);
+	TyManagerAssessment findManagerAssessmentScoreById(@Param("id") String id);
 	
+
 }
