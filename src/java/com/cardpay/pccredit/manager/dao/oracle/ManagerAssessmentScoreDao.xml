@@ -60,7 +60,7 @@
 						<![CDATA[ and mas.customer_name like '%'||#{assessedName}||'%']]>
 					</if>
 					<if test="dataYear != null and dataYear != '' ">
-						and mas.DAyear = #{dataYear}
+						and mas.year = #{dataYear}
 					</if>
 					<if test="dataMonth != null and dataMonth != '' ">
 						and mas.month = #{dataMonth}
@@ -89,7 +89,7 @@
 						<![CDATA[ and mas.customer_name like '%'||#{assessedName}||'%']]>
 					</if>
 					<if test="dataYear != null and dataYear != '' ">
-						and mas.DAyear = #{dataYear}
+						and mas.year = #{dataYear}
 					</if>
 					<if test="dataMonth != null and dataMonth != '' ">
 						and mas.month = #{dataMonth}

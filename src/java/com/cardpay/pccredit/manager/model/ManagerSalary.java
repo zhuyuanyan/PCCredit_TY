@@ -15,7 +15,7 @@ public class ManagerSalary extends BusinessModel {
 	private String customerId;
 	// 客户经理姓名
 	private String managerName;
-	// 客户经理奖励激励金额（包含风险准备金 ）= 绩效工资
+	// 客户经理奖励激励金额= 绩效工资
 	private String rewardIncentiveInformation;
 	// 扣除金额
 	private String deductAmount;
@@ -27,7 +27,7 @@ public class ManagerSalary extends BusinessModel {
 	private String dutySalary;
 	// 返还金额
 	private String returnPrepareAmount;
-	// 准备金额总额
+	// 新增风险保证金
 	private String insertPrepareAmount;
 	// 风险准备金余额
 	private String riskReserveBalances;
