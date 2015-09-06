@@ -118,13 +118,12 @@ public class MaintenanceController extends BaseController{
 		String str [] = RequestHelper.getStringValue(request, ID).split("/");
 		JRadModelAndView mv = new JRadModelAndView("/customer/maintenance/maintenance_plan_create", request);
 	    MaintenanceWeb m = new MaintenanceWeb();
-	    m.setAppId(str[1]);
-		m.setId(str[0]);
+	    m.setAppId(str[0]);
 		MaintenanceForm maintenance = maintenanceService.findMaintenAndAppInfo(m);
 		mv.addObject("maintenance",maintenance);
-		mv.addObject("appId", str[1]);
+		mv.addObject("appId", str[0]);
 		mv.addObject("userId",userId);
-		mv.addObject("customerManagerId",str[3]);
+		mv.addObject("customerManagerId",str[1]);
 		return mv;
 	}
 
@@ -143,6 +142,7 @@ public class MaintenanceController extends BaseController{
 		if (StringUtils.isNotEmpty(str[0])) {
 			MaintenanceForm maintenance = maintenanceService.findMaintenanceById(str[0]);
 			mv.addObject("maintenance", maintenance);
+			mv.addObject("appId",str[1]);
 		}
 		return mv;
 	}
@@ -163,13 +163,14 @@ public class MaintenanceController extends BaseController{
 		String appId = str[1];
 		if (StringUtils.isNotEmpty(maintenanceId)) {
 			MaintenanceWeb m = new MaintenanceWeb();
-			m.setAppId(appId);
 			m.setId(maintenanceId);
+			m.setAppId(appId);
 			MaintenanceForm maintenance = maintenanceService.findMaintenance(m);
 			List<MaintenanceWeb> maintenanceActions = maintenanceService.findMaintenanceActionByMaintenanceId(maintenanceId);
 			mv.addObject("maintenanceWeb", m);
 			mv.addObject("maintenance", maintenance);
 			mv.addObject("maintenanceActions",maintenanceActions);
+			mv.addObject("appId",appId);
 		}
 
 		return mv;
@@ -186,7 +187,7 @@ public class MaintenanceController extends BaseController{
 	public AbstractModelAndView displayInfo(@ModelAttribute MaintenanceFilter filter,HttpServletRequest request) {
 		JRadModelAndView mv = new JRadModelAndView("/customer/maintenance/maintenance_plan_displayInfo", request);
 		String [] str = RequestHelper.getStringValue(request, ID).split("/");
-		String appId = str[1];
+		String appId = str[0];
 		filter.setAppId(appId);
 		filter.setRequest(request);
 		QueryResult<MaintenanceForm> result = maintenanceService.findMaintenancePlansByFilter(filter);
