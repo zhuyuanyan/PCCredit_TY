@@ -11,6 +11,7 @@
 		<result property="dutySalary" column="duty_salary" />
 		<result property="returnPrepareAmount" column="return_prepare_amount" />
 		<result property="insertPrepareAmount" column="insert_prepare_amount" />
+		<result property="riskReserveBalances" column="risk_reserve_balances" />
 		<result property="fine" column="fine" />
 		<result property="year" column="year" />
 		<result property="month" column="month" />

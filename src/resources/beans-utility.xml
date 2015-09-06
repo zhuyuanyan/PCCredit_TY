@@ -277,7 +277,7 @@
         </property>
         <!-- cron表达式 每月1号1点执行 0 0 1 1 * ? -->
         <property name="cronExpression">
-            <value>0 19 15 * * ?</value>
+            <value>0 09 15 * * ?</value>
         </property>
     </bean>
     <!-- 每月定时生成客户经理评估信息  end -->
@@ -333,7 +333,9 @@
     <bean id="scheduler" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
+				<!-- <ref bean="addManagerAssessmentScoreTigger"/>
 				
+				<ref bean="addStatisticalTableTigger"/> -->
             <!-- 	<ref bean="statisticsYearScheduleServicerTrigger"/>
 
             	<ref bean="statisticsMonthScheduleServicerTrigger"/>
