@@ -68,8 +68,8 @@
               <col width="10%" />
             </colgroup>
             #foreach ($customer in $result.items)
-            <tr onclick = "validate()">
-              <td class="checkbox"><input type="radio" name="checkbox" value="$!customer.id/$!customer.appId/$!date.format("yyyy-MM-dd HH:mm:dd",$!customer.endDay)/$!customer.customerManagerId"/>
+            <tr>
+              <td class="checkbox"><input type="radio" name="checkbox" value="$!customer.appId/$!customer.customerManagerId"/>
               <td nowrap="nowrap">$!customer.chineseName</td>
               <td nowrap="nowrap">$!customer.cardId</td>
               <td nowrap="nowrap">$!customer.productName</td>
@@ -133,7 +133,7 @@
 	            }
 	            window.location.href = url;
 	         } else {
-	                Dialog.message("请选择一行");
+	                Dialog.message("请选择记录");
 	         } 
 	        });
 	    }
