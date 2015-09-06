@@ -16,6 +16,8 @@ import com.cardpay.pccredit.manager.filter.ManagerSalaryFilter;
 import com.cardpay.pccredit.manager.model.ManagerCashConfiguration;
 import com.cardpay.pccredit.manager.model.ManagerSalary;
 import com.cardpay.pccredit.manager.model.SalaryParameter;
+import com.cardpay.pccredit.manager.model.TyManagerAssessment;
+import com.cardpay.pccredit.manager.model.TyPerformanceParameters;
 import com.wicresoft.jrad.base.database.dao.common.CommonDao;
 import com.wicresoft.jrad.base.database.model.QueryResult;
 
@@ -34,6 +36,12 @@ public class ManagerSalaryService {
 	
 	@Autowired
 	private ManagerCashConfigurationService managerCashConfigurationService;
+	
+	@Autowired
+	private ManagerAssessmentScoreService managerAssessmentScoreService;
+	
+	@Autowired
+	private ManagerPerformanceParametersService managerPerformanceParametersService;
 	
 	/**
 	 * 过滤查询
@@ -198,5 +206,44 @@ public class ManagerSalaryService {
 		}else{
 			return "-1";
 		}
+	}
+	
+	/**
+	 * 计算客户经理月度薪资(太原)
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	public boolean calculateMonthlySalaryTy(int year, int month){
+		boolean flag = true;
+		try{
+//			Calendar calendar = Calendar.getInstance();
+//			calendar.set(year, month, 1);
+//			
+//			calendar.add(Calendar.MONTH, -1);
+//			
+//			year = calendar.get(Calendar.YEAR);
+//			month = calendar.get(Calendar.MONTH);
+			managerSalaryDao.deleteManagerSalaryByYearAndMonth(year, month);
+			//获取当月评估结果
+			List<TyManagerAssessment> assessmentsList = managerAssessmentScoreService.getAssessByMonth(year, month);
+			//获取绩效参数数据
+			List<TyPerformanceParameters> parameters = managerPerformanceParametersService.getManagerPerformanceParamers();
+			//循环计算客户经理当月工资
+			for(int i=0;i<assessmentsList.size();i++){
+				TyManagerAssessment assessment = assessmentsList.get(i);
+				//获取此客户经理的绩效参数
+				TyPerformanceParameters parameter = getLocalParameter(parameters,assessment.getCustomerId());
+			}
+		}catch(Exception e){
+			flag = false;
+			e.printStackTrace();
+		}
+		return flag;
+	}
+	
+	private TyPerformanceParameters getLocalParameter(List<TyPerformanceParameters> parameters,String customerId){
+		
+		return null;
 	}
 }

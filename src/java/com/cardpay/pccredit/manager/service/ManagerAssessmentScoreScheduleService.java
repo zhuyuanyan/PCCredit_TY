@@ -33,9 +33,13 @@ import com.cardpay.pccredit.manager.model.ManagerLevelAdjustment;
 import com.cardpay.pccredit.manager.model.ManagerMonthTargetData;
 import com.cardpay.pccredit.manager.model.MangerMonthAssessment;
 import com.cardpay.pccredit.manager.model.PromotionRules;
+import com.cardpay.pccredit.manager.model.TyManagerAssessment;
 import com.cardpay.pccredit.manager.web.AccountManagerParameterForm;
 import com.wicresoft.jrad.base.database.dao.common.CommonDao;
+import com.wicresoft.jrad.base.database.id.IDGenerator;
 import com.wicresoft.jrad.base.database.model.QueryResult;
+import com.wicresoft.jrad.modules.privilege.filter.UserFilter;
+import com.wicresoft.jrad.modules.privilege.model.User;
 
 /**
  * 描述 ：客户经理评估标准 定时执行service
@@ -69,259 +73,259 @@ public class ManagerAssessmentScoreScheduleService {
 	@Autowired
 	private ManagerDownRuleComdao managerDownRuleComdao;
 	
-	/**
-	 * 增加上一个月的客户经理评估信息
-	 */
-	public void addManagerAssessmentScore(){
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1, 0, 0, 0);
-		calendar.add(Calendar.MONTH, -1);
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1;
-		//每月客户经理评估
-		this.addManagerMonthAssessmentScore(year, month);
-		
-		//根据规则 生成 晋级
-		List<PromotionRules> promotionRules = managerAssessmentScoreCommDao.findAllPromotionRules();
-		Map<String, List<PromotionRules>> proRulesMap = new HashMap<String, List<PromotionRules>>();
-		for(PromotionRules proRule : promotionRules){
-			if(proRulesMap.containsKey(proRule.getInitialLevel())){
-				List<PromotionRules> rules = proRulesMap.get(proRule.getInitialLevel());
-				rules.add(proRule);
-			} else {
-				List<PromotionRules> rules = new ArrayList<PromotionRules>();
-				rules.add(proRule);
-				proRulesMap.put(proRule.getInitialLevel(), rules);
-			}
-		}
-		//客户经理级别月度考核指标
-		Map<String, MangerMonthAssessment> managerTargetAssessmentMap = new HashMap<String, MangerMonthAssessment>();
-		List<MangerMonthAssessment> mangerMonthAssessments = managerAssessmentScoreCommDao.findManagerMonthAssessmentAll();
-		for(MangerMonthAssessment monthAssessment : mangerMonthAssessments){
-			managerTargetAssessmentMap.put(monthAssessment.getCustomerManagerLevel(), monthAssessment);
-		}
-		//晋级 降级生成
-		try{	
-			AccountManagerParameterFilter filter = new AccountManagerParameterFilter();
-			// 设置每次最大查询记录数
-			filter.setLimit(50);
-			// 查询页码
-			filter.setPage(0);
-			QueryResult<AccountManagerParameterForm> qs = accountManagerParameterService.findAccountManagerParametersByFilter(filter);
-			while(qs.getItems().size() != 0){
-				for(AccountManagerParameterForm accountManager : qs.getItems()){
-					//判断这个月的指标是否生成
-					ManagerMonthTargetData monthTargetData = managerAssessmentScoreCommDao.findManangerMonthTargetDataBy(year, month, accountManager.getUserId(), accountManager.getLevelInformation());
-					if(monthTargetData != null){
-						continue;
-					}
-					//客户经理目标
-					CustomerManagerTarget customerManagerTarget = accountManagerParameterService.getcustomerManagerTargetBymanagerIdDate(accountManager.getUserId(), ManagerTargetType.month.name());
-					
-					List<CustomerInfor> customerInfors = customerInforCommDao.findCustomerByManagerId(accountManager.getUserId());
-					if(customerInfors != null && customerInfors.size() > 0){
-						//下属的经理级别统计Map
-					    Map<String, Integer> subLevelCountMap = new HashMap<String, Integer>();
-						List<String> customerIds = new ArrayList<String>();
-						for(CustomerInfor infor : customerInfors){
-							customerIds.add(infor.getId());
-						}
-						ManagerMonthTargetData managerMonthTargetData = new ManagerMonthTargetData();
-						//管户数（户）
-						managerMonthTargetData.setTubeNumber(customerInfors.size());
-						//激活率
-						Integer activateCardCounts = managerAssessmentScoreCommDao.countActivateCard(year, month, customerIds);
-						if(customerManagerTarget.getActivationNumber() != null && customerManagerTarget.getActivationNumber() > 0){
-							double activateCardCountsD = activateCardCounts;
-							double activationNumberD = customerManagerTarget.getActivationNumber();
-							BigDecimal bg = new BigDecimal(activateCardCountsD/activationNumberD * 100);
-							Double activateCardRate = bg.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-							managerMonthTargetData.setActivationRate(activateCardRate+"");
-						} else {
-							managerMonthTargetData.setActivationRate(100.0 + "");
-						}
-						//活跃率
-						Integer activeCardCounts = managerAssessmentScoreCommDao.countActiveCard(year, month, customerIds);
-						if(customerManagerTarget.getActiveNumber() != null && customerManagerTarget.getActiveNumber() > 0){
-							double activeCardCountsD = activeCardCounts;
-							double ActiveNumberD = customerManagerTarget.getActiveNumber();
-							BigDecimal bg = new BigDecimal(activeCardCountsD/ActiveNumberD * 100);
-							Double activeCardRate = bg.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-							managerMonthTargetData.setActiveRate(activeCardRate + "");
-						} else {
-							managerMonthTargetData.setActiveRate(100.0 + "");
-						}
-						//月度 日均透支余额（万）
-						List<String> managerIds = new ArrayList<String>();
-						managerIds.add(accountManager.getUserId());
-						Double perDayAverageCreditlineAccount = managerAssessmentScoreCommDao.perDayAverageCreditlineAccount(managerIds, year, month);
-						managerMonthTargetData.setMonthPerdayCreditline(perDayAverageCreditlineAccount + "");
-						//团队月度日均透支余额 （万）
-					    List<AccountManagerParameterForm> subManagerParams = managerBelongMapService.findSubListManagerByManagerId(accountManager.getUserId());
-					    if(subManagerParams.size() > 0){
-							managerIds.clear();
-							for(AccountManagerParameterForm parameterForm : subManagerParams){
-								managerIds.add(parameterForm.getUserId());
-								if(subLevelCountMap.containsKey(parameterForm.getLevelInformation())){
-									subLevelCountMap.put(parameterForm.getLevelInformation(), 
-											subLevelCountMap.get(parameterForm.getLevelInformation()) + 1);
-								} else {
-									subLevelCountMap.put(parameterForm.getLevelInformation(), 1);
-								}
-							}
-							Double teamPerDayAverageCreditlineAccount = managerAssessmentScoreCommDao.perDayAverageCreditlineAccount(managerIds, year, month);
-							managerMonthTargetData.setMonthPerdayTeamCreditline(teamPerDayAverageCreditlineAccount + "");
-							managerMonthTargetData.setSubManangerCount(subManagerParams.size());
-						} else {
-							managerMonthTargetData.setMonthPerdayTeamCreditline(0 + "");
-							managerMonthTargetData.setSubManangerCount(0);
-						}
-					    //月度考核是否达标
-					    MangerMonthAssessment monthAssessment = managerTargetAssessmentMap.get(accountManager.getLevelInformation());
-					    if(monthAssessment != null){
-					    	//管理高级 需要判断团队
-					    	if(ManagerLevelEnum.MANA005.name().equals(accountManager.getLevelInformation())){
-								if (Double.parseDouble(managerMonthTargetData.getMonthPerdayCreditline()) > 
-										Double.parseDouble(monthAssessment.getMonthdayAvgCreditline())
-										&& Double.parseDouble(managerMonthTargetData.getMonthPerdayTeamCreditline()) > 
-										Double.parseDouble(monthAssessment.getMonthdayTeamAvgCreditline())
-										&& managerMonthTargetData.getTubeNumber() > monthAssessment.getTubeNumber()
-										&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > 
-										Double.parseDouble(monthAssessment.getActiveRate())
-										&& Double.parseDouble(managerMonthTargetData.getActivationRate()) >
-										Double.parseDouble(monthAssessment.getActivationRate())) {
-									managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_1);
-					    		} else {
-					    			managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_0);
-					    		}
-								//见习
-					    	} else if(ManagerLevelEnum.MANA001.name().equals(accountManager.getLevelInformation())){
-					    		if (Double.parseDouble(managerMonthTargetData.getMonthPerdayCreditline()) > 
-								Double.parseDouble(monthAssessment.getMonthdayAvgCreditline())
-								&& managerMonthTargetData.getTubeNumber() > monthAssessment.getTubeNumber()) {
-									managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_1);
-					    		} else {
-					    			managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_0);
-					    		}
-					    	} else {
-					    		if (Double.parseDouble(managerMonthTargetData.getMonthPerdayCreditline()) > 
-										Double.parseDouble(monthAssessment.getMonthdayAvgCreditline())
-										&& managerMonthTargetData.getTubeNumber() > monthAssessment.getTubeNumber()
-										&& Double.parseDouble(managerMonthTargetData.getActiveRate()) >
-										Double.parseDouble(monthAssessment.getActiveRate())
-										&& Double.parseDouble(managerMonthTargetData.getActivationRate()) >
-										Double.parseDouble(monthAssessment.getActivationRate())) {
-									managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_1);
-					    		} else {
-					    			managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_0);
-					    		}
-					    	}
-					    } else {
-					    	managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_0);
-					    }
-					    
-						//客户每月指标统计数据
-						managerMonthTargetData.setCustomerManagerId(accountManager.getUserId());
-						managerMonthTargetData.setDataYear(year);
-						managerMonthTargetData.setDataMonth(month);
-						managerMonthTargetData.setCustomerManagerLevel(accountManager.getLevelInformation());
-						managerMonthTargetData.setCreatedBy(Constant.SCHEDULES_SYSTEM_USER);
-						managerMonthTargetData.setCreatedTime(new Date());
-						managerMonthTargetData.setModifiedBy(Constant.SCHEDULES_SYSTEM_USER);
-						managerMonthTargetData.setModifiedTime(new Date());
-						commonDao.insertObject(managerMonthTargetData);
-						
-						//晋级规则判断
-						if(proRulesMap.get(accountManager.getLevelInformation()) != null){
-							//季度日均透支余额（万）
-							Double quarterAverageCreditLineAccount = 0.0;
-							List<ManagerMonthTargetData> monthTargetDatas = managerAssessmentScoreCommDao
-									.findQuarterPerCreditlineAccount(accountManager.getUserId(), accountManager.getLevelInformation(), 3);
-							if(monthTargetDatas.size() < 3){
-								continue;
-							}
-							for(ManagerMonthTargetData targetData : monthTargetDatas){
-								quarterAverageCreditLineAccount += Double.parseDouble(targetData.getMonthPerdayCreditline());
-							}
-							quarterAverageCreditLineAccount = quarterAverageCreditLineAccount / 3;
-							
-							List<PromotionRules> proRules = proRulesMap.get(accountManager.getLevelInformation());
-							//见习	初级	200	-	-	-	40	80%	60%
-							//业务中级	业务高级	1300	-	-	-	160	80%	70%
-							if(ManagerLevelEnum.MANA001.name().equals(accountManager.getLevelInformation())
-									|| ManagerLevelEnum.MANA004.name().equals(accountManager.getLevelInformation())){
-								PromotionRules rule = proRules.get(0);
-								if (quarterAverageCreditLineAccount > Double.parseDouble(rule.getQuarterAverageOverBalance())
-										&& managerMonthTargetData.getTubeNumber() > rule.getTubeNumber()
-										&& Double.parseDouble(managerMonthTargetData.getActivationRate()) > Double
-												.parseDouble(rule.getActivationRate())
-										&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > Double
-												.parseDouble(rule.getActiveRate())) {
-									this.insertManagerLevelAdjustment(accountManager, rule, year, month);
-								}
-							}
-							if(ManagerLevelEnum.MANA002.name().equals(accountManager.getLevelInformation())){
-								for(PromotionRules rule : proRules){
-									boolean promotionFlag = false;
-									//管理中级 初级	管理中级	500	-	初级	2	100	80%	70%
-									//              业务中级	650	-	-	-	100	80%	70%
-									if(rule.getPromotionLevel().equals(ManagerLevelEnum.MANA003.name())){
-										Integer subLevelCount = subLevelCountMap.get(ManagerLevelEnum.MANA002.name()) != null ? 
-												subLevelCountMap.get(ManagerLevelEnum.MANA002.name()) : 0;
-										if (quarterAverageCreditLineAccount > Double.parseDouble(rule.getQuarterAverageOverBalance()) 
-												&& subLevelCount >rule.getSubMangerNumber() 
-												&& managerMonthTargetData.getTubeNumber() > rule.getTubeNumber()
-												&& Double.parseDouble(managerMonthTargetData.getActivationRate()) > Double
-														.parseDouble(rule.getActivationRate())
-												&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > Double
-														.parseDouble(rule.getActiveRate())) {
-											promotionFlag = true;
-										}
-									} else {
-										if (quarterAverageCreditLineAccount > Double.parseDouble(rule.getQuarterAverageOverBalance()) 
-												&& managerMonthTargetData.getTubeNumber() > rule.getTubeNumber()
-												&& Double.parseDouble(managerMonthTargetData.getActivationRate()) > Double
-														.parseDouble(rule.getActivationRate())
-												&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > Double
-														.parseDouble(rule.getActiveRate())) {
-											promotionFlag = true;
-										}
-									}
-									if(promotionFlag){
-										this.insertManagerLevelAdjustment(accountManager, rule, year, month);
-										break;
-									}
-								}
-							}
-							//管理中级	管理高级	1000	-	初级	4	160	80%	70%
-							//管理中级	管理高级	1000	-	中级	2	160	80%	70%
-							if(ManagerLevelEnum.MANA003.name().equals(accountManager.getLevelInformation())){
-								PromotionRules rule = proRules.get(0);
-								Integer subLevelCount = subLevelCountMap.get(rule.getLevelTeamMember()) != null ? 
-										subLevelCountMap.get(rule.getLevelTeamMember()) : 0;
-								if (quarterAverageCreditLineAccount > Double.parseDouble(rule.getQuarterAverageOverBalance()) 
-										&& subLevelCount >rule.getSubMangerNumber() 
-										&& managerMonthTargetData.getTubeNumber() > rule.getTubeNumber()
-										&& Double.parseDouble(managerMonthTargetData.getActivationRate()) > Double
-											.parseDouble(rule.getActivationRate())
-										&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > Double
-											.parseDouble(rule.getActiveRate())) {
-									this.insertManagerLevelAdjustment(accountManager, rule, year, month);
-								}
-							}
-						}
-					}
-				}
-				// 设置查询的页码
-				filter.setPage(filter.getPage() + 1);
-				qs = accountManagerParameterService.findAccountManagerParametersByFilter(filter);
-			}
-		}catch(Exception e){
-			logger.error("客户经理评估信息定时生成错误");
-			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e.getMessage());
-		}
-	}
+//	/**
+//	 * 增加上一个月的客户经理评估信息
+//	 */
+//	public void addManagerAssessmentScore(){
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1, 0, 0, 0);
+//		calendar.add(Calendar.MONTH, -1);
+//		int year = calendar.get(Calendar.YEAR);
+//		int month = calendar.get(Calendar.MONTH) + 1;
+//		//每月客户经理评估
+//		this.addManagerMonthAssessmentScore(year, month);
+//		
+//		//根据规则 生成 晋级
+//		List<PromotionRules> promotionRules = managerAssessmentScoreCommDao.findAllPromotionRules();
+//		Map<String, List<PromotionRules>> proRulesMap = new HashMap<String, List<PromotionRules>>();
+//		for(PromotionRules proRule : promotionRules){
+//			if(proRulesMap.containsKey(proRule.getInitialLevel())){
+//				List<PromotionRules> rules = proRulesMap.get(proRule.getInitialLevel());
+//				rules.add(proRule);
+//			} else {
+//				List<PromotionRules> rules = new ArrayList<PromotionRules>();
+//				rules.add(proRule);
+//				proRulesMap.put(proRule.getInitialLevel(), rules);
+//			}
+//		}
+//		//客户经理级别月度考核指标
+//		Map<String, MangerMonthAssessment> managerTargetAssessmentMap = new HashMap<String, MangerMonthAssessment>();
+//		List<MangerMonthAssessment> mangerMonthAssessments = managerAssessmentScoreCommDao.findManagerMonthAssessmentAll();
+//		for(MangerMonthAssessment monthAssessment : mangerMonthAssessments){
+//			managerTargetAssessmentMap.put(monthAssessment.getCustomerManagerLevel(), monthAssessment);
+//		}
+//		//晋级 降级生成
+//		try{	
+//			AccountManagerParameterFilter filter = new AccountManagerParameterFilter();
+//			// 设置每次最大查询记录数
+//			filter.setLimit(50);
+//			// 查询页码
+//			filter.setPage(0);
+//			QueryResult<AccountManagerParameterForm> qs = accountManagerParameterService.findAccountManagerParametersByFilter(filter);
+//			while(qs.getItems().size() != 0){
+//				for(AccountManagerParameterForm accountManager : qs.getItems()){
+//					//判断这个月的指标是否生成
+//					ManagerMonthTargetData monthTargetData = managerAssessmentScoreCommDao.findManangerMonthTargetDataBy(year, month, accountManager.getUserId(), accountManager.getLevelInformation());
+//					if(monthTargetData != null){
+//						continue;
+//					}
+//					//客户经理目标
+//					CustomerManagerTarget customerManagerTarget = accountManagerParameterService.getcustomerManagerTargetBymanagerIdDate(accountManager.getUserId(), ManagerTargetType.month.name());
+//					
+//					List<CustomerInfor> customerInfors = customerInforCommDao.findCustomerByManagerId(accountManager.getUserId());
+//					if(customerInfors != null && customerInfors.size() > 0){
+//						//下属的经理级别统计Map
+//					    Map<String, Integer> subLevelCountMap = new HashMap<String, Integer>();
+//						List<String> customerIds = new ArrayList<String>();
+//						for(CustomerInfor infor : customerInfors){
+//							customerIds.add(infor.getId());
+//						}
+//						ManagerMonthTargetData managerMonthTargetData = new ManagerMonthTargetData();
+//						//管户数（户）
+//						managerMonthTargetData.setTubeNumber(customerInfors.size());
+//						//激活率
+//						Integer activateCardCounts = managerAssessmentScoreCommDao.countActivateCard(year, month, customerIds);
+//						if(customerManagerTarget.getActivationNumber() != null && customerManagerTarget.getActivationNumber() > 0){
+//							double activateCardCountsD = activateCardCounts;
+//							double activationNumberD = customerManagerTarget.getActivationNumber();
+//							BigDecimal bg = new BigDecimal(activateCardCountsD/activationNumberD * 100);
+//							Double activateCardRate = bg.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+//							managerMonthTargetData.setActivationRate(activateCardRate+"");
+//						} else {
+//							managerMonthTargetData.setActivationRate(100.0 + "");
+//						}
+//						//活跃率
+//						Integer activeCardCounts = managerAssessmentScoreCommDao.countActiveCard(year, month, customerIds);
+//						if(customerManagerTarget.getActiveNumber() != null && customerManagerTarget.getActiveNumber() > 0){
+//							double activeCardCountsD = activeCardCounts;
+//							double ActiveNumberD = customerManagerTarget.getActiveNumber();
+//							BigDecimal bg = new BigDecimal(activeCardCountsD/ActiveNumberD * 100);
+//							Double activeCardRate = bg.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+//							managerMonthTargetData.setActiveRate(activeCardRate + "");
+//						} else {
+//							managerMonthTargetData.setActiveRate(100.0 + "");
+//						}
+//						//月度 日均透支余额（万）
+//						List<String> managerIds = new ArrayList<String>();
+//						managerIds.add(accountManager.getUserId());
+//						Double perDayAverageCreditlineAccount = managerAssessmentScoreCommDao.perDayAverageCreditlineAccount(managerIds, year, month);
+//						managerMonthTargetData.setMonthPerdayCreditline(perDayAverageCreditlineAccount + "");
+//						//团队月度日均透支余额 （万）
+//					    List<AccountManagerParameterForm> subManagerParams = managerBelongMapService.findSubListManagerByManagerId(accountManager.getUserId());
+//					    if(subManagerParams.size() > 0){
+//							managerIds.clear();
+//							for(AccountManagerParameterForm parameterForm : subManagerParams){
+//								managerIds.add(parameterForm.getUserId());
+//								if(subLevelCountMap.containsKey(parameterForm.getLevelInformation())){
+//									subLevelCountMap.put(parameterForm.getLevelInformation(), 
+//											subLevelCountMap.get(parameterForm.getLevelInformation()) + 1);
+//								} else {
+//									subLevelCountMap.put(parameterForm.getLevelInformation(), 1);
+//								}
+//							}
+//							Double teamPerDayAverageCreditlineAccount = managerAssessmentScoreCommDao.perDayAverageCreditlineAccount(managerIds, year, month);
+//							managerMonthTargetData.setMonthPerdayTeamCreditline(teamPerDayAverageCreditlineAccount + "");
+//							managerMonthTargetData.setSubManangerCount(subManagerParams.size());
+//						} else {
+//							managerMonthTargetData.setMonthPerdayTeamCreditline(0 + "");
+//							managerMonthTargetData.setSubManangerCount(0);
+//						}
+//					    //月度考核是否达标
+//					    MangerMonthAssessment monthAssessment = managerTargetAssessmentMap.get(accountManager.getLevelInformation());
+//					    if(monthAssessment != null){
+//					    	//管理高级 需要判断团队
+//					    	if(ManagerLevelEnum.MANA005.name().equals(accountManager.getLevelInformation())){
+//								if (Double.parseDouble(managerMonthTargetData.getMonthPerdayCreditline()) > 
+//										Double.parseDouble(monthAssessment.getMonthdayAvgCreditline())
+//										&& Double.parseDouble(managerMonthTargetData.getMonthPerdayTeamCreditline()) > 
+//										Double.parseDouble(monthAssessment.getMonthdayTeamAvgCreditline())
+//										&& managerMonthTargetData.getTubeNumber() > monthAssessment.getTubeNumber()
+//										&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > 
+//										Double.parseDouble(monthAssessment.getActiveRate())
+//										&& Double.parseDouble(managerMonthTargetData.getActivationRate()) >
+//										Double.parseDouble(monthAssessment.getActivationRate())) {
+//									managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_1);
+//					    		} else {
+//					    			managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_0);
+//					    		}
+//								//见习
+//					    	} else if(ManagerLevelEnum.MANA001.name().equals(accountManager.getLevelInformation())){
+//					    		if (Double.parseDouble(managerMonthTargetData.getMonthPerdayCreditline()) > 
+//								Double.parseDouble(monthAssessment.getMonthdayAvgCreditline())
+//								&& managerMonthTargetData.getTubeNumber() > monthAssessment.getTubeNumber()) {
+//									managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_1);
+//					    		} else {
+//					    			managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_0);
+//					    		}
+//					    	} else {
+//					    		if (Double.parseDouble(managerMonthTargetData.getMonthPerdayCreditline()) > 
+//										Double.parseDouble(monthAssessment.getMonthdayAvgCreditline())
+//										&& managerMonthTargetData.getTubeNumber() > monthAssessment.getTubeNumber()
+//										&& Double.parseDouble(managerMonthTargetData.getActiveRate()) >
+//										Double.parseDouble(monthAssessment.getActiveRate())
+//										&& Double.parseDouble(managerMonthTargetData.getActivationRate()) >
+//										Double.parseDouble(monthAssessment.getActivationRate())) {
+//									managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_1);
+//					    		} else {
+//					    			managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_0);
+//					    		}
+//					    	}
+//					    } else {
+//					    	managerMonthTargetData.setIfPassStandard(ManagerLevelAdjustmentConstant.IF_PASS_STANDARD_0);
+//					    }
+//					    
+//						//客户每月指标统计数据
+//						managerMonthTargetData.setCustomerManagerId(accountManager.getUserId());
+//						managerMonthTargetData.setDataYear(year);
+//						managerMonthTargetData.setDataMonth(month);
+//						managerMonthTargetData.setCustomerManagerLevel(accountManager.getLevelInformation());
+//						managerMonthTargetData.setCreatedBy(Constant.SCHEDULES_SYSTEM_USER);
+//						managerMonthTargetData.setCreatedTime(new Date());
+//						managerMonthTargetData.setModifiedBy(Constant.SCHEDULES_SYSTEM_USER);
+//						managerMonthTargetData.setModifiedTime(new Date());
+//						commonDao.insertObject(managerMonthTargetData);
+//						
+//						//晋级规则判断
+//						if(proRulesMap.get(accountManager.getLevelInformation()) != null){
+//							//季度日均透支余额（万）
+//							Double quarterAverageCreditLineAccount = 0.0;
+//							List<ManagerMonthTargetData> monthTargetDatas = managerAssessmentScoreCommDao
+//									.findQuarterPerCreditlineAccount(accountManager.getUserId(), accountManager.getLevelInformation(), 3);
+//							if(monthTargetDatas.size() < 3){
+//								continue;
+//							}
+//							for(ManagerMonthTargetData targetData : monthTargetDatas){
+//								quarterAverageCreditLineAccount += Double.parseDouble(targetData.getMonthPerdayCreditline());
+//							}
+//							quarterAverageCreditLineAccount = quarterAverageCreditLineAccount / 3;
+//							
+//							List<PromotionRules> proRules = proRulesMap.get(accountManager.getLevelInformation());
+//							//见习	初级	200	-	-	-	40	80%	60%
+//							//业务中级	业务高级	1300	-	-	-	160	80%	70%
+//							if(ManagerLevelEnum.MANA001.name().equals(accountManager.getLevelInformation())
+//									|| ManagerLevelEnum.MANA004.name().equals(accountManager.getLevelInformation())){
+//								PromotionRules rule = proRules.get(0);
+//								if (quarterAverageCreditLineAccount > Double.parseDouble(rule.getQuarterAverageOverBalance())
+//										&& managerMonthTargetData.getTubeNumber() > rule.getTubeNumber()
+//										&& Double.parseDouble(managerMonthTargetData.getActivationRate()) > Double
+//												.parseDouble(rule.getActivationRate())
+//										&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > Double
+//												.parseDouble(rule.getActiveRate())) {
+//									this.insertManagerLevelAdjustment(accountManager, rule, year, month);
+//								}
+//							}
+//							if(ManagerLevelEnum.MANA002.name().equals(accountManager.getLevelInformation())){
+//								for(PromotionRules rule : proRules){
+//									boolean promotionFlag = false;
+//									//管理中级 初级	管理中级	500	-	初级	2	100	80%	70%
+//									//              业务中级	650	-	-	-	100	80%	70%
+//									if(rule.getPromotionLevel().equals(ManagerLevelEnum.MANA003.name())){
+//										Integer subLevelCount = subLevelCountMap.get(ManagerLevelEnum.MANA002.name()) != null ? 
+//												subLevelCountMap.get(ManagerLevelEnum.MANA002.name()) : 0;
+//										if (quarterAverageCreditLineAccount > Double.parseDouble(rule.getQuarterAverageOverBalance()) 
+//												&& subLevelCount >rule.getSubMangerNumber() 
+//												&& managerMonthTargetData.getTubeNumber() > rule.getTubeNumber()
+//												&& Double.parseDouble(managerMonthTargetData.getActivationRate()) > Double
+//														.parseDouble(rule.getActivationRate())
+//												&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > Double
+//														.parseDouble(rule.getActiveRate())) {
+//											promotionFlag = true;
+//										}
+//									} else {
+//										if (quarterAverageCreditLineAccount > Double.parseDouble(rule.getQuarterAverageOverBalance()) 
+//												&& managerMonthTargetData.getTubeNumber() > rule.getTubeNumber()
+//												&& Double.parseDouble(managerMonthTargetData.getActivationRate()) > Double
+//														.parseDouble(rule.getActivationRate())
+//												&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > Double
+//														.parseDouble(rule.getActiveRate())) {
+//											promotionFlag = true;
+//										}
+//									}
+//									if(promotionFlag){
+//										this.insertManagerLevelAdjustment(accountManager, rule, year, month);
+//										break;
+//									}
+//								}
+//							}
+//							//管理中级	管理高级	1000	-	初级	4	160	80%	70%
+//							//管理中级	管理高级	1000	-	中级	2	160	80%	70%
+//							if(ManagerLevelEnum.MANA003.name().equals(accountManager.getLevelInformation())){
+//								PromotionRules rule = proRules.get(0);
+//								Integer subLevelCount = subLevelCountMap.get(rule.getLevelTeamMember()) != null ? 
+//										subLevelCountMap.get(rule.getLevelTeamMember()) : 0;
+//								if (quarterAverageCreditLineAccount > Double.parseDouble(rule.getQuarterAverageOverBalance()) 
+//										&& subLevelCount >rule.getSubMangerNumber() 
+//										&& managerMonthTargetData.getTubeNumber() > rule.getTubeNumber()
+//										&& Double.parseDouble(managerMonthTargetData.getActivationRate()) > Double
+//											.parseDouble(rule.getActivationRate())
+//										&& Double.parseDouble(managerMonthTargetData.getActiveRate()) > Double
+//											.parseDouble(rule.getActiveRate())) {
+//									this.insertManagerLevelAdjustment(accountManager, rule, year, month);
+//								}
+//							}
+//						}
+//					}
+//				}
+//				// 设置查询的页码
+//				filter.setPage(filter.getPage() + 1);
+//				qs = accountManagerParameterService.findAccountManagerParametersByFilter(filter);
+//			}
+//		}catch(Exception e){
+//			logger.error("客户经理评估信息定时生成错误");
+//			logger.error(e.getMessage(), e);
+//			throw new RuntimeException(e.getMessage());
+//		}
+//	}
 
 	/**
 	 * 插入客户经理级别调整
@@ -694,5 +698,28 @@ public class ManagerAssessmentScoreScheduleService {
 		managerAssessmentScore.setLastDeposit(cunKuang);
 		
 		commonDao.insertObject(managerAssessmentScore);
+	}
+	
+	/**
+	 * 每月初定时生成当月评估表
+	 */
+	public void addAssessment(){
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) +1;
+		//获取所有客户经理
+		UserFilter filter = new UserFilter();
+		filter.setUserType(1);
+		String sql = "select * from sys_user where user_type='1'";
+		List<User> users = commonDao.queryBySql(User.class, sql, null);
+		for(int i=0;i<users.size();i++){
+			TyManagerAssessment assessment = new TyManagerAssessment();
+			assessment.setId(IDGenerator.generateID());
+			assessment.setYear(year+"");
+			assessment.setMonth(month+"");
+			assessment.setCustomerId(users.get(i).getId());
+			assessment.setCustomerName(users.get(i).getDisplayName());
+			commonDao.insertObject(assessment);
+		}
 	}
 }
