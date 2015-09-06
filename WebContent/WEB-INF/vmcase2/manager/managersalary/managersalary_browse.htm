@@ -41,7 +41,6 @@
               <col width="8%" />
               <col width="8%" />
               <col width="8%" />
-              <col width="8%" />
               <col width="9%" />
               <col width="7%" />
             </colgroup>
@@ -51,12 +50,10 @@
               <th nowrap="nowrap">月份</th>
               <th nowrap="nowrap">客户经理</th>
               <th nowrap="nowrap">绩效工资</th>
-<!--               <th nowrap="nowrap">扣除金额</th> -->
               <th nowrap="nowrap">底薪</th>
-              <th nowrap="nowrap">津贴</th>
-              <th nowrap="nowrap">责任工资</th>
               <th nowrap="nowrap">返还金额</th>
               <th nowrap="nowrap">存入准备金额</th>
+              <th nowrap="nowrap">剩余风险保证金</th>
 <!--               <th nowrap="nowrap">罚款</th> -->
               <th nowrap="nowrap">备注</th>
             </tr>
@@ -73,7 +70,6 @@
               <col width="8%" />
               <col width="8%" />
               <col width="8%" />
-              <col width="8%" />
               <col width="9%" />
               <col width="7%" />
             </colgroup>
@@ -84,14 +80,12 @@
               <td nowrap="nowrap">$!managerSalary.year</td>
               <td nowrap="nowrap">$!managerSalary.month</td>
               <td nowrap="nowrap">$!managerSalary.managerName</td>
-              <td nowrap="nowrap">$format.formatNumber(4, $!managerSalary.rewardIncentiveInformation)</td>
+              <td nowrap="nowrap">$format.formatNumber(2, $!managerSalary.rewardIncentiveInformation)</td>
 <!--               <td nowrap="nowrap">$!managerSalary.deductAmount</td> -->
-              <td nowrap="nowrap">$format.formatNumber(4, $!managerSalary.basePay)</td>
-              <td nowrap="nowrap">$format.formatNumber(4, $!managerSalary.allowance)</td>
-              <td nowrap="nowrap">$format.formatNumber(4, $!managerSalary.dutySalary)</td>
-              <td nowrap="nowrap">$format.formatNumber(4, $!managerSalary.returnPrepareAmount)</td>
-              <td nowrap="nowrap">$format.formatNumber(4, $!managerSalary.insertPrepareAmount)</td>
-<!--               <td nowrap="nowrap">$!managerSalary.fine</td> -->
+              <td nowrap="nowrap">$format.formatNumber(2, $!managerSalary.basePay)</td>
+              <td nowrap="nowrap">$format.formatNumber(2, $!managerSalary.returnPrepareAmount)</td>
+              <td nowrap="nowrap">$format.formatNumber(2, $!managerSalary.insertPrepareAmount)</td>
+              <td nowrap="nowrap">$format.formatNumber(2, $!managerSalary.riskReserveBalances)</td>
               <td nowrap="nowrap">$!managerSalary.describe</td>
             </tr>
             #end
