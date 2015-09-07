@@ -80,5 +80,18 @@ public class ManagerPerformanceParametersService {
 			}
 		
 	}
+	/**
+	 * 获取特定客户经理绩效参数
+	 * @return
+	 */
+	public TyPerformanceParameters getParameterByLevel(String customerId){
+		String sql = "select * from ty_performance_parameters where level_code in (select level_information from account_manager_parameter  where user_id='"+customerId+"')";
+		List<TyPerformanceParameters>tyPerformanceParameters = commonDao.queryBySql(TyPerformanceParameters.class, sql, null);
+		if(tyPerformanceParameters.size()>0){
+			return tyPerformanceParameters.get(0);
+		}else{
+			return null;
+		}
+	}
 	
 }
