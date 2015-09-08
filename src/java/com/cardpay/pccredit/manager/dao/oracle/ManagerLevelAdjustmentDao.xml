@@ -14,6 +14,18 @@
 		<result property="dataMonth" column="DATA_MONTH" />
 	</resultMap>
 	
+	<resultMap id="AccountManagerParameterFormNewMap" type="com.cardpay.pccredit.manager.model.AccountManagerParameter">
+		<result property="id" column="ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="levelInformation" column="LEVEL_INFORMATION" />
+		<result property="entryTime" column="ENTRY_TIME" />
+		<result property="createdBy" column="CREATED_BY" />
+		<result property="createdTime" column="CREATED_TIME" />
+		<result property="modifiedBy" column="MODIFIED_BY" />
+		<result property="modifiedTime" column="MODIFIED_TIME" />
+		<result property="basePay" column="BASE_PAY" />
+	</resultMap>
+	
 	<select id="findManagerLevelAdjustmentByFilter" resultMap="ResultMap" 
 		parameterType="com.cardpay.pccredit.manager.filter.ManagerLevelAdjustmentFilter">
 		SELECT * FROM
@@ -55,6 +67,10 @@
 		 LEFT JOIN sys_user su
 		    ON su.id = mla.CUSTOMER_MANAGER_ID
 		 WHERE mas.id = #{id}
+	</select>
+	
+	<select id="findAccountManagerByUserId" resultMap="AccountManagerParameterFormNewMap">
+		select * from account_manager_parameter t where t.user_id = #{userId}
 	</select>
 
 </mapper>
