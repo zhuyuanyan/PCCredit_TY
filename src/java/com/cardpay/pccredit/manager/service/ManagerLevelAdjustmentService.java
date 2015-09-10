@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.cardpay.pccredit.manager.constant.ManagerLevelAdjustmentConstant;
 import com.cardpay.pccredit.manager.dao.ManagerLevelAdjustmentDao;
 import com.cardpay.pccredit.manager.filter.ManagerLevelAdjustmentFilter;
+import com.cardpay.pccredit.manager.model.AccountManagerParameter;
 import com.cardpay.pccredit.manager.model.ManagerLevelAdjustment;
 import com.cardpay.pccredit.manager.model.ManagerMonthTargetData;
 import com.cardpay.pccredit.manager.web.ManagerLevelAdjustmentForm;
@@ -86,5 +87,12 @@ public class ManagerLevelAdjustmentService {
 		managerLevelAdjustment.setModifiedTime(new Date());
 		managerLevelAdjustment.setIfHandled(ManagerLevelAdjustmentConstant.IFHANDLE_1);
 		commonDao.updateObject(managerLevelAdjustment);
+		
+		//更新客户经理参数信息
+		AccountManagerParameter  accountManagerParameter = managerLevelAdjustmentDao.findAccountManagerByUserId(managerLevelAdjustment.getCustomerManagerId());
+		accountManagerParameter.setModifiedBy(user.getId());
+		accountManagerParameter.setModifiedTime(new Date());
+		accountManagerParameter.setLevelInformation(managerLevelAdjustment.getAdjustAfterLevel());
+		commonDao.updateObject(accountManagerParameter);
 	}
 }
