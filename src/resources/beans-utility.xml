@@ -328,6 +328,30 @@
     </bean>
     
     
+     <!--每年3,6,9,12月生成客户经理升降级信息 start -->
+    <bean id="addManagerAdjustmentJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="managerAssessmentScoreScheduleService"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>generateManagerAdjustment</value>
+        </property>
+    </bean>
+    <!-- 定义触发时间 -->
+    <bean id="addManagerAdjustmentTigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="addManagerAdjustmentJob"/>
+        </property>
+        <!-- cron表达式 每月1号1点执行 0 0 1 1 * ? -->
+        <property name="cronExpression">
+            <value>0 26 17 * * ?</value>
+        </property>
+    </bean>
+    
+    
+    
     <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
    
     <bean id="scheduler" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -349,7 +373,9 @@
                
                 <ref bean="addNplsInfomationTigger"/>
                 <ref bean="addManagerAssessmentScoreTigger"/>
-				<ref bean="addDownLevelAdjustmentTigger"/> -->
+				<ref bean="addDownLevelAdjustmentTigger"/> 
+				
+				<ref bean="addManagerAdjustmentTigger"/>-->
 			
             </list>
         </property>
