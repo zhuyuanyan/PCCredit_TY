@@ -21,21 +21,21 @@
               <tr><td class="titlec" colspan="4" style="text-align: center;">审议结论</td></tr>
             <tr>
               <td class="titlefc3"><label for="status">审议结论:</label></td>
-              <td><select class="rinpsty" id="status" name="status" >
+              <td><select id="status" name="status" >
                   	#dict("intopieces_decision",$!customerApplicationInfo.status)
                   </select></td>
               <td class="titlefc3"><label for=decisionRefusereason>拒绝原因:</label></td>
-              <td><textarea name="decisionRefusereason">$!customerApplicationInfo.decisionRefusereason</textarea></td>
+              <td><textarea name="decisionRefusereason" id="decisionRefusereason">$!customerApplicationInfo.decisionRefusereason</textarea></td>
             </tr>
             <tr>
 			  <td class="titlefc3"><label for="decisionAmount">金额(元):</label></td>
-              <td><input class="rinpsty"  type="text" name="decisionAmount" value="$!customerApplicationInfo.decisionAmount" /></td>
+              <td><input  type="text" class="rinpsty" name="decisionAmount" id="decisionAmount" value="$!customerApplicationInfo.decisionAmount" /></td>
               <td class="titlefc3"><label for="decisionRate">利率(%):</label></td>
-              <td><input class="rinpsty"  type="text" name="decisionRate" value="$!customerApplicationInfo.decisionRate" /></td>
+              <td><input type="text" class="rinpsty" name="decisionRate" id="decisionRate" value="$!customerApplicationInfo.decisionRate" /></td>
             </tr>
             <tr>
               <td class="titlefc3"><label for="decisionTerm">期限:</label></td>
-              <td><select class="rinpsty" name="decisionTerm">
+              <td><select  name="decisionTerm">
                   	#dict("decision_term",$!customerApplicationInfo.decisionTerm)
                   </select>
               </td>
@@ -44,35 +44,49 @@
         </div>
       </form>
       <div class="submit">
+      #if($!customerApplicationInfo.status=='audit')
         <input id="id_save_button" type="button" value="#i18n('button.save')" class="current" />
+      #end
+        <input type="button" onclick="javascript:history.go(-1);" value="返回" />
       </div>
     </div>
   </div>
- 
+ <script src='${contextPath}/js/maintenanceAccountManager/maintenanceAccountManager.js'></script> 
   <script type="text/javascript">
   	#set ($formName = "'#id_module_form'")
-	#parse ("intopieces/intopieces_decision/input_decision_validation.js")
+	/* #parse ("intopieces/intopieces_decision/input_decision_validation.js") */
 	var layout = new FormsLayout("formsId");
 	window.top.currentWindow.setLayout(layout);
 	
 	$(document).ready(function() {		
+		var info = "$!customerApplicationInfo.status";
+		//已提交的显示只读
+		if(info!='audit'){
+			$("input[type='text']").attr("disabled",true);
+			$("input[type='radio']").attr("disabled",true);
+			$("input[type='checkbox']").attr("disabled",true);
+			$("select").attr("disabled",true);
+			$("textarea").attr("disabled",true);
+		}
+		
 		$("#id_save_button").click(function() {
-			
 			$(".myerror").remove();
 			
 			var status = $("select[name=status]").val();
 			if( status == "approved"){
-				if($("input[name=decision_amount]").val() == ""){
-					 $("input[name='decision_amount']").after("<label class='error myerror' generated='true' >金额不能为空</label>");   
+				if($("#decisionAmount").val() == ""){
+					 $("#decisionAmount").after("<label class='error myerror' generated='true' >金额不能为空</label>");  
+					 return;
 				}
-				if($("input[name=decision_rate]").val() == ""){
-					 $("input[name='decision_rate']").after("<label class='error myerror'generated='true' >利率不能为空</label>");   
+				if($("#decisionRate").val() == ""){
+					 $("#decisionRate").after("<label class='error myerror'generated='true' >利率不能为空</label>");  
+					 return;
 				}
 			}
-			
 			if( status == "refuse"){
-				if($("textarea[name=decision_refusereason]").val() == ""){
-					 $("textarea[name='decision_refusereason']").after("<label class='error myerror' generated='true' >拒绝原因不能为空</label>");   
+				if($("#decisionRefusereason").val() == ""){
+					 $("#decisionRefusereason").after("<label class='error myerror' generated='true' >拒绝原因不能为空</label>");   
+					 return;
 				}
 			}
 			

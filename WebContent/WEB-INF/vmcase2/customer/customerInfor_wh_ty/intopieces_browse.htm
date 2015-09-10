@@ -77,11 +77,10 @@
               <td nowrap="nowrap">$format.formatNumber($!intoPieces.applyQuota, 2, 100)</td>
               <td nowrap="nowrap">
 	              #if($!intoPieces.status=='audit')已申请  
-	              #elseif($!intoPieces.status=='save')暂存 
-	              #elseif($!intoPieces.status=='nopass')申请未通过 
 	              #elseif($!intoPieces.status=='refuse')被拒绝
 	              #elseif($!intoPieces.status=='approved')审批通过  
-	              #elseif($!intoPieces.status=='succeed')申请成功 
+	              #elseif($!intoPieces.status=='nopass_replenish')补充调查
+	              #elseif($!intoPieces.status=='nopass_re')退回重新调查
 	              #end
               </td>
             </tr>

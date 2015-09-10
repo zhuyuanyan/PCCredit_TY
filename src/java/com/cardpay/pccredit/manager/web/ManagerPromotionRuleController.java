@@ -19,6 +19,7 @@ import com.cardpay.pccredit.manager.model.MaintenanceAccountManager;
 import com.cardpay.pccredit.manager.model.ManagerPromotionDownRule;
 import com.cardpay.pccredit.manager.model.ManagerPromotionRule;
 import com.cardpay.pccredit.manager.model.MangerMonthAssessment;
+import com.cardpay.pccredit.manager.model.TyPerformanceCenter;
 import com.cardpay.pccredit.manager.model.TyPerformanceParameters;
 import com.cardpay.pccredit.manager.service.AccountManagerParameterService;
 import com.cardpay.pccredit.manager.service.MaintenanceAccountManagerService;
@@ -461,7 +462,7 @@ public class ManagerPromotionRuleController {
 		return mv;
 	}
 	/**
-	 * 客户经降级级规则保存
+	 * 客户经理绩效参数配置保存
 	 * 
 	 * @param request
 	 * @return
@@ -536,6 +537,28 @@ public class ManagerPromotionRuleController {
             //TODO 有日志功能，在这一步应保持返回统一，出错以后查看日志
 			logger.error("执行修改客户经理参数维护错误"+e.getMessage());
 		}
+		return mv;
+	}
+	
+	/**
+	 * 中心人员绩效参数配置
+	 * 
+	 * @param filter
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "updatePerformanceCenter.page", method = { RequestMethod.GET })
+	@JRadOperation(JRadOperation.CREATE)
+	public AbstractModelAndView updatePerformanceCenter(HttpServletRequest request) {
+		List<TyPerformanceCenter> parmeters = managerPerformanceParametersService.getManagerPerformanceCenter();
+		JRadModelAndView mv = new JRadModelAndView("/manager/performanceParameters/center_performance_update", request);
+		DictionaryManager dictMgr = Beans.get(DictionaryManager.class);
+		// 根据指定名得到字典值列表
+		Dictionary dictionary = dictMgr.getDictionaryByName("CENTERMANAGERLEVEL");
+		List<DictionaryItem> dictItems = dictionary.getItems();
+		mv.addObject("parmeters",parmeters);
+		mv.addObject("dictItems",dictItems);
 		return mv;
 	}
 }

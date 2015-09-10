@@ -13,6 +13,7 @@ import org.xhtmlrenderer.util.GeneralUtil;
 import com.cardpay.pccredit.manager.dao.comdao.ManagerMonthAssessmentComdao;
 import com.cardpay.pccredit.manager.dao.comdao.ManagerPerformanceParamersComdao;
 import com.cardpay.pccredit.manager.model.MangerMonthAssessment;
+import com.cardpay.pccredit.manager.model.TyPerformanceCenter;
 import com.cardpay.pccredit.manager.model.TyPerformanceParameters;
 import com.wicresoft.jrad.base.auth.IUser;
 import com.wicresoft.jrad.base.database.dao.common.CommonDao;
@@ -94,4 +95,13 @@ public class ManagerPerformanceParametersService {
 		}
 	}
 	
+	/**
+	 * 中心人员绩效参数配置
+	 * @return
+	 */
+	public List<TyPerformanceCenter> getManagerPerformanceCenter(){
+	
+		return managerPerformanceParamersComdao.getManagerPerformanceCenter();
+		
+	}
 }
