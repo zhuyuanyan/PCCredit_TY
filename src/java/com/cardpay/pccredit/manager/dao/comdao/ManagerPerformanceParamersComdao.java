@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cardpay.pccredit.manager.model.TyPerformanceCenter;
 import com.cardpay.pccredit.manager.model.TyPerformanceParameters;
 import com.wicresoft.jrad.base.database.dao.common.CommonDao;
 /**
@@ -37,4 +38,13 @@ public class ManagerPerformanceParamersComdao {
 		commonDao.queryBySql(TyPerformanceParameters.class, sql, null);
 	}
 
+	/**
+	 * 查询中心人员绩效参数
+	 * @return
+	 */
+	public List<TyPerformanceCenter> getManagerPerformanceCenter(){
+		String sql = "select * from ty_performance_center";
+		List<TyPerformanceCenter> list = commonDao.queryBySql(TyPerformanceCenter.class, sql, null);
+			return list;	
+	}
 }
