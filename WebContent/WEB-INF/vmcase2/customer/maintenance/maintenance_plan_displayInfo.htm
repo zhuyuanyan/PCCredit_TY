@@ -22,6 +22,7 @@
               <col width="10%" />
               <col width="30%" /> 
               <col width="10%" />
+              <col width="10%" />
             </colgroup>
             <tr class="title">
               <th nowrap="nowrap"></th>
@@ -30,6 +31,7 @@
               <th nowrap="nowrap">产品名称</th>
               <th nowrap="nowrap">计划维护时间</th>
               <th nowrap="nowrap">所属客户经理</th>
+              <th nowrap="nowrap">维护计划最终状态</th>
             </tr>
           </table>
         </div>
@@ -42,6 +44,7 @@
               <col width="10%" />
               <col width="30%" /> 
               <col width="10%" />
+              <col width="10%" />
             </colgroup>
             #foreach ($customer in $result.items)
             <tr >
@@ -51,6 +54,7 @@
               <td nowrap="nowrap">$!customer.productName</td>
               <td nowrap="nowrap">$!date.format("yyyy-MM-dd HH:mm:dd",$!customer.startDay)-$!date.format("yyyy-MM-dd HH:mm:dd",$!customer.endDay)</td>
               <td nowrap="nowrap">$!customer.userName</td>
+              <td nowrap="nowrap">$!customer.endResult</td>
             </tr>
             #end
           </table>
@@ -59,7 +63,7 @@
       <div class="pagebar">
         <div class="controlbtn">
           #btnpriv("change")<a id="id_change_button" class="btn_g" href="javascript:void(0);" title="修改">修改</a>#end
-          #btnpriv("display")<a id="id_display_button" class="btn_gr" href="javascript:void(0);" title="#i18n('button.display.hint')">#i18n("button.display")</a>#end
+          #btnpriv("display")<a id="id_display_button" class="btn_g" href="javascript:void(0);" title="#i18n('button.display.hint')">#i18n("button.display")</a>#end
           #btnpriv("change")<a  class="btn_gr" onclick="toBrowse();"  value="#i18n('button.back')" >返回</a>#end
         </div>
         #parse ("common/pagination.htm")

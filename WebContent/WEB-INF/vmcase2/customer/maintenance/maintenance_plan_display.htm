@@ -54,6 +54,11 @@
             <tr>
               <td>维护目标:</td>
               <td><textarea  disabled="disabled" >$!maintenance.maintenanceGoal</textarea></td>
+              <td>&nbsp;</td>
+              <td>维护计划最终状态:</td>
+               <td><select id ="endResult" name ="endResult" disabled="disabled">
+              		 #dict("MaintenanceEndResult",$!maintenance.endResult)
+              </select> </td>
             </tr>
           </table>
         </div>
@@ -112,6 +117,7 @@
         #end
       #end
       #end
+      	 <input id="id_display_button" class="current" type="button" value="实施详情" />
         <input class="btn_g" type="button" onclick="toBrowse();"  value="#i18n('button.back')" />
       </div>
     </div>
@@ -131,6 +137,7 @@
 		initClickEvent();
 		var opsObj = new Object();
 		opsObj.changeUrl="${modulePath}/changeAction.page";
+		opsObj.displayUrl="${modulePath}/displayAction.page";
 	        $("#id_change_button").click(function() {
 	            if ($(".checkbox :checked").length == 1) {
 	                $("#id_change_button").unbind();
@@ -141,6 +148,18 @@
 	                Dialog.message("请选择一行");
 	            }
 	        });
+	        
+	        $("#id_display_button").click(function() {
+	            if ($(".checkbox :checked").length == 1) {
+	                $("#id_display_button").unbind();
+	                var rowid = $($(".checkbox :checked")[0]).attr("value");
+	                var url = opsObj.displayUrl + "?id=" + rowid+"&appId=$!maintenanceWeb.appId";
+	                window.location.href = url;
+	            } else {
+	                Dialog.message("请选择一行");
+	            }
+	        });
+	        
 	});
   </script>
 </body>
