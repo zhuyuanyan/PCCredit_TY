@@ -720,7 +720,7 @@ public class ManagerAssessmentScoreScheduleService {
 		//获取所有客户经理
 		UserFilter filter = new UserFilter();
 		filter.setUserType(1);
-		String sql = "select * from sys_user where user_type='1'";
+		String sql = "select * from sys_user where id in (select user_id from account_manager_parameter)";
 		List<User> users = commonDao.queryBySql(User.class, sql, null);
 		for(int i=0;i<users.size();i++){
 			TyManagerAssessment assessment = new TyManagerAssessment();

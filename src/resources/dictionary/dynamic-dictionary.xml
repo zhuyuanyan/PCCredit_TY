@@ -365,5 +365,17 @@ AND A.IS_DELETED = '0'
 		b.seq_no asc
 
 	</dictionary>
+	
+		<dictionary name="CENTERMANAGERLEVEL" title="中心人员级别"
+		timeout="10000">
+		SELECT
+		A .TYPE_CODE AS NAME,
+		A .TYPE_NAME AS title
+		FROM
+		DICT A
+		WHERE
+		Dict_Type = '中心人员级别'
+		ORDER BY  A .TYPE_CODE  ASC
+	</dictionary>
 
 </dictionaries>

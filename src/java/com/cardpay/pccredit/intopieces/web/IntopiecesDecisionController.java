@@ -112,7 +112,7 @@ public class IntopiecesDecisionController extends BaseController {
 		JRadReturnMap returnMap = new JRadReturnMap();
 		try {
 			customerApplicationInfo.setApplyQuota(customerApplicationInfo.getDecisionAmount());
-			customerApplicationInfoService.update(customerApplicationInfo);
+			customerApplicationInfoService.update(customerApplicationInfo,request);
 			returnMap.addGlobalMessage(CHANGE_SUCCESS);
 		} catch (Exception e) {
 			return WebRequestHelper.processException(e);
