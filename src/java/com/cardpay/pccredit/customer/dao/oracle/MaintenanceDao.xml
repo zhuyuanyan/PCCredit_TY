@@ -193,7 +193,8 @@
 				  			  u.display_name,
           					  c.id as appId,
           					  m.id,
-          					  b.user_id
+          					  b.user_id,
+          					  m.END_RESULT
 				       from customer_application_info c
 				       inner join product_attribute p on c.product_id = p.id
 				       inner join basic_customer_information b  on c.customer_id=b.id
@@ -453,5 +454,101 @@
  		<if test="id != null and id != '' ">
 			and m.id=#{id}
 		</if>
+	</select>
+	
+	
+	<select id="findMaintenanceWebPlansByFilter" resultMap="MaintenanceWebResultMap" 
+			parameterType="com.cardpay.pccredit.customer.filter.MaintenanceFilter">
+		<!-- SELECT * FROM
+			(SELECT ROW_.*,ROWNUM ROWNUM_
+				FROM (
+					SELECT m.*,
+						   b.chinese_name,
+						   (select count(*) from maintenance_plans_action a where a.maintenance_plan_id=m.id) as countAction
+					  FROM MAINTENANCE_PLAN m
+					  inner join
+					  basic_customer_information b
+					  on m.customer_id=b.id
+					  WHERE 1=1
+					 <if test="customerManagerId != null and customerManagerId != '' ">
+						AND m.customer_manager_id=#{customerManagerId}
+					 </if>
+					 <if test="maintenanceGoal != null and maintenanceGoal != '' ">
+						AND m.maintenance_goal=#{maintenanceGoal}
+					 </if>
+					 <if test="maintenanceWay != null and maintenanceWay != ''">
+					 and m.maintenance_way=#{maintenanceWay}
+					 </if>
+					 <if test="maintenanceDay != null and maintenanceDay != ''">
+						AND m.maintenance_dy=#{maintenanceDay}
+					 </if>
+					 <if test="createWay != null and createWay != ''">
+						AND m.create_way=#{createWay}
+					 </if>
+					 <if test="endResult != null and endResult != ''">
+						AND m.end_result=#{endResult}
+					 </if>
+					 <if test="remarksCreateReason != null and remarksCreateReason != '' ">
+						AND m.remarks_create_reason=#{remarksCreateReason}
+					 </if>
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+					]]> -->
+					SELECT * FROM
+			(SELECT ROW_.*,ROWNUM ROWNUM_
+				FROM (
+					  select  b.chinese_name,
+          					  b.card_id,
+          					  p.product_name,
+          					  m.maintenance_endtime-m.maintenance_day as startDay,
+          					  m.maintenance_endtime as endDay,
+				  			  u.display_name,
+          					  c.id as appId,
+          					  m.id,
+          					  b.user_id,
+          					  m.END_RESULT
+				       from customer_application_info c
+				       inner join product_attribute p on c.product_id = p.id
+				       inner join basic_customer_information b  on c.customer_id=b.id
+				       inner join sys_user u on b.user_id = u.id
+				       left join MAINTENANCE_PLAN m on m.app_id = c.id
+					  WHERE 1=1 
+					<if test="customerManagerIds != null and customerManagerIds != '' ">  
+ 					  	AND b.user_id in  
+	 					<foreach collection="customerManagerIds" index="index" item="item" open="(" separator="," close=")"> 
+							#{item.userId} 
+						</foreach>
+					</if>
+					<if test="cardId != null and cardId != '' ">
+						AND b.CARD_ID=#{cardId}
+					 </if>
+					 
+					 <if test="customerName != null and customerName != '' ">
+						AND b.CHINESE_NAME=#{customerName}
+					 </if>
+					  
+					  <if test="customerId != null and customerId != '' ">
+						AND b.id=#{customerId}
+					 </if>
+					 <if test="productId != null and productId != '' ">
+						AND c.product_id=#{productId}
+					 </if>
+					 
+					 <if test="customerManagerId != null and customerManagerId != '' ">
+						AND b.user_id = #{customerManagerId}
+					 </if>
+					 
+					 <if test="appId != null and appId != '' ">
+						AND m.app_id = #{appId}
+					 </if>
+					 
+					 
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+					]]>
 	</select>
 </mapper>

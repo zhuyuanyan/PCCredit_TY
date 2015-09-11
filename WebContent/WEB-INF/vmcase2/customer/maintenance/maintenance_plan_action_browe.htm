@@ -4,7 +4,7 @@
   <div class="content_main">
     <div class="contentinner">
       <div class="place">
-        <div class="title">修改维护实施计划</div>
+        <div class="title">维护实施计划详情</div>
       </div>
       <form id="id_module_form" action="${modulePath}/updateAction.json">
         <div class="forms" id="formsId">
@@ -21,28 +21,28 @@
             </colgroup>
             <tr>
               <td>实施维护方式:</td>
-              <td><select id="maintenanceWay" name="maintenanceWay">
+              <td><select id="maintenanceWay" name="maintenanceWay" disabled="disabled">
               #customerInfo($request.getAttribute("collectionMethodList"),$!maintenanceAction.maintenanceWay)
               </select>
               </td>
               <td>&nbsp;</td>
               <td>实施维护结果描述:</td>
-              <td><textarea id="maintenanceResult" name="maintenanceResult" >$!maintenanceAction.maintenanceResult</textarea>
+              <td><textarea id="maintenanceResult" name="maintenanceResult"  disabled="disabled">$!maintenanceAction.maintenanceResult</textarea>
               </td>
             </tr>
             <tr>
               <td>实施维护开始时间:</td>
-              <td><input type="text" id="maintenanceStartTime" name="maintenanceStartTime" value="$!date.format('yyyy-MM-dd HH:mm:ss',$!maintenanceAction.maintenanceStartTime)" onmouseover="_calendar({format:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly"/>
+              <td><input type="text" id="maintenanceStartTime" name="maintenanceStartTime"  disabled="disabled" value="$!date.format('yyyy-MM-dd HH:mm:ss',$!maintenanceAction.maintenanceStartTime)" onmouseover="_calendar({format:'yyyy-MM-dd HH:mm:ss'})"/>
               <td>&nbsp;</td>
               <td>实施维护结束时间:</td>
-              <td><input type="text" id="maintenanceEndTime" name="maintenanceEndTime" value="$!date.format('yyyy-MM-dd HH:mm:ss',$!maintenanceAction.maintenanceEndTime)" onmouseover="_calendar({format:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly"/></td>
+              <td><input type="text" id="maintenanceEndTime" name="maintenanceEndTime"  disabled="disabled" value="$!date.format('yyyy-MM-dd HH:mm:ss',$!maintenanceAction.maintenanceEndTime)" onmouseover="_calendar({format:'yyyy-MM-dd HH:mm:ss'})"/></td>
             </tr>
             <tr>
               <td>是否有客户信息表更:</td>
-              <td><input type="text" id="m" name=""/></td>
+              <td><input type="text" id="m" name="m"  disabled="disabled"/></td>
               <td>&nbsp;</td>
               <td>是否触发资信状况变更:</td>
-              <td><input type="text" id="n" name="n" /></td>
+              <td><input type="text" id="n" name="n"  disabled="disabled"/></td>
             </tr>
           </table>
         </div>
@@ -57,21 +57,12 @@
   <script type="text/javascript">
 	var layout=new FormsLayout("formsId");			
 	window.top.currentWindow.setLayout(layout);
+			
 	#set ($formName = "'#id_module_form'")
-	#parse ("/customer/maintenance/maintenance_validation.js")
 	#validator($formName)
-	
 	$("#id_save_button").click(function() {
 		if(submitFlag == 1){
 			alert("请勿重复提交!")
-			return;
-		}
-		var time1 = $("#maintenanceStartTime").val();
-		var time2 = $("#maintenanceEndTime").val();
-		var time3 = new Date(time1.replace(/-/g,"/")); 
-		var time4 = new Date(time2.replace(/-/g,"/"));
-		if(Date.parse(time4) - Date.parse(time3) < 0){
-			Dialog.message("开始时间:"+time1+"大于结束时间:"+time2);
 			return;
 		}
 		submitFlag = 1;
