@@ -67,7 +67,8 @@ public class IntoPiecesComdao {
 			}
 		if(StringUtils.trimToNull(cardId)!=null||StringUtils.trimToNull(chineseName)!=null){
 			if(StringUtils.trimToNull(cardId)!=null&&StringUtils.trimToNull(chineseName)!=null){
-			    sql.append(" and (b.card_id like '%"+cardId+"%' or b.chinese_name like '%"+chineseName+"%' )");
+			    //sql.append(" and (b.card_id like '%"+cardId+"%' or b.chinese_name like '%"+chineseName+"%' )");
+			    sql.append(" and b.card_id like '%"+cardId+"%' and b.chinese_name like '%"+chineseName+"%' ");
 			}else if(StringUtils.trimToNull(cardId)!=null&&StringUtils.trimToNull(chineseName)==null){
 				params.put("cardId", cardId);
 				sql.append(" and b.card_id like '%'||#{cardId}||'%' ");

@@ -190,8 +190,21 @@ public class MaintenanceController extends BaseController{
 		String appId = str[0];
 		filter.setAppId(appId);
 		filter.setRequest(request);
-		QueryResult<MaintenanceForm> result = maintenanceService.findMaintenancePlansByFilter(filter);
-		JRadPagedQueryResult<MaintenanceForm> pagedResult = new JRadPagedQueryResult<MaintenanceForm>(filter, result);
+		QueryResult<MaintenanceWeb> result = maintenanceService.findMaintenanceWebPlansByFilter(filter);
+		
+		for(int i=0;i<result.getItems().size();i++){
+			MaintenanceWeb web = (MaintenanceWeb)result.getItems().get(i);
+			if(web!=null){
+				if("nextmaintain".equals(web.getEndResult())){
+					result.getItems().get(i).setEndResult("继续维护");
+				}else if("maintaining".equals(web.getEndResult())){
+					result.getItems().get(i).setEndResult("维护中");
+				}else if("complete".equals(web.getEndResult())){
+					result.getItems().get(i).setEndResult("维护完成");
+				}
+			}
+		}
+		JRadPagedQueryResult<MaintenanceWeb> pagedResult = new JRadPagedQueryResult<MaintenanceWeb>(filter, result);
 		mv.addObject(PAGED_RESULT, pagedResult);
 		mv.addObject("appId", appId);
 		return mv;
@@ -340,6 +353,7 @@ public class MaintenanceController extends BaseController{
 						/*新增一条新的计划，计划内容与当前计划相同,最终结果为维护中*/
 						maintenancePlanId = maintenanceService.copyMaintenancePlan(maintenanceId, MaintenanceEndResultEnum.maintaining, createdBy);
 						/*返回最初维护计划页面*/
+						returnMap.put(ID, maintenanceId+"/"+appId);
 						returnMap.put(RECORD_ID,maintenancePlanId);
 					}else{
 						/*返回维护计划详细信息页面*/
@@ -378,6 +392,26 @@ public class MaintenanceController extends BaseController{
 		mv.addObject("appId",appId);
 		return mv;
 	}
+	
+	/**
+	 * 修改催收实施计划信息页面
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "displayAction.page")
+	@JRadOperation(JRadOperation.CHANGE)
+	public AbstractModelAndView displayAction(HttpServletRequest request) {
+		String id = RequestHelper.getStringValue(request, ID);
+		String appId = RequestHelper.getStringValue(request, "appId");
+		MaintenanceAction maintenanceAction = maintenanceService.findMaintenanceActionById(id);
+		JRadModelAndView mv = new JRadModelAndView("/customer/maintenance/maintenance_plan_action_browe", request);
+		mv.addObject("maintenanceAction",maintenanceAction);
+		mv.addObject("appId",appId);
+		return mv;
+	}
+	
 	/**
 	 * 修改催收计划实施信息
 	 * @param form
