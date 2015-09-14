@@ -51,7 +51,7 @@ public class IntoPiecesComdao {
 		String cardId = filter.getCardId();
 		String status = filter.getStatus();
 		params.put("userId", userId);
-		StringBuffer sql = new StringBuffer("select t.id,t.customer_id,b.ty_customer_id,b.chinese_name,t.product_id,p.product_name,b.card_id,t.apply_quota,t.status from customer_application_info t,basic_customer_information b,product_attribute p where t.customer_id=b.id and b.user_id =#{userId} and t.product_id=p.id  ");
+		StringBuffer sql = new StringBuffer("select t.id,t.customer_id,b.ty_customer_id,b.chinese_name,t.product_id,p.product_name,b.card_id,t.apply_quota,t.status from customer_application_info t,basic_customer_information b,product_attribute p where t.customer_id=b.id and b.user_id = #{userId} and t.product_id=p.id  ");
 		if(StringUtils.trimToNull(productName)!=null){
 			params.put("productName", productName);
 			 sql.append(" and p.product_name like '%'||#{productName}||'%' ");

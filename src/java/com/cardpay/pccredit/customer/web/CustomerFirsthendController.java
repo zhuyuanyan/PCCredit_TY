@@ -22,9 +22,11 @@ import com.cardpay.pccredit.customer.model.CustomerFirsthendStudy;
 import com.cardpay.pccredit.customer.model.CustomerFirsthendWork;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.service.CustomerInforService;
+import com.cardpay.pccredit.customer.service.MaintenanceService;
 import com.cardpay.pccredit.intopieces.filter.IntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.service.IntoPiecesService;
+import com.cardpay.pccredit.manager.web.AccountManagerParameterForm;
 import com.wicresoft.jrad.base.auth.IUser;
 import com.wicresoft.jrad.base.auth.JRadModule;
 import com.wicresoft.jrad.base.auth.JRadOperation;
@@ -53,6 +55,9 @@ public class CustomerFirsthendController extends BaseController{
 	@Autowired
 	private CustomerInforService customerInforService;
 
+	
+	@Autowired
+	private MaintenanceService maintenanceService;
 	/**
 	 * 浏览页面
 	 * 
@@ -67,10 +72,15 @@ public class CustomerFirsthendController extends BaseController{
 	public AbstractModelAndView browse(@ModelAttribute CustomerInforFilter filter, HttpServletRequest request) {
 		filter.setRequest(request);
 		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
-		filter.setUserId(user.getId());
+		//filter.setUserId(user.getId());
+		//查询客户经理
+		List<AccountManagerParameterForm> forms = maintenanceService.findSubListManagerByManagerId(user);
+		if(forms.size()>0){
+			filter.setCustomerManagerIds(forms);
+		}
 		QueryResult<CustomerInfor> result = customerInforService.findCustomerInforByFilter(filter);
-		JRadPagedQueryResult<CustomerInfor> pagedResult = new JRadPagedQueryResult<CustomerInfor>(
-				filter, result);
+		
+		JRadPagedQueryResult<CustomerInfor> pagedResult = new JRadPagedQueryResult<CustomerInfor>(filter, result);
 		JRadModelAndView mv = new JRadModelAndView("/customer/customerFirsthend/customerfirsthend_browse", request);
 		mv.addObject(PAGED_RESULT, pagedResult);
 		return mv;

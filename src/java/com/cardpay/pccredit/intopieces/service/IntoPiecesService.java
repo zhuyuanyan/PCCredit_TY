@@ -72,7 +72,11 @@ public class IntoPiecesService {
 	 */
 	public QueryResult<IntoPieces> findintoPiecesByFilter(
 			IntoPiecesFilter filter) {
-		QueryResult<IntoPieces> queryResult = intoPiecesComdao.findintoPiecesByFilter(filter);
+		//QueryResult<IntoPieces> queryResult = intoPiecesComdao.findintoPiecesByFilter(filter);
+		List<IntoPieces> plans = intoPiecesDao.findIntoPiecesList(filter);
+		int size = intoPiecesDao.findIntoPiecesCountList(filter);
+		QueryResult<IntoPieces> queryResult = new QueryResult<IntoPieces>(size,plans);
+		
 		List<IntoPieces> intoPieces = queryResult.getItems();
 		for(IntoPieces pieces : intoPieces){
 			if(pieces.getStatus().equals(Constant.SAVE_INTOPICES)){
