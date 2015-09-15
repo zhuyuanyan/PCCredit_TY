@@ -1,6 +1,7 @@
 package com.cardpay.pccredit.customer.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import com.cardpay.pccredit.customer.model.CustomerFirsthendBaseLocal;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.model.CustomerMarketing;
 import com.cardpay.pccredit.customer.service.CustomerInforService;
+import com.cardpay.pccredit.customer.service.MaintenanceService;
 import com.cardpay.pccredit.intopieces.filter.AddIntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.filter.IntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
@@ -36,6 +38,7 @@ import com.cardpay.pccredit.intopieces.service.AddIntoPiecesService;
 import com.cardpay.pccredit.intopieces.service.IntoPiecesService;
 import com.cardpay.pccredit.intopieces.web.AddIntoPiecesForm;
 import com.cardpay.pccredit.intopieces.web.LocalImageForm;
+import com.cardpay.pccredit.manager.web.AccountManagerParameterForm;
 import com.wicresoft.jrad.base.auth.IUser;
 import com.wicresoft.jrad.base.auth.JRadModule;
 import com.wicresoft.jrad.base.auth.JRadOperation;
@@ -69,6 +72,9 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 	@Autowired
 	private AddIntoPiecesService addIntoPiecesService;
 	
+	@Autowired
+	private MaintenanceService maintenanceService;
+	
 	
 	//太原维护信息
 	@ResponseBody
@@ -78,10 +84,22 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 		filter.setRequest(request);
 		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 		String userId = user.getId();
-		filter.setUserId(userId);
+		//查询客户经理
+		List<AccountManagerParameterForm> forms = maintenanceService.findSubListManagerByManagerId(user);
+		if(forms != null && forms.size() > 0){
+			StringBuffer userIds = new StringBuffer();
+			userIds.append("(");
+			for(AccountManagerParameterForm form : forms){
+				userIds.append("'").append(form.getUserId()).append("'").append(",");
+			}
+			userIds = userIds.deleteCharAt(userIds.length() - 1);
+			userIds.append(")");
+			filter.setCustManagerIds(userIds.toString());
+		}else{
+			filter.setUserId(userId);
+		}
 		QueryResult<IntoPieces> result = intoPiecesService.findintoPiecesByFilter(filter);
-		JRadPagedQueryResult<IntoPieces> pagedResult = new JRadPagedQueryResult<IntoPieces>(
-				filter, result);
+		JRadPagedQueryResult<IntoPieces> pagedResult = new JRadPagedQueryResult<IntoPieces>(filter, result);
 
 		JRadModelAndView mv = new JRadModelAndView("/customer/customerInfor_wh_ty/intopieces_browse", request);
 		mv.addObject(PAGED_RESULT, pagedResult);

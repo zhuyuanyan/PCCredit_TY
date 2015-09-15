@@ -224,4 +224,7 @@ public interface CustomerInforDao {
 	public List<MaintenanceLog> findCustomerByFilter(CustomerInforFilter filter);
 	public int findCustomerCountByFilter(CustomerInforFilter filter);
 	
+	
+	public List<CustomerInfor> findCustomerOriginaList(CustomerInforFilter filter);
+	public int findCustomerOriginaCountList(CustomerInforFilter filter);
 }

@@ -15,6 +15,8 @@ public class IntoPiecesFilter extends BusinessFilter{
     
     private String decision;
     
+    private String custManagerIds;
+    
 	public String getId() {
 		return id;
 	}
@@ -50,6 +52,12 @@ public class IntoPiecesFilter extends BusinessFilter{
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getCustManagerIds() {
+		return custManagerIds;
+	}
+	public void setCustManagerIds(String custManagerIds) {
+		this.custManagerIds = custManagerIds;
 	}
 	
 }
