@@ -147,8 +147,10 @@ public class CustomerInforService {
 	 */
 	public QueryResult<CustomerInfor> findCustomerInforByFilter(CustomerInforFilter filter) {
 		/*filter.setSqlString(dataAccessSqlService.getSqlByResTbl(filter.getRequest(), ResourceTableEnum.KEHU));*/
-		
-		return commonDao.findObjectsByFilter(CustomerInfor.class, filter);
+		List<CustomerInfor> ls = customerInforDao.findCustomerOriginaList(filter);
+		int size = customerInforDao.findCustomerOriginaCountList(filter);
+		QueryResult<CustomerInfor> qr = new QueryResult<CustomerInfor>(size,ls);
+		return qr;
 	}
 	
 	//查询未办理过该产品的客户

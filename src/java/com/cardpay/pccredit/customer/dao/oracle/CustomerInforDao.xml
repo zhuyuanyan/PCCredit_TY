@@ -614,4 +614,58 @@
 		</if>
 		</if>
 	</select>
+	
+	<select id="findCustomerOriginaList" resultType="com.cardpay.pccredit.customer.model.CustomerInfor">
+		SELECT * FROM
+		 (SELECT ROW_.*,ROWNUM ROWNUM_
+		   FROM (
+			select 
+			id,
+			chinese_name as chineseName,
+			card_type as cardType,
+			card_id as cardId
+			from BASIC_CUSTOMER_INFORMATION T1 where 1 = 1
+				<if test="chineseName != null and chineseName != '' ">
+					AND chinese_name=#{chineseName}
+				</if>
+				<if test="cardType != null and cardType != '' ">
+					AND card_type=#{cardType}
+				</if>
+				<if test="cardId != null and cardId != '' ">
+					AND card_id=#{cardId}
+				</if>
+				<if test="customerManagerIds != null and customerManagerIds != '' ">  
+ 		    		AND T1.user_id in  
+	 	    		<foreach collection="customerManagerIds" index="index" item="item" open="(" separator="," close=")"> 
+			   		#{item.userId} 
+					</foreach>
+				</if>
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+		]]>
+	</select>
+	
+	
+	<select id="findCustomerOriginaCountList" resultType="int">
+		select count(0) 
+		from BASIC_CUSTOMER_INFORMATION T1 
+		where 1 = 1
+		<if test="chineseName != null and chineseName != '' ">
+			AND chinese_name=#{chineseName}
+		</if>
+		<if test="cardType != null and cardType != '' ">
+			AND card_type=#{cardType}
+		</if>
+		<if test="cardId != null and cardId != '' ">
+			AND card_id=#{cardId}
+		</if>
+		<if test="customerManagerIds != null and customerManagerIds != '' ">  
+ 		    AND T1.user_id in  
+	 	    <foreach collection="customerManagerIds" index="index" item="item" open="(" separator="," close=")"> 
+			   #{item.userId} 
+			</foreach>
+		</if>
+	</select>
 </mapper>
