@@ -31,6 +31,7 @@ import com.cardpay.pccredit.customer.filter.CustomerInforFilter;
 import com.cardpay.pccredit.customer.model.CustomerCareersInformation;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.service.CustomerInforService;
+import com.cardpay.pccredit.customer.service.MaintenanceService;
 import com.cardpay.pccredit.intopieces.constant.CardStatus;
 import com.cardpay.pccredit.intopieces.constant.Constant;
 import com.cardpay.pccredit.intopieces.constant.IntoPiecesException;
@@ -49,6 +50,7 @@ import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecomVo;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.model.MakeCard;
 import com.cardpay.pccredit.intopieces.service.IntoPiecesService;
+import com.cardpay.pccredit.manager.web.AccountManagerParameterForm;
 import com.cardpay.pccredit.product.model.AddressAccessories;
 import com.cardpay.pccredit.product.model.AppendixDict;
 import com.cardpay.pccredit.product.model.ProductAttribute;
@@ -86,6 +88,9 @@ public class IntoPiecesControl extends BaseController {
 	@Autowired
 	private CustomerInforService customerInforservice;
 	
+	@Autowired
+	private MaintenanceService maintenanceService;
+
 
 	/**
 	 * 浏览页面
@@ -102,13 +107,25 @@ public class IntoPiecesControl extends BaseController {
 		filter.setRequest(request);
 		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 		String userId = user.getId();
-		filter.setUserId(userId);
+		//查询客户经理
+		List<AccountManagerParameterForm> forms = maintenanceService.findSubListManagerByManagerId(user);
+		if(forms != null && forms.size() > 0){
+			StringBuffer userIds = new StringBuffer();
+			userIds.append("(");
+			for(AccountManagerParameterForm form : forms){
+				userIds.append("'").append(form.getUserId()).append("'").append(",");
+			}
+			userIds = userIds.deleteCharAt(userIds.length() - 1);
+			userIds.append(")");
+			filter.setCustManagerIds(userIds.toString());
+		}else{
+			filter.setUserId(userId);
+		}
+		
 		QueryResult<IntoPieces> result = intoPiecesService.findintoPiecesByFilter(filter);
-		JRadPagedQueryResult<IntoPieces> pagedResult = new JRadPagedQueryResult<IntoPieces>(
-				filter, result);
+		JRadPagedQueryResult<IntoPieces> pagedResult = new JRadPagedQueryResult<IntoPieces>(filter, result);
 
-		JRadModelAndView mv = new JRadModelAndView(
-				"/intopieces/intopieces_browse", request);
+		JRadModelAndView mv = new JRadModelAndView("/intopieces/intopieces_browse", request);
 		mv.addObject(PAGED_RESULT, pagedResult);
 
 		return mv;
