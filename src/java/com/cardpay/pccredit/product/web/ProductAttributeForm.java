@@ -1,5 +1,7 @@
 package com.cardpay.pccredit.product.web;
 
+import java.util.Date;
+
 import com.wicresoft.jrad.base.web.form.BaseForm;
 
 /**
@@ -28,6 +30,26 @@ public class ProductAttributeForm extends BaseForm {
 	private String productRiskTolerance;
 	private String status;
 	private String seqno;
+	
+	private Date prodLimitTime;
+	private String prodCreditRange;
+
+	
+	public Date getProdLimitTime() {
+		return prodLimitTime;
+	}
+
+	public void setProdLimitTime(Date prodLimitTime) {
+		this.prodLimitTime = prodLimitTime;
+	}
+
+	public String getProdCreditRange() {
+		return prodCreditRange;
+	}
+
+	public void setProdCreditRange(String prodCreditRange) {
+		this.prodCreditRange = prodCreditRange;
+	}
 
 	public String getStatus() {
 		return status;
