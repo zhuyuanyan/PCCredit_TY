@@ -154,12 +154,13 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 	public AbstractModelAndView report_fz(HttpServletRequest request) {
 		JRadModelAndView mv = new JRadModelAndView("/customer/customerInfor_wh_ty/report_fz", request);
 		String appId = RequestHelper.getStringValue(request, "appId");
+		String urlType = RequestHelper.getStringValue(request, "urlType");
 		if (StringUtils.isNotEmpty(appId)) {
 			LocalExcel localExcel = addIntoPiecesService.findLocalEXcelByApplication(appId);
 			String tableContent = getFromBASE64(localExcel.getSheetFz()).replaceAll("\n", "<br>").replace("><br><", "><");
 			mv.addObject("tableContent", tableContent);
 			mv.addObject("appId", appId);
-			
+			mv.addObject("urlType", urlType);
 			//查询权限 非本人只能查看 不能操作
 			IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 			String userId = user.getId();
@@ -178,12 +179,13 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 	public AbstractModelAndView report_sy(HttpServletRequest request) {
 		JRadModelAndView mv = new JRadModelAndView("/customer/customerInfor_wh_ty/report_sy", request);
 		String appId = RequestHelper.getStringValue(request, "appId");
+		String urlType = RequestHelper.getStringValue(request, "urlType");
 		if (StringUtils.isNotEmpty(appId)) {
 			LocalExcel localExcel = addIntoPiecesService.findLocalEXcelByApplication(appId);
 			String tableContent = getFromBASE64(localExcel.getSheetSy()).replaceAll("\n", "<br>").replace("><br><", "><");
 			mv.addObject("tableContent", tableContent);
 			mv.addObject("appId", appId);
-			
+			mv.addObject("urlType", urlType);
 			//查询权限 非本人只能查看 不能操作
 			IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 			String userId = user.getId();
@@ -202,12 +204,13 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 	public AbstractModelAndView report_jl(HttpServletRequest request) {
 		JRadModelAndView mv = new JRadModelAndView("/customer/customerInfor_wh_ty/report_jl", request);
 		String appId = RequestHelper.getStringValue(request, "appId");
+		String urlType = RequestHelper.getStringValue(request, "urlType");
 		if (StringUtils.isNotEmpty(appId)) {
 			LocalExcel localExcel = addIntoPiecesService.findLocalEXcelByApplication(appId);
 			String tableContent = getFromBASE64(localExcel.getSheetJl()).replaceAll("\n", "<br>").replace("><br><", "><");
 			mv.addObject("tableContent", tableContent);
 			mv.addObject("appId", appId);
-			
+			mv.addObject("urlType", urlType);
 			//查询权限 非本人只能查看 不能操作
 			IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 			String userId = user.getId();
@@ -226,12 +229,13 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 	public AbstractModelAndView report_jc(HttpServletRequest request) {
 		JRadModelAndView mv = new JRadModelAndView("/customer/customerInfor_wh_ty/report_jc", request);
 		String appId = RequestHelper.getStringValue(request, "appId");
+		String urlType = RequestHelper.getStringValue(request, "urlType");
 		if (StringUtils.isNotEmpty(appId)) {
 			LocalExcel localExcel = addIntoPiecesService.findLocalEXcelByApplication(appId);
 			String tableContent = getFromBASE64(localExcel.getSheetJc()).replaceAll("\n", "<br>").replace("><br><", "><");
 			mv.addObject("tableContent", tableContent);
 			mv.addObject("appId", appId);
-			
+			mv.addObject("urlType", urlType);
 			//查询权限 非本人只能查看 不能操作
 			IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 			String userId = user.getId();
@@ -389,7 +393,19 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 
 		return returnMap;
 	}
-	
+
+	//下载影像资料
+	@ResponseBody
+	@RequestMapping(value = "downLoadYxzl.json",method = { RequestMethod.GET })
+	@JRadOperation(JRadOperation.EXPORT)
+	public AbstractModelAndView downLoadYxzlById(HttpServletRequest request,HttpServletResponse response){
+		try {
+			addIntoPiecesService.downLoadYxzlById(response,request.getParameter(ID));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	//base64解码
 	public static String getFromBASE64(String s) { 
     	if (s == null) return null; 
