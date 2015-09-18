@@ -36,10 +36,11 @@ public class UpdateCustomerTool {
 	public Logger log = Logger.getLogger(UpdateCustomerTool.class);
 	
 	public String curRemotePath = "";//本次下载服务器目录
-	
-	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip"};
+	//客户原始信息
+	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_hkmx.zip"};
 	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt"};
-	
+	//贷款信息
+	private String[] fileTxtRepay ={"kdk_hkmx.txt"};
 	@Autowired
 	private CustomerInforService customerInforService;
 	
@@ -118,7 +119,7 @@ public class UpdateCustomerTool {
 	
 	
 	/**
-	 * 解压文件
+	 * 解压文件（原始信息）
 	 * @throws IOException 
 	 */
 //	@Scheduled(cron = "0 58 16 * * ?")
@@ -227,6 +228,60 @@ public class UpdateCustomerTool {
 
 	}
 	
+	
+	/**
+	 * 读取贷款信息
+	 * @throws IOException 
+	 */
+//	@Scheduled(cron = "0 58 16 * * ?")
+	private void readFileRepay() throws IOException{
+		//获取今日日期
+	      //yyyyMMdd格式
+		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		String dateString = format.format(new Date());
+		String gzFile = CardFtpUtils.bank_ftp_down_path+"XDDATA_"+dateString;
+
+        System.out.println("******************开始读取文件********************");  
+        for(int i=0;i<fileTxtRepay.length;i++){
+			String url = gzFile+File.separator+fileTxtRepay[i];
+			File f = new File(url);
+			if(f.exists()){
+					List<String> spFile = new ArrayList<String>();
+					String fileN = "";
+					//判断文件大小，超过50M的先分割
+					if (f.exists() && f.isFile()){
+						if(f.length()>50000000){
+							int spCount = (int) (f.length()/50000000);
+							SPTxt.splitTxt(url,spCount);
+							int to = fileTxtRepay[i].lastIndexOf('.');
+					    	fileN = fileTxtRepay[i].substring(0, to);
+							for(int j=0;j<spCount;j++){
+								spFile.add(fileN+"_"+j+".txt");
+							}
+						}else{
+							int to = fileTxtRepay[i].lastIndexOf('.');
+					    	fileN = fileTxtRepay[i].substring(0, to);
+							spFile.add(fileN+".txt");
+						}
+					}
+					for(String fn : spFile){
+						try{
+							if(fn.contains(fileN)) {
+								if(fn.startsWith("kdk_hkmx")){
+									System.out.println("*****************贷款信息********************");  
+//									customerInforService.saveBaseDataFile(gzFile+File.separator+fn);
+								}
+							} 
+						}catch(Exception e){
+							e.printStackTrace();
+							throw new RuntimeException(e);
+						}
+					}
+			}
+        }
+      System.out.println("******************完成读取文件********************");
+
+	}
 	public static void main(String[] args){
 		UpdateCustomerTool tool = new UpdateCustomerTool();
 		try {

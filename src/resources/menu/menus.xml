@@ -36,8 +36,8 @@
 		</menu>
 		<menu id="060000" name="product" title="产品管理" url="" img="images/icon_sys.gif" operations="">
 			<menu id="060010" name="productinformation" title="产品信息" url="/product/productinformation/browse.page" img="" operations="create|change|display|browse|confignodeintopieces|confignodeamountadjustment"/>
-			<!-- <menu id="060020" name="productpublic" title="产品发布（卡中心）" url="/product/productpublic/browse.page" img="" operations="approvepass|published|browse"/> -->
-			<!-- <menu id="060030" name="productfilter" title="产品筛选准入规则配置" url="/product/productfilter/browse.page" img="" operations="create|delete|browse"/> -->
+			<menu id="060020" name="productpublic" title="产品发布（卡中心）" url="/product/productpublic/browse.page" img="" operations="approvepass|published|browse"/>
+			<menu id="060030" name="productfilter" title="产品筛选准入规则配置" url="/product/productfilter/browse.page" img="" operations="create|delete|browse"/> 
 		</menu>
 		<menu id="070000" name="manager" title="客户经理管理" url="" img="images/icon_sys.gif" operations="">
 		    <menu id="070001" name="managercreate" title="客户经理参数配置" url="/manager/managercreate/browse.page" img="" operations="create|change|delete|display|browse"/>
