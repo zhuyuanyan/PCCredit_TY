@@ -10,6 +10,7 @@
        
       <form id="id_module_form" action="${contextPath}/intopieces/intopiecesdecision/update.json"/>
       <input type="hidden" name="id" value="$!customerApplicationInfo.id"/>
+      <input type="hidden" id ="prodCreditRange" name="prodCreditRange" value="$!producAttribute.prodCreditRange"/>
          <div class="form-bd" id="formsId" style="margin-top: 0px;padding-top: 0px;">
           <table cellpadding="0" cellspacing="0" class="table-bd" border="1" bordercolor="#cccccc" style="width: 100%">
             <colgroup>
@@ -34,6 +35,9 @@
               <td><input type="text" class="rinpsty" name="decisionRate" id="decisionRate" value="$!customerApplicationInfo.decisionRate" /></td>
             </tr>
             <tr>
+              <td class="titlefc3"><label for="decisionAmount">产品授信区间:</label></td>
+              <td><input  type="text" class="rinpsty" name="prodCreditRange" id="prodCreditRange" 
+              		value="$!producAttribute.prodCreditRange" disabled="disabled"/></td>
               <td class="titlefc3"><label for="decisionTerm">期限:</label></td>
               <td><select  name="decisionTerm">
                   	#dict("decision_term",$!customerApplicationInfo.decisionTerm)
@@ -89,7 +93,15 @@
 					 return;
 				}
 			}
-			
+			//判断金额必须在产品的授信区间内
+			var decisionAmout = $("#decisionAmount").val();
+			var str = $("#prodCreditRange").val();
+			var strArray = str.split("-");
+			if(parseFloat(decisionAmout) < parseFloat(strArray[0]) 
+					||parseFloat(decisionAmout) > parseFloat(strArray[1])){
+				topWin.Dialog.message("金额必须在产品授信区间内"+str);
+				return;
+			}
 			var leng = 0;
 	    	leng = $(".myerror").length;
 	    	if(leng > 0){

@@ -25,7 +25,7 @@
         <div id="topDiv" class="inquiry_list inquiry_top">
           <table>
             <colgroup>
-              <col width="5%" />
+             <!--  <col width="5%" /> -->
               <col width="5%" />
               <col width="10%" />
               <col />
@@ -34,7 +34,7 @@
             </colgroup>
             <tr class="title">
               <th nowrap="nowrap"></th>
-              <th nowrap="nowrap">产品类型</th>
+<!--               <th nowrap="nowrap">产品类型</th> -->
               <th nowrap="nowrap">产品名称</th>
               <th nowrap="nowrap">授信额度</th>
               <th nowrap="nowrap">利率区间</th>
@@ -46,7 +46,7 @@
         <div id="downDiv" class="inquiry_list inquiry_down">
           <table>
             <colgroup>
-              <col width="5%" />
+<!--               <col width="5%" /> -->
               <col width="5%" />
               <col width="10%" />
               <col />
@@ -57,7 +57,7 @@
             <tr>
               <td class="checkbox"><input type="radio" name="checkbox" value="$!product.id"
                   #if ($!request.getParameter("recordId") == $product.id) checked="checked" #end /></td>
-              <td nowrap="nowrap">#dictVal("CMMCPLX", $!product.productTypeCode)</td>
+<!--               <td nowrap="nowrap">#dictVal("CMMCPLX", $!product.productTypeCode)</td> -->
               <td nowrap="nowrap">$!product.productName</td>
               <td nowrap="nowrap">$format.formatNumber($!product.creditLine,2,100)</td>
               <td nowrap="nowrap">$!product.rateRange</td>
@@ -72,8 +72,8 @@
         <div class="controlbtn">
           #btnpriv("create")<a id="id_create_button" class="btn_g" href="javascript:void(0);" title="#i18n('button.create.hint')">#i18n("button.create")</a>#end 
           #btnpriv("change")<a id="id_change_button" class="btn_g" href="javascript:void(0);" title="#i18n('button.change.hint')">#i18n("button.change")</a>#end
-          #btnpriv("confignodeintopieces")<a id="id_config_button" class="btn_g" href="javascript:void(0);" title="配置选中产品进件审批流程节点">配置进件审批流程</a>#end
-          #btnpriv("confignodeamountadjustment")<a id="id_adjust_button" class="btn_g" href="javascript:void(0);" title="配置选中产品调额审批流程节点">配置调额审批流程</a>#end
+         <!--  #btnpriv("confignodeintopieces")<a id="id_config_button" class="btn_g" href="javascript:void(0);" title="配置选中产品进件审批流程节点">配置进件审批流程</a>#end
+          #btnpriv("confignodeamountadjustment")<a id="id_adjust_button" class="btn_g" href="javascript:void(0);" title="配置选中产品调额审批流程节点">配置调额审批流程</a>#end -->
           #btnpriv("display")<a id="id_display_button" class="btn_gr" href="javascript:void(0);" title="#i18n('button.display.hint')">#i18n("button.display")</a>#end
         </div>
         #parse ("common/pagination.htm")

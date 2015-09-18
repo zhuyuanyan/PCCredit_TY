@@ -47,6 +47,18 @@
 							<td><input type="text" id="purposeLoan" name="purposeLoan"
 								value="$!product.purposeLoan" /></td>
 						</tr>
+						
+					    <tr>
+							<td><label for="name">产品授信区间:</label></td>
+							<td><input type="text" id="prodCreditRange" name="prodCreditRange"
+								value="$!product.prodCreditRange" /></td>
+							<td></td>
+							<td><label for="name">产品期限:</label></td>
+						    <td><input type="text" id="prodLimitTime" name="prodLimitTime" 
+						   			   value="$!date.format('yyyy-MM-dd HH:mm:ss',$!product.prodLimitTime)"
+						   			   onmouseover="_calendar({format:'yyyy-MM-dd HH:mm:ss'})"
+						    		   readonly="readonly"/>
+						</tr>
 
 						<tr>
 							<td><label for="name">信用额度:</label></td>

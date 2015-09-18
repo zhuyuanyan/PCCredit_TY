@@ -50,6 +50,7 @@ import com.wicresoft.jrad.modules.dictionary.DictionaryManager;
 import com.wicresoft.jrad.modules.dictionary.model.Dictionary;
 import com.wicresoft.jrad.modules.dictionary.model.DictionaryItem;
 import com.wicresoft.jrad.modules.privilege.constant.PrivilegeConstants;
+import com.wicresoft.util.date.DateHelper;
 import com.wicresoft.util.spring.Beans;
 import com.wicresoft.util.spring.mvc.mv.AbstractModelAndView;
 import com.wicresoft.util.web.RequestHelper;
@@ -217,9 +218,11 @@ public class ProductController extends BaseController {
 			try {
 
 				IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
+				String prodLimitTime = RequestHelper.getStringValue(request, "prodLimitTime");
 				String loginId = user.getId();
 				ProductAttribute productAttribute = productAttributeForm.createModel(ProductAttribute.class);
 				productAttribute.setCreatedBy(loginId);
+				productAttribute.setProdLimitTime(DateHelper.getDateFormat(prodLimitTime, "yyyy-MM-dd HH:mm:ss"));
 				Map<String, String> result = UploadFileTool.uploadYxzlFileBySpring(file);
 				String fileName = result.get("fileName");
 				String pictureUrl = result.get("url");
@@ -974,6 +977,8 @@ public class ProductController extends BaseController {
 				String loginId = user.getId();
 				ProductAttribute productAttribute = productAttributeForm.createModel(ProductAttribute.class);
 				productAttribute.setModifiedBy(loginId);
+				String prodLimitTime = RequestHelper.getStringValue(request, "prodLimitTime");
+				productAttribute.setProdLimitTime(DateHelper.getDateFormat(prodLimitTime, "yyyy-MM-dd HH:mm:ss"));
 				if (!file.isEmpty()) {
 					Map<String, String> result = UploadFileTool.uploadYxzlFileBySpring(file);
 					String fileName = result.get("fileName");

@@ -60,7 +60,7 @@
             </colgroup>
             #foreach ($customer in $result.items)
             <tr>
-              <td class="checkbox"><input type="radio" name="checkbox" value="$!customer.id"/></td>
+              <td class="checkbox"><input type="radio" name="checkbox" value="$!customer.id/$!customer.tyCustomerId"/></td>
               <td nowrap="nowrap">$!customer.chineseName</td>
               <td nowrap="nowrap">#customerInfor($request.getAttribute("cardTypeList"),$!customer.cardType)</td>
               <td nowrap="nowrap">$!customer.cardId</td>
@@ -93,9 +93,13 @@
 		
 		$("#id_next_button").click(function() {
             if ($(".checkbox :checked").length == 1) {
-                var rowid = $($(".checkbox :checked")[0]).attr("value");
+                var rowid = $($(".checkbox :checked")[0]).attr("value").split("/");
+                if(rowid[1]==''||rowid[1]==null){
+					Dialog.message("无原始信息!");
+					return;
+				}
                 var productId = $("#productId").val();
-                var url = "${contextPath}/intopieces/addIntopieces/reportImport.page?customerId="+rowid+"&productId="+productId;
+                var url = "${contextPath}/intopieces/addIntopieces/reportImport.page?customerId="+rowid[0]+"&productId="+productId;
                 
                 window.location.href = url;
             } else {
