@@ -107,10 +107,10 @@
       </div>
         <div class="tabplace">
             <ul class="com-tab" >
-            <li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_fz.page?appId=${appId}">资负</a></li>
-			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_sy.page?appId=${appId}">损益</a></li>
-			<li class="tab activeTab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jl.page?appId=${appId}">金流</a></li>
-			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jc.page?appId=${appId}">交叉</a></li>
+            <li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_fz.page?appId=${appId}&urlType=${urlType}">资负</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_sy.page?appId=${appId}&urlType=${urlType}">损益</a></li>
+			<li class="tab activeTab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jl.page?appId=${appId}&urlType=${urlType}">金流</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jc.page?appId=${appId}&urlType=${urlType}">交叉</a></li>
          </ul>
          </div>
       <form id="id_module_form">
@@ -121,7 +121,11 @@
       	<input type="button" class="current" id="id_count_button" value="计算" />
       	<input type="button" class="current" id="id_save_button" value="保存" />
       #end
-        <input type="button" onclick="javascript:history.back();" value="返回" />
+        #if($!urlType=='1')
+        <input type="button" onclick="window.location.href='${contextPath}/intopieces/intopiecesquery/browse.page'" value="返回" />
+      #else
+      	<input type="button" onclick="window.location.href='${contextPath}/customer/customerInfor_wh_ty/browse.page'" value="返回" />
+      #end
       </div>
     </div>
   </div>

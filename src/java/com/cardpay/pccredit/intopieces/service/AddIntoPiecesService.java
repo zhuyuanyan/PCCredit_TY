@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import com.cardpay.pccredit.intopieces.filter.AddIntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
 import com.cardpay.pccredit.intopieces.model.LocalExcel;
 import com.cardpay.pccredit.intopieces.model.LocalImage;
+import com.cardpay.pccredit.intopieces.model.VideoAccessories;
 import com.cardpay.pccredit.intopieces.web.AddIntoPiecesForm;
 import com.cardpay.pccredit.intopieces.web.LocalExcelForm;
 import com.cardpay.pccredit.intopieces.web.LocalImageForm;
@@ -161,5 +164,17 @@ public class AddIntoPiecesService {
 	public void change_localExcel(LocalExcel localExcel) {
 		// TODO Auto-generated method stub
 		commonDao.updateObject(localExcel);
+	}
+	
+	/**
+	 * 下载客户影像资料
+	 * @param id
+	 * @throws Exception 
+	 */
+	public void downLoadYxzlById(HttpServletResponse response,String id) throws Exception{
+		LocalImage v = commonDao.findObjectById(LocalImage.class, id);
+		if(v!=null){
+			UploadFileTool.downLoadFile(response, v.getUri(), v.getAttachment());
+		}
 	}
 }
