@@ -20,7 +20,8 @@ public class IntoPieces  extends BusinessModel {
     
     private String tyCustomerId;
     
-    //进度
+    
+	//进度
 	public String getId() {
 		return id;
 	}
