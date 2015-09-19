@@ -5,12 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cardpay.pccredit.common.IdCardValidate;
 import com.cardpay.pccredit.customer.constant.CustomerInforConstant;
 import com.cardpay.pccredit.customer.filter.CustomerInforFilter;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
@@ -66,6 +68,13 @@ public class CustomerInforInsertController extends BaseController{
 			try {
 				CustomerInforFilter filter = new CustomerInforFilter();
 				filter.setCardId(customerinfoForm.getCardId());
+				//身份证号码验证
+				String msg = IdCardValidate.IDCardValidate(customerinfoForm.getCardId());
+				if(msg !="" && msg != null){
+					returnMap.put(JRadConstants.MESSAGE, msg);
+					returnMap.put(JRadConstants.SUCCESS, false);
+					return returnMap;
+				}
 				filter.setCardType(customerinfoForm.getCardType());
 				List<CustomerInfor> ls = customerInforService.findCustomerInforByFilter(filter).getItems();
 				if(ls != null && ls.size()>0){

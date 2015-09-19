@@ -70,7 +70,7 @@
             </colgroup>
             #foreach ($intoPieces in $result.items)
             <tr>
-              <td class="checkbox"><input type="radio" name="checkbox" value="$!{intoPieces.id}_$!{intoPieces.customerId}"/></td>
+              <td class="checkbox"><input type="radio" name="checkbox" value="$!{intoPieces.id}_$!{intoPieces.customerId}_$!{intoPieces.status}"/></td>
               <td nowrap="nowrap">$!intoPieces.chineseName</td>
               <td nowrap="nowrap">$!intoPieces.cardId</td>
               <td nowrap="nowrap">$!intoPieces.productName</td>
@@ -134,6 +134,10 @@
 		$("#id_sy_button").click(function() {
 			if ($(".checkbox :checked").length == 1) {
 				var rowid = $("input[name='checkbox']:checked").val();
+				if(rowid.split("_")[2]=='audit'){
+					Dialog.message("无审贷决议!");
+					return;
+				}
 				window.location.href="${contextPath}/intopieces/intopiecesdecision/input_decision.page?appId="+rowid.split("_")[0];
 			}
 			else{
