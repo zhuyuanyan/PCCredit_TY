@@ -28,6 +28,7 @@
                 <option #if($!result.filter.status=='refuse') selected="selected" #end value="refuse">被拒绝</option>
                 <option #if($!result.filter.status=='approved') selected="selected" #end value="approved">审批通过</option>
                 <option #if($!result.filter.status=='succeed') selected="selected" #end value="succeed">申请成功</option>
+                <option #if($!result.filter.status=='end') selected="selected" #end value="end">放款成功</option>
                 </select>
                 </span>
               </li>
@@ -81,6 +82,7 @@
 	              #elseif($!intoPieces.status=='approved')审批通过  
 	              #elseif($!intoPieces.status=='nopass_replenish')补充调查
 	              #elseif($!intoPieces.status=='nopass_re')退回重新调查
+	              #elseif($!intoPieces.status=='end')放款成功
 	              #end
               </td>
             </tr>

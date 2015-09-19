@@ -43,6 +43,9 @@ public class Constant {
 	/* 申请未通过-重新调查*/
 	public static String NOPASS_RE_INTOPICES = "nopass_re";//太原复用
 	
+	/*放款成功*/
+	public static String END = "end";//太原复用
+	
 	/*以下是上传状态*/
 	public static String INITIAL_INTOPICES="initial";
 	

@@ -844,4 +844,14 @@ public class IntoPiecesService {
 		}
 		return flag;
 	}
+	
+	//查询审核通过的进件信息
+	public List<IntoPieces> findCustomerApplicationInfo(){
+		return intoPiecesComdao.findCustomerApplicationInfo();
+	}
+	
+	//更新进件状态
+	public void updateCustomerApplicationInfo(IntoPieces  pieces){
+		intoPiecesDao.updateCustomerApplicationInfo(pieces);
+	}
 }

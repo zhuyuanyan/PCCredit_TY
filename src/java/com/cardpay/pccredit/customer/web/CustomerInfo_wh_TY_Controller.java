@@ -340,7 +340,7 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 		String userId = user.getId();
 		boolean lock = false;
 		CustomerApplicationInfo customerApplicationInfo = intoPiecesService.findCustomerApplicationInfoByApplicationId(filter.getApplicationId());
-		if(!customerInforService.findCustomerInforById(customerApplicationInfo.getCustomerId()).getUserId().equals(userId)){
+		if(customerInforService.findCustomerInforById(customerApplicationInfo.getCustomerId()).getUserId().equals(userId)){
 			lock = true;
 		}
 		mv.addObject("lock", lock);
