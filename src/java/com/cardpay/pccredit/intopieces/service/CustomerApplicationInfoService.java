@@ -65,6 +65,12 @@ public class CustomerApplicationInfoService {
 				commonDao.insertObject(riskCustomer);
 			}
 		}
+		
+		//退回重新调查
+		if(status.equals("nopass_re")){
+			//删除进件信息
+			commonDao.deleteObject(CustomerApplicationInfo.class,customerApplicationInfo.getId());
+		}
 	}
 
 	/*
