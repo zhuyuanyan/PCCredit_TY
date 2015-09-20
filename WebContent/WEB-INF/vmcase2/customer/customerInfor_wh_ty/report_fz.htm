@@ -7,29 +7,14 @@
 <script src="${contextPath}/common/js/common/Evaluator.js"></script>
 <script type="text/javascript">
 	var rules = [
-			'B5=B6+B7+B8',
-			'D5=D6+D7+D8',
-			'B9=B10+B11+B12',
-			'D9=D10+D11+D12',
-			'B13=B14+B15+B16',
-			'D13=D14+D15+D16',
-			'B17=B18+B19+B20',
-			'D17=D18+D19+D20',
-			'B21=B22+B23+B24+B25+B26+B27',
-			'D21=D22+D23+D24+D25+D26+D27',
-			'B28=B29+B30+B31',
-			'D28=D14+D17+D21',
-			'D29=B32-D28',
-			'B32=B4+B21+B28',
-			'D32=D28+D29',
-			'D33=D28/B32',
-			
-			'B4=B5+B9+B13+B17',
-			'D4=D5+D9+D13',
-			
-			'B34=B4/D4',
-			'D33=D28/B32',
-			'D34=(B5+B9)/D4'
+	             "F4=F5+F8+F9+F10","O4=O5+O6+O7+O8",
+	             "F5=F6+F7",
+	             "O8=O9+O10+O11",
+	             "F12=F13+F14+F15+F16",
+	             "O15=O4+O12+O13+O14",
+	             "O16=F17-O15",
+	             "F17=F4+F11+F12","O17=O16+O15",
+	             "H18=O15/F17","L18=F4/O4"
 	            ]
 	var exp = new Expression("");
 
@@ -61,14 +46,26 @@
   <div class="content_main">
     <div class="contentinner">
       <div class="place">
-        <div class="title">客户维护信息>资负</div>
+        <div class="title">客户维护信息>资产负债</div>
       </div>
         <div class="tabplace">
             <ul class="com-tab" >
-            <li class="tab activeTab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_fz.page?appId=${appId}&urlType=${urlType}">资产负债表</a></li>
-			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_sy.page?appId=${appId}&urlType=${urlType}">损益表</a></li>
-			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jl.page?appId=${appId}&urlType=${urlType}">现金流</a></li>
-			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jc.page?appId=${appId}&urlType=${urlType}">交叉检验表</a></li>
+            <li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jy.page?appId=${appId}&urlType=${urlType}">建议</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jjbs.page?appId=${appId}&urlType=${urlType}">进件标识</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jbzk.page?appId=${appId}&urlType=${urlType}">基本状况</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jyzt.page?appId=${appId}&urlType=${urlType}">经营状态</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_sczt.page?appId=${appId}&urlType=${urlType}">生存状态</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_ddpz.page?appId=${appId}&urlType=${urlType}">道德品质</a></li>
+			<li class="tab activeTab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_fz.page?appId=${appId}&urlType=${urlType}">资产负债</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_lrjb.page?appId=${appId}&urlType=${urlType}">利润简表</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_bzlrb.page?appId=${appId}&urlType=${urlType}">标准利润</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_xjllb.page?appId=${appId}&urlType=${urlType}">现金流</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jc.page?appId=${appId}&urlType=${urlType}">交叉</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_dhd.page?appId=${appId}&urlType=${urlType}">点货单</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_gdzc.page?appId=${appId}&urlType=${urlType}">固资</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_yfys.page?appId=${appId}&urlType=${urlType}">应付预收</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_ysyf.page?appId=${appId}&urlType=${urlType}">应收预付</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_lsfx.page?appId=${appId}&urlType=${urlType}">流水</a></li>
          </ul>
          </div>
       <form id="id_module_form">

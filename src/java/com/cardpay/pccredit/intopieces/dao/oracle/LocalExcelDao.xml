@@ -47,10 +47,22 @@
     application_id as applicationId, 
     customer_id as customerId,
     product_id as productId,
-    sheet_fz as sheetFz,
-    sheet_sy as sheetSy,
-    sheet_jl as sheetJl,
-    sheet_jc as sheetJc
+    sheet_jy as sheetJy,
+	sheet_jjbs as sheetJjbs,
+	sheet_jbzk as sheetJbzk,
+	sheet_jyzt as sheetJyzt,
+	sheet_sczt as sheetSczt,
+	sheet_ddpz as sheetDdpz,
+	sheet_fz as sheetFz,
+	sheet_lrjb as sheetLrjb,
+	sheet_bzlrb as sheetBzlrb,
+	sheet_xjllb as sheetXjllb,
+	sheet_jc as sheetJc,
+	sheet_dhd as sheetDhd,
+	sheet_gdzc as sheetGdzc,
+	sheet_yfys as sheetYfys,
+	sheet_ysyf as sheetYsyf,
+	sheet_lsfx as sheetLsfx
     
     from local_excel
     where application_id=#{applicationId}
