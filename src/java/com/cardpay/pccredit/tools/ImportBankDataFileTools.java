@@ -162,6 +162,8 @@ public class ImportBankDataFileTools {
 				fis.close();
 			}
 		}
+		File file = new File(fileName);
+		file.delete();
         return datas;
 	}
 	

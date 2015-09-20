@@ -47,6 +47,8 @@ import com.cardpay.pccredit.customer.model.CustomerFirsthendWork;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.model.CustomerInforWeb;
 import com.cardpay.pccredit.customer.model.MaintenanceLog;
+import com.cardpay.pccredit.customer.model.TyRepayTkmx;
+import com.cardpay.pccredit.customer.model.TyRepayYehz;
 import com.cardpay.pccredit.customer.web.MaintenanceForm;
 import com.cardpay.pccredit.datapri.service.DataAccessSqlService;
 import com.cardpay.pccredit.intopieces.constant.Constant;
@@ -78,6 +80,7 @@ import com.wicresoft.jrad.base.database.dao.common.CommonDao;
 import com.wicresoft.jrad.base.database.id.IDGenerator;
 import com.wicresoft.jrad.base.database.model.BusinessModel;
 import com.wicresoft.jrad.base.database.model.QueryResult;
+import com.wicresoft.jrad.modules.privilege.model.User;
 
 /**
  * 
@@ -1532,6 +1535,14 @@ public class CustomerInforService {
 					String card_id = map.get("zjhm").toString();
 					String name = map.get("khmc").toString();
 					String id = map.get("id").toString();
+					//客户经理工号
+					String khjl = map.get("khjl").toString();
+					//获取客户经理id
+					String user_id=null;
+					List<User> users = commonDao.queryBySql(User.class, "select * from sys_user where external_id='"+khjl.trim()+"'", null);
+					if(users.size()>0){
+						user_id = users.get(0).getId();
+					}
 					List<CustomerInfor> infoList = commonDao.queryBySql(CustomerInfor.class, "select * from basic_customer_information where card_id='"+card_id+"'", null);
 					//不存在则插入
 					if(infoList.size()==0){
@@ -1540,6 +1551,9 @@ public class CustomerInforService {
 						info.setChineseName(name);
 						info.setTyCustomerId(id);
 						info.setId(IDGenerator.generateID());
+						info.setUserId(user_id);
+						//身份证
+						info.setCardType("CST0000000000A");
 						commonDao.insertObject(info);
 					}else{
 						//存在则作关联
@@ -1765,6 +1779,96 @@ public class CustomerInforService {
 				}
 
 				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 保数据文件到”流水账“表
+	 * @param fileName
+	 * @return
+	 * @throws Exception 
+	 */
+	public void saveLSZDataFile(String fileName) {
+		try {
+			ImportBankDataFileTools tools = new ImportBankDataFileTools();
+			// 解析数据文件配置
+			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyRepayLSZ.xml").getPath());
+
+			// 解析”流水号“数据文件
+			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
+			int count=0;
+			for(Map<String, Object> map : datas){
+				count++;
+				System.out.println(count);
+				// 保存数据
+				customerInforDao.insertRepayLSZ(map);
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 保数据文件到”余额“表
+	 * @param fileName
+	 * @return
+	 * @throws Exception 
+	 */
+	public void saveYEHZDataFile(String fileName) {
+		try {
+			ImportBankDataFileTools tools = new ImportBankDataFileTools();
+			// 解析数据文件配置
+			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyRepayYEHZ.xml").getPath());
+
+			// 解析”流水号“数据文件
+			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
+			int count=0;
+			for(Map<String, Object> map : datas){
+				count++;
+				System.out.println(count);
+				// 保存数据
+				String sql = "select * from ty_repay_yehz where jjh='"+map.get("jjh").toString()+"'";
+				List<TyRepayYehz> list = commonDao.queryBySql(TyRepayYehz.class, sql, null);
+				if(list.size()>0){
+					customerInforDao.updateRepayYEHZ(map);
+				}else{
+					customerInforDao.insertRepayYEHZ(map);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 保数据文件到”借据表“表
+	 * @param fileName
+	 * @return
+	 * @throws Exception 
+	 */
+	public void saveTKMXDataFile(String fileName) {
+		try {
+			ImportBankDataFileTools tools = new ImportBankDataFileTools();
+			// 解析数据文件配置
+			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyRepayTKMX.xml").getPath());
+
+			// 解析”流水号“数据文件
+			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
+			int count=0;
+			for(Map<String, Object> map : datas){
+				count++;
+				System.out.println(count);
+				// 保存数据
+				String sql = "select * from ty_repay_tkmx where jjh='"+map.get("jjh").toString()+"'";
+				List<TyRepayTkmx> list = commonDao.queryBySql(TyRepayTkmx.class, sql, null);
+				if(list.size()>0){
+					customerInforDao.updateRepayTKMX(map);
+				}else{
+					customerInforDao.insertRepayTKMX(map);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
