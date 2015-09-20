@@ -227,4 +227,12 @@ public interface CustomerInforDao {
 	
 	public List<CustomerInfor> findCustomerOriginaList(CustomerInforFilter filter);
 	public int findCustomerOriginaCountList(CustomerInforFilter filter);
+	
+	public int insertRepayLSZ(Map<String, Object> map);
+	
+	public int updateRepayYEHZ(Map<String, Object> map);
+	public int insertRepayYEHZ(Map<String, Object> map);
+	
+	public int updateRepayTKMX(Map<String, Object> map);
+	public int insertRepayTKMX(Map<String, Object> map);
 }
