@@ -24,4 +24,6 @@ public interface IntoPiecesDao {
 	 * @return
 	 */
 	public int findIntoPiecesCountList(IntoPiecesFilter filter);
+	
+	public void updateCustomerApplicationInfo(IntoPieces  pieces);
 }
