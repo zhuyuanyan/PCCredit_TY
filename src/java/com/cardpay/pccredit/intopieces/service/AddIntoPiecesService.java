@@ -75,13 +75,28 @@ public class AddIntoPiecesService {
 		//读取excel内容
 		JXLReadExcel readExcel = new JXLReadExcel();
 		String sheet[] = readExcel.readExcelToHtml(url, true);
-		if(StringUtils.isEmpty(sheet[0]) || StringUtils.isEmpty(sheet[1]) ||StringUtils.isEmpty(sheet[2]) ||StringUtils.isEmpty(sheet[3])){
-			throw new RuntimeException("excel文件与模板不相符，无法读取！");
+		for(String str : sheet){
+			if(StringUtils.isEmpty(str)){
+				throw new RuntimeException("导入失败，请检查excel文件与模板是否一致！");
+			}
 		}
-		localExcel.setSheetFz(sheet[0]);
-		localExcel.setSheetSy(sheet[1]);
-		localExcel.setSheetJl(sheet[2]);
-		localExcel.setSheetJc(sheet[3]);
+		localExcel.setSheetJy(sheet[0]);
+		localExcel.setSheetJjbs(sheet[1]);
+		localExcel.setSheetJbzk(sheet[2]);
+		localExcel.setSheetJyzt(sheet[3]);
+		localExcel.setSheetSczt(sheet[4]);
+		localExcel.setSheetDdpz(sheet[5]);
+		localExcel.setSheetFz(sheet[6]);
+		localExcel.setSheetLrjb(sheet[7]);
+		localExcel.setSheetBzlrb(sheet[8]);
+		localExcel.setSheetXjllb(sheet[9]);
+		localExcel.setSheetJc(sheet[10]);
+		localExcel.setSheetDhd(sheet[11]);
+		localExcel.setSheetGdzc(sheet[12]);
+		localExcel.setSheetYfys(sheet[13]);
+		localExcel.setSheetYsyf(sheet[14]);
+		localExcel.setSheetLsfx(sheet[15]);
+		
 		commonDao.insertObject(localExcel);
 	}
 
