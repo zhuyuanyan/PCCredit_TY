@@ -112,8 +112,8 @@
 		<menu id="1030000" name="system" title="系统管理" url="" img="images/icon_sys.gif" operations="">
 			<menu id="1030100" name="resource" title="权限配置" url="/system/resource/browse.page" img="" operations="browse" />
 			<menu id="1030200" name="datapri" title="数据权限" url="/system/datapri/browse.page" img="" operations="display|change|browse" />
-			<menu id="1030300" name="organization" title="单位管理" url="/system/organization/browse.page" img="" operations="create|change|delete|display|browse" />
-			<menu id="1030400" name="department" title="团队管理" url="/system/department/browse.page" img="" operations="create|change|delete|display|browse" />
+			<menu id="1030300" name="organization" title="机构管理" url="/system/organization/browse.page" img="" operations="create|change|delete|display|browse" />
+			<menu id="1030400" name="department" title="部门管理" url="/system/department/browse.page" img="" operations="create|change|delete|display|browse" />
 			<menu id="1030500" name="role" title="角色管理" url="/system/role/browse.page" img="" operations="create|change|delete|display|browse|maintenance" />
 			<menu id="1030600" name="user" title="用户管理" url="/system/user/browse.page" operations="create|change|delete|display|browse" />
 			<menu id="1030700" name="operlog" title="操作日志" url="/system/operlog/browse.page" img="" operations="display|browse|export" />

@@ -344,4 +344,25 @@ public class IntoPiecesComdao {
 			return null;
 		}
 	}
+	
+	
+	
+	
+	public List<IntoPieces> findCustomerApplicationInfo() {
+		//String sql = "select * from customer_application_info where status = 'approved'";
+		
+		String sql = "		select a.customer_id 								"+        
+					 "		from customer_application_info  a,  				"+        
+					 "		     basic_customer_information b,  				"+        
+					 "		     ty_customer_base           c,  				"+        
+					 "		     ty_repayment_report        d   				"+        
+					 "		where a.customer_id =b.id           				"+        
+					 "		      and b.ty_customer_id = c.id   				"+        
+					 "		      and c.khh = d.khh             				"+        
+					 "		      and a.status ='approved'      				"+        
+					 "		      and d.sfzf !=1               					";        
+
+		List<IntoPieces> list = commonDao.queryBySql(IntoPieces.class,sql,null);
+		return list;
+	}
 }

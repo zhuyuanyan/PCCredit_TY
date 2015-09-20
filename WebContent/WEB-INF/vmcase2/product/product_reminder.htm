@@ -12,7 +12,7 @@
             <li class="tab">附件清单</li>
             <li class="tab">产品规则</li>
             <li class="tab activeTab"><a href="#">催收规则</a></li>
-            <li class="tab">筛选规则</li>
+            <!-- <li class="tab">筛选规则</li> -->
          </ul>
         </div>  
 			</div>
@@ -362,7 +362,7 @@
 	     	 var formjson = $($formName).serialize();
 	          $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
 	            if (data.success) {
-	                navigateTo("${contextPath}/product/productinformation/create_cpsxgz.page" + "?productId=" + data.productId);
+	                window.location.href="${contextPath}/product/productinformation/browse.page";
 	            }
 	          });
 	        }

@@ -22,13 +22,13 @@ public class SPTxt {
 	 */
 	public static void splitTxt(String fileName,int count) {
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName),"gbk"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName),"utf-8"));
 			int to = fileName.lastIndexOf('.');
 	    	fileName = fileName.substring(0, to);
 			String row;
 			List<Writer> flist = new ArrayList<Writer>();
 			for (int i = 0; i < count; i++) {
-				Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName + "_" + i + ".txt"), "gbk"));
+				Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName + "_" + i + ".txt"), "utf-8"));
 				flist.add(writer);
 			}
 			int rownum = 1;// 计数器

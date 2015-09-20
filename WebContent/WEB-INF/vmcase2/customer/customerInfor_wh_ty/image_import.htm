@@ -10,7 +10,7 @@
       </div>
  <div class="inquiry">
  
-      #if(!$!lock)
+      #if($!lock)
         <div class="search_tag">#i18n("label.browse.filter")</div>
         <div class="search">
           <form id="excelForm" enctype="multipart/form-data" method="post" 
@@ -70,7 +70,7 @@
       <div class="pagebar">
         <div class="controlbtn">
         		<a class="btn_g" href="javascript:void(0);" title="下载" onclick="downLoadVideo('${contextPath}/customer/customerInfor_wh_ty/downLoadYxzl.json')">下载</a>
-        	#if(!$!lock)
+        	#if($!lock)
         		<a id="id_del_button" class="btn_g" href="javascript:void(0);" title="删除">删除</a>
       		#end
       		<a href="javascript:history.back(-1);" class="btn_g">返回</a>
