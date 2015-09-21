@@ -47,6 +47,7 @@ import com.cardpay.pccredit.customer.model.CustomerFirsthendWork;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.model.CustomerInforWeb;
 import com.cardpay.pccredit.customer.model.MaintenanceLog;
+import com.cardpay.pccredit.customer.model.TyProductType;
 import com.cardpay.pccredit.customer.model.TyRepayTkmx;
 import com.cardpay.pccredit.customer.model.TyRepayYehz;
 import com.cardpay.pccredit.customer.web.MaintenanceForm;
@@ -1803,6 +1804,9 @@ public class CustomerInforService {
 			for(Map<String, Object> map : datas){
 				count++;
 				System.out.println(count);
+				//删除历史数据
+				String sql = "delete from ty_repay_lsz ";
+				commonDao.queryBySql(sql, null);
 				// 保存数据
 				customerInforDao.insertRepayLSZ(map);
 				}
@@ -1828,7 +1832,6 @@ public class CustomerInforService {
 			int count=0;
 			for(Map<String, Object> map : datas){
 				count++;
-				System.out.println(count);
 				// 保存数据
 				String sql = "select * from ty_repay_yehz where jjh='"+map.get("jjh").toString()+"'";
 				List<TyRepayYehz> list = commonDao.queryBySql(TyRepayYehz.class, sql, null);
@@ -1837,6 +1840,8 @@ public class CustomerInforService {
 				}else{
 					customerInforDao.insertRepayYEHZ(map);
 				}
+				//历史表新增
+				customerInforDao.insertRepayYEHZHistory(map);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1868,6 +1873,35 @@ public class CustomerInforService {
 					customerInforDao.updateRepayTKMX(map);
 				}else{
 					customerInforDao.insertRepayTKMX(map);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 保数据文件到”产品信息“表
+	 * @param fileName
+	 * @return
+	 * @throws Exception 
+	 */
+	public void saveProductDataFile(String fileName) {
+		try {
+			ImportBankDataFileTools tools = new ImportBankDataFileTools();
+			// 解析数据文件配置
+			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyRepayProduct.xml").getPath());
+
+			// 解析”流水号“数据文件
+			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
+			int count=0;
+			for(Map<String, Object> map : datas){
+				count++;
+				System.out.println(count);
+				// 保存数据
+				String sql = "select * from ty_product_type where product_code='"+map.get("productCode").toString()+"'";
+				List<TyProductType> list = commonDao.queryBySql(TyProductType.class, sql, null);
+				if(list.size()==0){
+					customerInforDao.insertProduct(map);
 				}
 			}
 		} catch (Exception e) {

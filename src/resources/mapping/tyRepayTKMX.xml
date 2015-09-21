@@ -12,9 +12,9 @@
 
 	<result column="JZLL" jdbcType="VARCHAR" index="5" />
 
-	<result column="SFBL" jdbcType="VARCHAR" index="7" />
+	<result column="SFBL" jdbcType="VARCHAR" index="6" />
 
-	<result column="HTLL" jdbcType="VARCHAR" index="6" />
+	<result column="HTLL" jdbcType="VARCHAR" index="7" />
 
 	<result column="TKBH" jdbcType="VARCHAR" index="8" />
 

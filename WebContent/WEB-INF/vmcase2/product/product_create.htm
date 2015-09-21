@@ -16,7 +16,7 @@
         </div>
 			</div>
 			<form id="id_module_form"
-				action="${contextPath}/product/productinformation/insert.json"  enctype="multipart/form-data" method="post">
+				action="${contextPath}/product/productinformation/insert.json"  method="post">
 				<div class="forms" id="formsId">
 					<table class="rule" border="1" bordercolor="#CCCCCC">
 					<caption>产品属性</caption>
@@ -47,7 +47,7 @@
 						    		   readonly="readonly"/>
 						</tr>
 
-						<tr>
+						<!-- <tr>
 							<td><label for="name">信用额度:</label></td>
 							<td><input type="text" id="creditLine" name="creditLine"
 								value="$!product.creditLine" /></td>
@@ -55,7 +55,7 @@
 							<td><label for="name">利率区间:</label></td>
 							<td><input type="text" id="rateRange" name="rateRange"
 								value="$!product.rateRange" /></td>
-						</tr>
+						</tr> -->
 						<tr>
 							<td><label for="name">贷款期限:</label></td>
 							<td>
@@ -93,7 +93,9 @@
 							<td>
 							   <select id="productTypeCode" name="productTypeCode">
                  			   <option value=""></option>
-                			    #dict("CMMCPLX", '')
+                			    #foreach($obj in $productList)
+                			    	<option value="$!obj.productCode">$!obj.productName ($!obj.productCode)</option>
+                			    #end
                 			  </select>
 							</td>
 						</tr>
@@ -140,12 +142,12 @@
 							<td><label for="name">该产品风险容忍度:</label></td>
 							<td><input type="text" id="productRiskTolerance" name="productRiskTolerance"
 								value="$!product.productRiskTolerance" /></td>
-						</tr>
+					<!-- 	</tr>
 							<td><label>产品图片：</label></td>
             				<td>
               					 <input type="file" name="file">
             				</td>
-						<tr>
+						<tr> -->
 						</tr>
 					</table>
 					
@@ -190,25 +192,11 @@
 	window.top.currentWindow.setLayout(layout);
 
 	 #set ($formName = "'#id_module_form'")
+	 #parse ("product/product_create_validation.js")
 	#validator($formName)
 	 $(document).ready(function() {
 		 $("#id_save_button").click(function() {
 		        if ($($formName).valid()) {
-		        /*  var accessorieIds = "";
-		     	 $("input[name='accessorieId']:checkbox").each(function(){
-		     		 if ($(this).attr("checked")){
-		     			accessorieIds+=$(this).val()+","; 
-		     		}
-		     	  }
-		         );
-		     	 
-		     	 $("#accessorieIds").val(accessorieIds); */
-		     	 /* var formjson = $($formName).serialize();
-		          $.post($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
-		            if (data.success) {
-		                navigateTo("${contextPath}/product/productinformation/create_cpfjqd.page"+"?productId=" +data.productId);
-		            }
-		          }); */
 		        	mySave();
 		        }
 		      });
