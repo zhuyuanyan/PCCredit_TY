@@ -36,6 +36,7 @@ import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationOther;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecom;
 import com.cardpay.pccredit.intopieces.model.CustomerCareersInformationS;
+import com.cardpay.pccredit.intopieces.model.CustomerCreditInfo;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.model.MakeCard;
 import com.cardpay.pccredit.intopieces.model.VideoAccessories;
@@ -853,5 +854,9 @@ public class IntoPiecesService {
 	//更新进件状态
 	public void updateCustomerApplicationInfo(IntoPieces  pieces){
 		intoPiecesDao.updateCustomerApplicationInfo(pieces);
+	}
+	
+	public CustomerCreditInfo findCustCreditInfomation(String appId){
+		return intoPiecesComdao.findCustCreditInfomation(appId);
 	}
 }
