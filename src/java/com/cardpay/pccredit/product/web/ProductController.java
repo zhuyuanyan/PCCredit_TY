@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cardpay.pccredit.common.PccOrganizationService;
 import com.cardpay.pccredit.common.UploadFileTool;
+import com.cardpay.pccredit.customer.model.TyProductType;
 import com.cardpay.pccredit.datapri.web.FlatTreeNode;
 import com.cardpay.pccredit.product.filter.ProductFilter;
 import com.cardpay.pccredit.product.model.AccessoriesList;
@@ -110,7 +111,8 @@ public class ProductController extends BaseController {
 	@JRadOperation(JRadOperation.CREATE)
 	public AbstractModelAndView create(HttpServletRequest request) {
 		JRadModelAndView mv = new JRadModelAndView("/product/product_create", request);
-
+		List<TyProductType> list = productService.getProductType();
+		mv.addObject("productList", list);
 		return mv;
 	}
 
@@ -212,7 +214,7 @@ public class ProductController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "insert.json", method = { RequestMethod.POST })
 	@JRadOperation(JRadOperation.CREATE)
-	public JRadReturnMap insert(@RequestParam(value = "file", required = false) MultipartFile file, @ModelAttribute ProductAttributeForm productAttributeForm, HttpServletRequest request) {
+	public JRadReturnMap insert( @ModelAttribute ProductAttributeForm productAttributeForm, HttpServletRequest request) {
 		JRadReturnMap returnMap = WebRequestHelper.requestValidation(getModuleName(), productAttributeForm);
 		if (returnMap.isSuccess()) {
 			try {
@@ -223,11 +225,6 @@ public class ProductController extends BaseController {
 				ProductAttribute productAttribute = productAttributeForm.createModel(ProductAttribute.class);
 				productAttribute.setCreatedBy(loginId);
 				productAttribute.setProdLimitTime(DateHelper.getDateFormat(prodLimitTime, "yyyy-MM-dd HH:mm:ss"));
-				Map<String, String> result = UploadFileTool.uploadYxzlFileBySpring(file);
-				String fileName = result.get("fileName");
-				String pictureUrl = result.get("url");
-				productAttribute.setPictureUrl(pictureUrl);
-				productAttribute.setPictureName(fileName);
 				String id = productService.insertProduct(productAttribute);
 				String productId = productAttribute.getId();
 				returnMap.put("productId", productId);

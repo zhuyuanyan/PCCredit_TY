@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cardpay.pccredit.customer.model.TyProductType;
 import com.cardpay.pccredit.product.constant.ProductStatusEnum;
 import com.cardpay.pccredit.product.dao.AccessoriesListDao;
 import com.cardpay.pccredit.product.dao.AppendixDictDao;
@@ -471,5 +472,9 @@ public class ProductService {
 		}else{
 			return productDao.findProductsCount();
 		}
+	}
+	public List<TyProductType> getProductType(){
+		String sql = "select product_code,product_name from ty_product_type";
+		return commonDao.queryBySql(TyProductType.class, sql, null);
 	}
 }

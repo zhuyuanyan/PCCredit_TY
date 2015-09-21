@@ -717,7 +717,23 @@
 		where
 		JJH=#{jjh,jdbcType=VARCHAR}
 	</update>
-	
+	<insert id="insertRepayYEHZHistory" parameterType="map">
+		INSERT INTO ty_repay_yehz_history (CREATE_TIME,JJH,YWBH,KHH,ZHTBH,JGDM,KMH,
+		HBZL,JKJE,QXRQ,DKYE,BNQX,BWQX,WJFL1,WJFL2,WJFL3,
+		WJFL4,WJFL5,SHBJ,SHLX,LXJS,KSQXRQ,YHXBJ,YHXLX,ZHHKR,BQLL) values
+		(#{createTime,jdbcType=VARCHAR},#{jjh,jdbcType=VARCHAR},
+		#{ywbh,jdbcType=VARCHAR}, #{khh,jdbcType=VARCHAR},
+		#{zhtbh,jdbcType=VARCHAR}, #{jgdm,jdbcType=VARCHAR},
+		#{kmh,jdbcType=VARCHAR},
+		#{hbzl,jdbcType=VARCHAR}, #{jkje,jdbcType=VARCHAR}, #{qxrq,jdbcType=VARCHAR},
+		#{dkye,jdbcType=VARCHAR}, #{bnqx,jdbcType=VARCHAR},
+		#{bwqx,jdbcType=VARCHAR},
+		#{wjfl1,jdbcType=VARCHAR}, #{wjfl2,jdbcType=VARCHAR}, #{wjfl3,jdbcType=VARCHAR},
+		#{wjfl4,jdbcType=VARCHAR}, #{wjfl5,jdbcType=VARCHAR},
+		#{shbj,jdbcType=VARCHAR},
+		#{shlx,jdbcType=VARCHAR}, #{lxjs,jdbcType=VARCHAR}, #{ksqxrq,jdbcType=VARCHAR},
+		#{yhxbj,jdbcType=VARCHAR}, #{yhxlx,jdbcType=VARCHAR}, #{zhhkr,jdbcType=VARCHAR}, #{bqll,jdbcType=VARCHAR})
+	</insert>
 			<insert id="insertRepayTKMX" parameterType="map">
 		INSERT INTO ty_repay_tkmx (CREATE_TIME,YWBH,KHH,ZHTBH,JJH,JZLL,SFBL,
 		HTLL,TKBH,FFJE,TKYT,JKRQ,DQRQ,DKKM,XGRY,XGSJ,
@@ -765,4 +781,10 @@
 		where
 		JJH=#{jjh,jdbcType=VARCHAR}
 	</update>
+	<insert id="insertProduct" parameterType="map">
+		INSERT INTO ty_product_type (CREATE_TIME,PRODUCT_CODE,PRODUCT_NAME) values
+		(#{createTime,jdbcType=VARCHAR},
+		#{productCode,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR})
+	</insert>
+
 </mapper>
