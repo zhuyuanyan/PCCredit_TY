@@ -144,6 +144,19 @@ public class IntopiecesDecisionController extends BaseController {
 
 		return returnMap;
 	}
+	
+	//显示用信信息
+	@ResponseBody
+	@RequestMapping(value = "input_letter.page", method = { RequestMethod.GET })
+	@JRadOperation(JRadOperation.BROWSE)
+	public AbstractModelAndView input_letter(HttpServletRequest request) {
+		String appId = request.getParameter("appId");
+		CustomerApplicationInfo customerApplicationInfo = intoPiecesService.findCustomerApplicationInfoById(appId);
+		JRadModelAndView mv = new JRadModelAndView("/intopieces/intopieces_decision/input_letter", request);
+		mv.addObject("customerApplicationInfo", customerApplicationInfo);
+
+		return mv;
+	}
 }
 
 	

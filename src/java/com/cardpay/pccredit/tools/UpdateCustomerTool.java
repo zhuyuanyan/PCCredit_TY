@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.cardpay.pccredit.customer.service.CustomerInforService;
@@ -36,11 +37,11 @@ public class UpdateCustomerTool {
 	public Logger log = Logger.getLogger(UpdateCustomerTool.class);
 	
 	public String curRemotePath = "";//本次下载服务器目录
-	//客户原始信息
-	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_hkmx.zip"};
+	//客户原始信息、流水账、余额汇总表
+	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_yehz.zip","kdk_lsz.zip","kdk_tkmx.zip"};
 	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt"};
 	//贷款信息
-	private String[] fileTxtRepay ={"kdk_hkmx.txt"};
+	private String[] fileTxtRepay ={"kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt"};
 	@Autowired
 	private CustomerInforService customerInforService;
 	
@@ -94,7 +95,7 @@ public class UpdateCustomerTool {
 		downloadPath = URLDecoder.decode(downloadPath, "utf-8");
 		 File url = new File(downloadPath);
 		 //本地创建当日数据文件夹
-        if(!url.exists()){  
+        if(!url.exists()){ 
         	url.mkdirs();  
         }
 		while(pathIterator.hasNext()){
@@ -115,26 +116,13 @@ public class UpdateCustomerTool {
 				log.error("处理文件" + file + "出错", e);
 			}
 		}
-	}
-	
-	
-	/**
-	 * 解压文件（原始信息）
-	 * @throws IOException 
-	 */
-//	@Scheduled(cron = "0 58 16 * * ?")
-	private void readFile() throws IOException{
-		 System.out.println("******************开始解压********************");  
-		//获取今日日期
-	      //yyyyMMdd格式
-		DateFormat format = new SimpleDateFormat("yyyyMMdd");
-		String dateString = format.format(new Date());
+		System.out.println(dateString+"******************开始解压********************");  
 		String gzFile = CardFtpUtils.bank_ftp_down_path+"XDDATA_"+dateString;
 		for(int i=0;i<fileName.length;i++){
-			String url = gzFile+File.separator+fileName[i];
-			File fileUrl = new File(url);
+			String url1 = gzFile+File.separator+fileName[i];
+			File fileUrl = new File(url1);
 			if(fileUrl.exists()){
-				ZipFile zip = new ZipFile(url);  
+				ZipFile zip = new ZipFile(url1);  
 				for(Enumeration entries = zip.getEntries();entries.hasMoreElements();){
 					ZipEntry entry = (ZipEntry)entries.nextElement();  
 					String zipEntryName = entry.getName();  
@@ -153,16 +141,34 @@ public class UpdateCustomerTool {
 					OutputStream out = new FileOutputStream(outPath);  
 					byte[] buf1 = new byte[1024];  
 					int len;  
-					while((len=in.read(buf1))>0){  
+					while((len=in.read(buf1))>0){
 						out.write(buf1,0,len);  
 					}  
 					in.close();  
-					out.close();            
+					out.close();         
+					zip.close();
 				}
+				//删除压缩包
+				fileUrl.delete();
 			}
+			
 		}
-	        System.out.println("******************解压完毕********************");  
-	        System.out.println("******************开始读取文件********************");  
+		 System.out.println(dateString+"******************解压完毕********************");  
+	}
+	
+	
+	/**
+	 * 解析（原始信息）
+	 * @throws IOException 
+	 */
+	@Scheduled(cron = "0 50 16 * * ?")
+	private void readFile() throws IOException{
+		//获取今日日期
+	      //yyyyMMdd格式
+		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		String dateString = format.format(new Date());
+	        System.out.println(dateString+"******************开始读取原始信息文件********************");  
+	        String gzFile = CardFtpUtils.bank_ftp_down_path+"XDDATA_"+dateString;
 	        for(int i=0;i<fileTxt.length;i++){
 				String url = gzFile+File.separator+fileTxt[i];
 				File f = new File(url);
@@ -224,16 +230,16 @@ public class UpdateCustomerTool {
 						}
 				}
 	        }
-	      System.out.println("******************完成读取文件********************");
+	      System.out.println(dateString+"******************完成读取原始信息文件********************");
 
 	}
 	
 	
 	/**
-	 * 读取贷款信息
+	 *解析贷款信息
 	 * @throws IOException 
 	 */
-//	@Scheduled(cron = "0 58 16 * * ?")
+	@Scheduled(cron = "0 27 11 * * ?")
 	private void readFileRepay() throws IOException{
 		//获取今日日期
 	      //yyyyMMdd格式
@@ -251,7 +257,7 @@ public class UpdateCustomerTool {
 					//判断文件大小，超过50M的先分割
 					if (f.exists() && f.isFile()){
 						if(f.length()>50000000){
-							int spCount = (int) (f.length()/50000000);
+							int spCount = (int) (f.length()/40000000);
 							SPTxt.splitTxt(url,spCount);
 							int to = fileTxtRepay[i].lastIndexOf('.');
 					    	fileN = fileTxtRepay[i].substring(0, to);
@@ -267,9 +273,15 @@ public class UpdateCustomerTool {
 					for(String fn : spFile){
 						try{
 							if(fn.contains(fileN)) {
-								if(fn.startsWith("kdk_hkmx")){
-									System.out.println("*****************贷款信息********************");  
-//									customerInforService.saveBaseDataFile(gzFile+File.separator+fn);
+								if(fn.startsWith("kdk_lsz")){
+									System.out.println("*****************流水账信息********************");  
+//									customerInforService.saveLSZDataFile(gzFile+File.separator+fn);
+								}else if(fn.startsWith("kdk_yehz")){
+									System.out.println("*****************余额汇总信息********************");  
+//									customerInforService.saveYEHZDataFile(gzFile+File.separator+fn);
+								}else if(fn.startsWith("kdk_tkmx")){
+									System.out.println("*****************借据表信息********************");  
+									customerInforService.saveTKMXDataFile(gzFile+File.separator+fn);
 								}
 							} 
 						}catch(Exception e){
@@ -277,15 +289,18 @@ public class UpdateCustomerTool {
 							throw new RuntimeException(e);
 						}
 					}
+					f.delete();
 			}
         }
       System.out.println("******************完成读取文件********************");
 
 	}
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		UpdateCustomerTool tool = new UpdateCustomerTool();
 		try {
-			tool.readFile();
+			CardFtpUtils sftp = new CardFtpUtils();
+			ArrayList<String> files = null;
+			tool.processFtpFile(sftp,files);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

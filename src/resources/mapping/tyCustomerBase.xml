@@ -119,5 +119,7 @@
 	<result column="ZHXGRY" jdbcType="VARCHAR" index="38" />
 
 	<result column="ZHXGSJ" jdbcType="VARCHAR" index="39" />
+	
+	<result column="KHJL" jdbcType="VARCHAR" index="30" />
 
 </resultMap>
