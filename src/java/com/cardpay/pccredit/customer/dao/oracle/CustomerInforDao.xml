@@ -508,7 +508,8 @@
 			id,
 			chinese_name as chineseName,
 			card_type as cardType,
-			card_id as cardId
+			card_id as cardId,
+			TY_CUSTOMER_ID as tyCustomerId
 			from BASIC_CUSTOMER_INFORMATION T1 where 1 = 1
 				AND user_id=#{userId}
 				<if test="chineseName != null and chineseName != '' ">
@@ -668,4 +669,100 @@
 			</foreach>
 		</if>
 	</select>
+	
+		<insert id="insertRepayLSZ" parameterType="map">
+		INSERT INTO ty_repay_lsz (CREATE_TIME,YWBH,KMH,KHJL,JJH,YWJG,YWJGH,
+		DKZH,FZH,LSH,YWDM,JZRQ,YWRQ,ZY,PZH,JF,
+		DF,YE,QXRX,ZXRQ,SFMZ,MZYH,MZSJ,SFCL) values
+		(#{createTime,jdbcType=VARCHAR},#{ywbh,jdbcType=VARCHAR},
+		#{kmh,jdbcType=VARCHAR}, #{khjl,jdbcType=VARCHAR},
+		#{jjh,jdbcType=VARCHAR}, #{ywjg,jdbcType=VARCHAR},
+		#{ywjgh,jdbcType=VARCHAR},
+		#{dkzh,jdbcType=VARCHAR}, #{fzh,jdbcType=VARCHAR}, #{lsh,jdbcType=VARCHAR},
+		#{ywdm,jdbcType=VARCHAR}, #{jzrq,jdbcType=VARCHAR},
+		#{ywrq,jdbcType=VARCHAR},
+		#{zy,jdbcType=VARCHAR}, #{pzh,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR},
+		#{df,jdbcType=VARCHAR}, #{ye,jdbcType=VARCHAR},
+		#{qxrx,jdbcType=VARCHAR},
+		#{zxrq,jdbcType=VARCHAR}, #{sfmz,jdbcType=VARCHAR}, #{mzyh,jdbcType=VARCHAR},
+		#{mzsj,jdbcType=VARCHAR}, #{sfcl,jdbcType=VARCHAR})
+	</insert>
+	
+		<insert id="insertRepayYEHZ" parameterType="map">
+		INSERT INTO ty_repay_yehz (CREATE_TIME,JJH,YWBH,KHH,ZHTBH,JGDM,KMH,
+		HBZL,JKJE,QXRQ,DKYE,BNQX,BWQX,WJFL1,WJFL2,WJFL3,
+		WJFL4,WJFL5,SHBJ,SHLX,LXJS,KSQXRQ,YHXBJ,YHXLX,ZHHKR,BQLL) values
+		(#{createTime,jdbcType=VARCHAR},#{jjh,jdbcType=VARCHAR},
+		#{ywbh,jdbcType=VARCHAR}, #{khh,jdbcType=VARCHAR},
+		#{zhtbh,jdbcType=VARCHAR}, #{jgdm,jdbcType=VARCHAR},
+		#{kmh,jdbcType=VARCHAR},
+		#{hbzl,jdbcType=VARCHAR}, #{jkje,jdbcType=VARCHAR}, #{qxrq,jdbcType=VARCHAR},
+		#{dkye,jdbcType=VARCHAR}, #{bnqx,jdbcType=VARCHAR},
+		#{bwqx,jdbcType=VARCHAR},
+		#{wjfl1,jdbcType=VARCHAR}, #{wjfl2,jdbcType=VARCHAR}, #{wjfl3,jdbcType=VARCHAR},
+		#{wjfl4,jdbcType=VARCHAR}, #{wjfl5,jdbcType=VARCHAR},
+		#{shbj,jdbcType=VARCHAR},
+		#{shlx,jdbcType=VARCHAR}, #{lxjs,jdbcType=VARCHAR}, #{ksqxrq,jdbcType=VARCHAR},
+		#{yhxbj,jdbcType=VARCHAR}, #{yhxlx,jdbcType=VARCHAR}, #{zhhkr,jdbcType=VARCHAR}, #{bqll,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateRepayYEHZ" parameterType="map">
+		update ty_repay_yehz set
+		CREATE_TIME=#{createTime,jdbcType=VARCHAR},YWBH=#{ywbh,jdbcType=VARCHAR},KHH=#{khh,jdbcType=VARCHAR},
+		ZHTBH=#{zhtbh,jdbcType=VARCHAR},JGDM=#{jgdm,jdbcType=VARCHAR},KMH=#{kmh,jdbcType=VARCHAR},HBZL=#{hbzl,jdbcType=VARCHAR},JKJE=#{jkje,jdbcType=VARCHAR},
+		QXRQ=#{qxrq,jdbcType=VARCHAR},DKYE=#{dkye,jdbcType=VARCHAR},BNQX=#{bnqx,jdbcType=VARCHAR},BWQX=#{bwqx,jdbcType=VARCHAR},
+		WJFL1=#{wjfl1,jdbcType=VARCHAR},WJFL2=#{wjfl2,jdbcType=VARCHAR},WJFL3=#{wjfl3,jdbcType=VARCHAR},WJFL4=#{wjfl4,jdbcType=VARCHAR},
+		WJFL5=#{wjfl5,jdbcType=VARCHAR},SHBJ=#{shbj,jdbcType=VARCHAR},SHLX=#{shlx,jdbcType=VARCHAR},LXJS=#{lxjs,jdbcType=VARCHAR},
+		KSQXRQ=#{ksqxrq,jdbcType=VARCHAR},YHXBJ=#{yhxbj,jdbcType=VARCHAR},YHXLX=#{yhxlx,jdbcType=VARCHAR},ZHHKR=#{zhhkr,jdbcType=VARCHAR},
+		BQLL=#{bqll,jdbcType=VARCHAR}
+		where
+		JJH=#{jjh,jdbcType=VARCHAR}
+	</update>
+	
+			<insert id="insertRepayTKMX" parameterType="map">
+		INSERT INTO ty_repay_tkmx (CREATE_TIME,YWBH,KHH,ZHTBH,JJH,JZLL,SFBL,
+		HTLL,TKBH,FFJE,TKYT,JKRQ,DQRQ,DKKM,XGRY,XGSJ,
+		DKQX,ZQDQR,SFZQ,SFJQ,DKZL,DKFS,BLJG,SFZF,KHJL,ZQHTH,DKZH,SFJZ,DKFL,DKLX,JJBH,CPMC,DKXZ,DKYT,DKTX
+		,LLZL,JXFS,HKLY,HKFS,JQRQ,YWLX,ZQRQ,HBZL,YTMX,SFXEDK,YQSF,SHYJ,SHRY,SHSJ,TXLX,YQLL,SFTXJE,NYJFBL,BLRY,YJJH,SFSTDK,YSTXYH,SFYXDK,YXR,
+		FLCORZLC) values
+		(#{createTime,jdbcType=VARCHAR},
+		#{ywbh,jdbcType=VARCHAR}, #{khh,jdbcType=VARCHAR},
+		#{zhtbh,jdbcType=VARCHAR},#{jjh,jdbcType=VARCHAR}, #{jzll,jdbcType=VARCHAR},
+		#{sfbl,jdbcType=VARCHAR},
+		#{htll,jdbcType=VARCHAR}, #{tkbh,jdbcType=VARCHAR}, #{ffje,jdbcType=VARCHAR},
+		#{tkyt,jdbcType=VARCHAR}, #{jkrq,jdbcType=VARCHAR},
+		#{dqrq,jdbcType=VARCHAR},
+		#{dkkm,jdbcType=VARCHAR}, #{xgry,jdbcType=VARCHAR}, #{xgsj,jdbcType=VARCHAR},
+		#{dkqx,jdbcType=VARCHAR}, #{zqdqr,jdbcType=VARCHAR},
+		#{sfzq,jdbcType=VARCHAR},
+		#{sfjq,jdbcType=VARCHAR}, #{dkzl,jdbcType=VARCHAR}, #{dkfs,jdbcType=VARCHAR},
+		#{bljg,jdbcType=VARCHAR}, #{sfzf,jdbcType=VARCHAR}, #{khjl,jdbcType=VARCHAR}, #{zqhth,jdbcType=VARCHAR}
+		, #{dkzh,jdbcType=VARCHAR}, #{sfjz,jdbcType=VARCHAR}, #{dkfl,jdbcType=VARCHAR}, #{dklx,jdbcType=VARCHAR}
+		, #{jjbh,jdbcType=VARCHAR}, #{cpmc,jdbcType=VARCHAR}, #{dkxz,jdbcType=VARCHAR}, #{dkyt,jdbcType=VARCHAR}
+		, #{dktx,jdbcType=VARCHAR}, #{llzl,jdbcType=VARCHAR}, #{jxfs,jdbcType=VARCHAR}, #{hkly,jdbcType=VARCHAR}
+		, #{hkfs,jdbcType=VARCHAR}, #{jqrq,jdbcType=VARCHAR}, #{ywlx,jdbcType=VARCHAR}, #{zqrq,jdbcType=VARCHAR}
+		, #{hbzl,jdbcType=VARCHAR}, #{ytmx,jdbcType=VARCHAR}, #{sfxedk,jdbcType=VARCHAR}, #{yqsf,jdbcType=VARCHAR},
+		#{shyj,jdbcType=VARCHAR},#{shry,jdbcType=VARCHAR},#{shsj,jdbcType=VARCHAR},#{txlx,jdbcType=VARCHAR},
+		#{yqll,jdbcType=VARCHAR},#{sftxje,jdbcType=VARCHAR},#{nyjfbl,jdbcType=VARCHAR},#{blry,jdbcType=VARCHAR},
+		#{yjjh,jdbcType=VARCHAR},#{sfstdk,jdbcType=VARCHAR},#{ystxyh,jdbcType=VARCHAR},#{sfyxdk,jdbcType=VARCHAR},
+		#{yxr,jdbcType=VARCHAR},#{flcorzlc,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateRepayTKMX" parameterType="map">
+		update ty_repay_tkmx set
+		CREATE_TIME=#{createTime,jdbcType=VARCHAR},YWBH=#{ywbh,jdbcType=VARCHAR},KHH=#{khh,jdbcType=VARCHAR},
+		ZHTBH=#{zhtbh,jdbcType=VARCHAR},JZLL=#{jzll,jdbcType=VARCHAR},SFBL=#{sfbl,jdbcType=VARCHAR},HTLL=#{htll,jdbcType=VARCHAR},TKBH=#{tkbh,jdbcType=VARCHAR},
+		FFJE=#{ffje,jdbcType=VARCHAR},TKYT=#{tkyt,jdbcType=VARCHAR},JKRQ=#{jkrq,jdbcType=VARCHAR},DQRQ=#{dqrq,jdbcType=VARCHAR},
+		DKKM=#{dkkm,jdbcType=VARCHAR},XGRY=#{xgry,jdbcType=VARCHAR},XGSJ=#{xgsj,jdbcType=VARCHAR},DKQX=#{dkqx,jdbcType=VARCHAR},
+		ZQDQR=#{zqdqr,jdbcType=VARCHAR},SFZQ=#{sfzq,jdbcType=VARCHAR},SFJQ=#{sfjq,jdbcType=VARCHAR},DKZL=#{dkzl,jdbcType=VARCHAR},
+		DKFS=#{dkfs,jdbcType=VARCHAR},BLJG=#{bljg,jdbcType=VARCHAR},SFZF=#{sfzf,jdbcType=VARCHAR},KHJL=#{khjl,jdbcType=VARCHAR},
+		ZQHTH=#{zqhth,jdbcType=VARCHAR},DKZH=#{dkzh,jdbcType=VARCHAR},SFJZ=#{sfjz,jdbcType=VARCHAR},DKFL=#{dkfl,jdbcType=VARCHAR},DKLX=#{dklx,jdbcType=VARCHAR},
+		JJBH=#{jjbh,jdbcType=VARCHAR},CPMC=#{cpmc,jdbcType=VARCHAR},DKXZ=#{dkxz,jdbcType=VARCHAR},DKYT=#{dkyt,jdbcType=VARCHAR},DKTX=#{dktx,jdbcType=VARCHAR},
+		LLZL=#{llzl,jdbcType=VARCHAR},JXFS=#{jxfs,jdbcType=VARCHAR},HKLY=#{hkly,jdbcType=VARCHAR},HKFS=#{hkfs,jdbcType=VARCHAR},JQRQ=#{jqrq,jdbcType=VARCHAR},
+		YWLX=#{ywlx,jdbcType=VARCHAR},ZQRQ=#{zqrq,jdbcType=VARCHAR},HBZL=#{hbzl,jdbcType=VARCHAR},YTMX=#{ytmx,jdbcType=VARCHAR},SFXEDK=#{sfxedk,jdbcType=VARCHAR},
+		YQSF=#{yqsf,jdbcType=VARCHAR},SHYJ=#{shyj,jdbcType=VARCHAR},SHRY=#{shry,jdbcType=VARCHAR},SHSJ=#{shsj,jdbcType=VARCHAR},TXLX=#{txlx,jdbcType=VARCHAR},
+		YQLL=#{yqll,jdbcType=VARCHAR},SFTXJE=#{sftxje,jdbcType=VARCHAR},NYJFBL=#{nyjfbl,jdbcType=VARCHAR},BLRY=#{blry,jdbcType=VARCHAR},
+		YJJH=#{yjjh,jdbcType=VARCHAR},SFSTDK=#{sfstdk,jdbcType=VARCHAR},YSTXYH=#{ystxyh,jdbcType=VARCHAR},SFYXDK=#{sfyxdk,jdbcType=VARCHAR},
+		YXR=#{yxr,jdbcType=VARCHAR},FLCORZLC=#{flcorzlc,jdbcType=VARCHAR}
+		where
+		JJH=#{jjh,jdbcType=VARCHAR}
+	</update>
 </mapper>

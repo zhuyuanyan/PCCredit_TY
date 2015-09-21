@@ -11,7 +11,7 @@
             <li class="tab">附件清单</li>
             <li class="tab">产品规则</li>
             <li class="tab">催收规则</li>
-            <li class="tab">筛选规则</li>
+         <!--    <li class="tab">筛选规则</li> -->
          </ul>
         </div>
 			</div>
@@ -34,6 +34,17 @@
 							<td><label for="name">贷款用途:</label></td>
 							<td><input type="text" id="purposeLoan" name="purposeLoan"
 								value="$!product.purposeLoan" /></td>
+						</tr>
+						
+						<tr>
+							<td><label for="name">产品授信区间:</label></td>
+							<td><input type="text" id="prodCreditRange" name="prodCreditRange"
+								value="$!product.prodCreditRange" /></td>
+							
+							<td><label for="name">产品期限:</label></td>
+						    <td><input type="text" id="prodLimitTime" name="prodLimitTime" 
+						   			   onmouseover="_calendar({format:'yyyy-MM-dd HH:mm:ss'})" 
+						    		   readonly="readonly"/>
 						</tr>
 
 						<tr>

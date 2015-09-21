@@ -40,6 +40,8 @@ import com.cardpay.pccredit.intopieces.service.IntoPiecesService;
 import com.cardpay.pccredit.intopieces.web.AddIntoPiecesForm;
 import com.cardpay.pccredit.intopieces.web.LocalImageForm;
 import com.cardpay.pccredit.manager.web.AccountManagerParameterForm;
+import com.cardpay.pccredit.product.model.ProductAttribute;
+import com.cardpay.pccredit.product.service.ProductService;
 import com.wicresoft.jrad.base.auth.IUser;
 import com.wicresoft.jrad.base.auth.JRadModule;
 import com.wicresoft.jrad.base.auth.JRadOperation;
@@ -75,6 +77,9 @@ public class IntopiecesDecisionController extends BaseController {
 
 	@Autowired
 	private CustomerApplicationInfoService customerApplicationInfoService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Autowired
 	private MaintenanceService maintenanceService;
@@ -117,9 +122,10 @@ public class IntopiecesDecisionController extends BaseController {
 	public AbstractModelAndView input_decision(HttpServletRequest request) {
 		String appId = request.getParameter("appId");
 		CustomerApplicationInfo customerApplicationInfo = intoPiecesService.findCustomerApplicationInfoById(appId);
+		ProductAttribute producAttribute =  productService.findProductAttributeById(customerApplicationInfo.getProductId());
 		JRadModelAndView mv = new JRadModelAndView("/intopieces/intopieces_decision/input_decision", request);
 		mv.addObject("customerApplicationInfo", customerApplicationInfo);
-
+		mv.addObject("producAttribute", producAttribute);
 		return mv;
 	}
 	
@@ -137,6 +143,19 @@ public class IntopiecesDecisionController extends BaseController {
 		}
 
 		return returnMap;
+	}
+	
+	//显示用信信息
+	@ResponseBody
+	@RequestMapping(value = "input_letter.page", method = { RequestMethod.GET })
+	@JRadOperation(JRadOperation.BROWSE)
+	public AbstractModelAndView input_letter(HttpServletRequest request) {
+		String appId = request.getParameter("appId");
+		CustomerApplicationInfo customerApplicationInfo = intoPiecesService.findCustomerApplicationInfoById(appId);
+		JRadModelAndView mv = new JRadModelAndView("/intopieces/intopieces_decision/input_letter", request);
+		mv.addObject("customerApplicationInfo", customerApplicationInfo);
+
+		return mv;
 	}
 }
 

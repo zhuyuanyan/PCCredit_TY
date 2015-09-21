@@ -7,13 +7,6 @@
 <script src="${contextPath}/common/js/common/Evaluator.js"></script>
 <script type="text/javascript">
 	var rules = [
-	             'B12=B13+B14',
-	             'B15=B16+B17+B18',
-	             'B19=B20+B21',
-	             'B26=B12+B15-B19+B22+B23-B24-B25',
-	             'B28=B26-B27',
-	             'B29=B15',
-	             'B30=B28/B29'
 	            ]
 	var exp = new Expression("");
 
@@ -49,10 +42,22 @@
       </div>
         <div class="tabplace">
             <ul class="com-tab" >
-            <li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_fz.page?appId=${appId}&urlType=${urlType}">资负</a></li>
-			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_sy.page?appId=${appId}&urlType=${urlType}">损益</a></li>
-			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jl.page?appId=${appId}&urlType=${urlType}">金流</a></li>
+            <li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jy.page?appId=${appId}&urlType=${urlType}">建议</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jjbs.page?appId=${appId}&urlType=${urlType}">进件标识</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jbzk.page?appId=${appId}&urlType=${urlType}">基本状况</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jyzt.page?appId=${appId}&urlType=${urlType}">经营状态</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_sczt.page?appId=${appId}&urlType=${urlType}">生存状态</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_ddpz.page?appId=${appId}&urlType=${urlType}">道德品质</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_fz.page?appId=${appId}&urlType=${urlType}">资产负债</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_lrjb.page?appId=${appId}&urlType=${urlType}">利润简表</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_bzlrb.page?appId=${appId}&urlType=${urlType}">标准利润</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_xjllb.page?appId=${appId}&urlType=${urlType}">现金流</a></li>
 			<li class="tab activeTab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jc.page?appId=${appId}&urlType=${urlType}">交叉</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_dhd.page?appId=${appId}&urlType=${urlType}">点货单</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_gdzc.page?appId=${appId}&urlType=${urlType}">固资</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_yfys.page?appId=${appId}&urlType=${urlType}">应付预收</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_ysyf.page?appId=${appId}&urlType=${urlType}">应收预付</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_lsfx.page?appId=${appId}&urlType=${urlType}">流水</a></li>
          </ul>
          </div>
       <form id="id_module_form">
@@ -60,10 +65,9 @@
       </form>
       <div class="submit">
       #if(!$!lock)
-      	<input type="button" class="current" id="id_count_button" value="计算" />
       	<input type="button" class="current" id="id_save_button" value="保存" />
       #end
-       #if($!urlType=='1')
+      #if($!urlType==1)
         <input type="button" onclick="window.location.href='${contextPath}/intopieces/intopiecesquery/browse.page'" value="返回" />
       #else
       	<input type="button" onclick="window.location.href='${contextPath}/customer/customerInfor_wh_ty/browse.page'" value="返回" />

@@ -67,7 +67,7 @@
 					  <if test="chineseName != null and chineseName != '' ">
 						and b.chinese_name like '%'||#{chineseName}||'%' 
 					  </if>
-					  order by t.id asc
+					  order by t.status asc
 		 <![CDATA[		
 							) ROW_
 						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
@@ -110,5 +110,14 @@
 						and b.chinese_name like '%'||#{chineseName}||'%' 
 					 </if>
 	</select>
+	
+	
+	<update id="updateCustomerApplicationInfo" parameterType="com.cardpay.pccredit.intopieces.model.IntoPieces">
+		update customer_application_info
+		<set>
+			status = #{status}
+		</set>
+		where customer_id = #{customerId}
+	</update>
 	
 </mapper>

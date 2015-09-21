@@ -244,4 +244,36 @@
 		WHERE
 		INSTITUTION = #{organizationId}
 </select>
+
+
+	<select id="findProductsByFilter" resultMap="ResultMap" parameterType="map">
+		SELECT * FROM
+		(SELECT ROW_.*,ROWNUM ROWNUM_
+		FROM (
+	    	SELECT * from product_attribute t
+			WHERE 1=1
+			<if test="productName != null and productName != '' ">
+				AND PRODUCT_NAME=#{productName}
+			</if>
+			And t.prod_limit_time >= sysdate
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+					]]>
+	</select>
+	
+	<select id="findProductsCountByFilter" resultType="int">
+		SELECT
+		COUNT (*)
+		FROM
+		(
+		SELECT * from product_attribute t
+		WHERE 1=1
+		<if test="productName != null and productName != '' ">
+			AND PRODUCT_NAME=#{productName}
+		</if>
+		And t.prod_limit_time >= sysdate
+		)
+	</select>
 </mapper>

@@ -1,5 +1,7 @@
 package com.cardpay.pccredit.product.model;
 
+import java.util.Date;
+
 import com.wicresoft.jrad.base.database.model.BusinessModel;
 import com.wicresoft.jrad.base.database.model.ModelParam;
 
@@ -31,6 +33,26 @@ public class ProductAttribute extends BusinessModel {
 	private String pictureUrl;
 	private String pictureName;
 	private String seqno;
+	private Date prodLimitTime;
+	private String prodCreditRange;
+
+	
+	
+	public Date getProdLimitTime() {
+		return prodLimitTime;
+	}
+
+	public void setProdLimitTime(Date prodLimitTime) {
+		this.prodLimitTime = prodLimitTime;
+	}
+
+	public String getProdCreditRange() {
+		return prodCreditRange;
+	}
+
+	public void setProdCreditRange(String prodCreditRange) {
+		this.prodCreditRange = prodCreditRange;
+	}
 
 	public String getPictureName() {
 		return pictureName;
