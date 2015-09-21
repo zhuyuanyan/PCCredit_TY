@@ -38,7 +38,7 @@
   <div class="content_main">
     <div class="contentinner">
       <div class="place">
-        <div class="title">客户维护信息>交叉</div>
+        <div class="title">客户维护信息>流水分析</div>
       </div>
         <div class="tabplace">
             <ul class="com-tab" >
@@ -52,12 +52,12 @@
 			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_lrjb.page?appId=${appId}&urlType=${urlType}">利润简表</a></li>
 			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_bzlrb.page?appId=${appId}&urlType=${urlType}">标准利润</a></li>
 			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_xjllb.page?appId=${appId}&urlType=${urlType}">现金流</a></li>
-			<li class="tab activeTab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jc.page?appId=${appId}&urlType=${urlType}">交叉</a></li>
+			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_jc.page?appId=${appId}&urlType=${urlType}">交叉</a></li>
 			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_dhd.page?appId=${appId}&urlType=${urlType}">点货单</a></li>
 			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_gdzc.page?appId=${appId}&urlType=${urlType}">固资</a></li>
 			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_yfys.page?appId=${appId}&urlType=${urlType}">应付预收</a></li>
 			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_ysyf.page?appId=${appId}&urlType=${urlType}">应收预付</a></li>
-			<li class="tab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_lsfx.page?appId=${appId}&urlType=${urlType}">流水</a></li>
+			<li class="tab activeTab"><a href="${contextPath}/customer/customerInfor_wh_ty/report_lsfx.page?appId=${appId}&urlType=${urlType}">流水</a></li>
          </ul>
          </div>
       <form id="id_module_form">
@@ -85,7 +85,7 @@
 		$("#id_save_button").click(function() {
 			var b = new Base64(); 
 			var content = {'content':b.encode($("#formsId").html())};
-			var url = "${contextPath}/customer/customerInfor_wh_ty/change_report_jc.json?appId=${appId}";
+			var url = "${contextPath}/customer/customerInfor_wh_ty/change_report_lsfx.json?appId=${appId}";
 			$.ajax({
 				 url : url,
 				 type : "post",
