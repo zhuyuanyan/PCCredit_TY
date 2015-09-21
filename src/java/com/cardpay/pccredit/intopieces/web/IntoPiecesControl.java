@@ -47,6 +47,7 @@ import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationOther;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecom;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecomVo;
+import com.cardpay.pccredit.intopieces.model.CustomerCreditInfo;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.model.MakeCard;
 import com.cardpay.pccredit.intopieces.service.IntoPiecesService;
@@ -1310,5 +1311,14 @@ public class IntoPiecesControl extends BaseController {
 	public void initBinder(WebDataBinder binder) {
 		DataBindHelper.initStandardBinder(binder);
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value = "browe.page", method = { RequestMethod.GET })
+	public AbstractModelAndView browe(HttpServletRequest request) {
+		JRadModelAndView mv = new JRadModelAndView("/intopieces/intopieces_decision/input_letter", request);
+		String id = request.getParameter("appId");
+		CustomerCreditInfo info =  intoPiecesService.findCustCreditInfomation(id);
+		mv.addObject("info",info);
+		return mv;
+	}
 }
