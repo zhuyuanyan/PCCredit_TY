@@ -37,11 +37,13 @@ public class UpdateCustomerTool {
 	public Logger log = Logger.getLogger(UpdateCustomerTool.class);
 	
 	public String curRemotePath = "";//本次下载服务器目录
-	//客户原始信息、流水账、余额汇总表
-	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_yehz.zip","kdk_lsz.zip","kdk_tkmx.zip"};
+	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_yehz.zip","kdk_lsz.zip","kdk_tkmx.zip","cxd_dkcpmc.zip"};
+	//客户原始信息
 	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt"};
-	//贷款信息
+	//流水账、余额汇总表、借据表
 	private String[] fileTxtRepay ={"kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt"};
+	//产品信息
+	private String[] fileTxtProduct ={"cxd_dkcpmc.txt"};
 	@Autowired
 	private CustomerInforService customerInforService;
 	
@@ -177,8 +179,8 @@ public class UpdateCustomerTool {
 						String fileN = "";
 						//判断文件大小，超过50M的先分割
 						if (f.exists() && f.isFile()){
-							if(f.length()>50000000){
-								int spCount = (int) (f.length()/50000000);
+							if(f.length()>40000000){
+								int spCount = (int) (f.length()/40000000);
 								SPTxt.splitTxt(url,spCount);
 								int to = fileTxt[i].lastIndexOf('.');
 						    	fileN = fileTxt[i].substring(0, to);
@@ -239,7 +241,7 @@ public class UpdateCustomerTool {
 	 *解析贷款信息
 	 * @throws IOException 
 	 */
-	@Scheduled(cron = "0 27 11 * * ?")
+	@Scheduled(cron = "0 03 12 * * ?")
 	private void readFileRepay() throws IOException{
 		//获取今日日期
 	      //yyyyMMdd格式
@@ -256,7 +258,7 @@ public class UpdateCustomerTool {
 					String fileN = "";
 					//判断文件大小，超过50M的先分割
 					if (f.exists() && f.isFile()){
-						if(f.length()>50000000){
+						if(f.length()>40000000){
 							int spCount = (int) (f.length()/40000000);
 							SPTxt.splitTxt(url,spCount);
 							int to = fileTxtRepay[i].lastIndexOf('.');
@@ -275,13 +277,68 @@ public class UpdateCustomerTool {
 							if(fn.contains(fileN)) {
 								if(fn.startsWith("kdk_lsz")){
 									System.out.println("*****************流水账信息********************");  
-//									customerInforService.saveLSZDataFile(gzFile+File.separator+fn);
+									customerInforService.saveLSZDataFile(gzFile+File.separator+fn);
 								}else if(fn.startsWith("kdk_yehz")){
 									System.out.println("*****************余额汇总信息********************");  
-//									customerInforService.saveYEHZDataFile(gzFile+File.separator+fn);
+									customerInforService.saveYEHZDataFile(gzFile+File.separator+fn);
 								}else if(fn.startsWith("kdk_tkmx")){
 									System.out.println("*****************借据表信息********************");  
 									customerInforService.saveTKMXDataFile(gzFile+File.separator+fn);
+								}
+							} 
+						}catch(Exception e){
+							e.printStackTrace();
+							throw new RuntimeException(e);
+						}
+					}
+					f.delete();
+			}
+        }
+      System.out.println("******************完成读取文件********************");
+
+	}
+	
+	/**
+	 *解析产品信息
+	 * @throws IOException 
+	 */
+	@Scheduled(cron = "0 02 11 * * ?")
+	private void readFileProduct() throws IOException{
+		//获取今日日期
+	      //yyyyMMdd格式
+		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		String dateString = format.format(new Date());
+		String gzFile = CardFtpUtils.bank_ftp_down_path+"XDDATA_"+dateString;
+
+        System.out.println("******************开始读取文件********************");  
+        for(int i=0;i<fileTxtProduct.length;i++){
+			String url = gzFile+File.separator+fileTxtProduct[i];
+			File f = new File(url);
+			if(f.exists()){
+					List<String> spFile = new ArrayList<String>();
+					String fileN = "";
+					//判断文件大小，超过50M的先分割
+					if (f.exists() && f.isFile()){
+						if(f.length()>40000000){
+							int spCount = (int) (f.length()/40000000);
+							SPTxt.splitTxt(url,spCount);
+							int to = fileTxtProduct[i].lastIndexOf('.');
+					    	fileN = fileTxtProduct[i].substring(0, to);
+							for(int j=0;j<spCount;j++){
+								spFile.add(fileN+"_"+j+".txt");
+							}
+						}else{
+							int to = fileTxtProduct[i].lastIndexOf('.');
+					    	fileN = fileTxtProduct[i].substring(0, to);
+							spFile.add(fileN+".txt");
+						}
+					}
+					for(String fn : spFile){
+						try{
+							if(fn.contains(fileN)) {
+								if(fn.startsWith("cxd_dkcpmc")){
+									System.out.println("*****************产品信息********************");  
+									customerInforService.saveProductDataFile(gzFile+File.separator+fn);
 								}
 							} 
 						}catch(Exception e){
@@ -300,7 +357,7 @@ public class UpdateCustomerTool {
 		try {
 			CardFtpUtils sftp = new CardFtpUtils();
 			ArrayList<String> files = null;
-			tool.processFtpFile(sftp,files);
+			tool.readFileProduct();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

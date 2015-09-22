@@ -118,6 +118,7 @@
 			status = #{status}
 		</set>
 		where customer_id = #{customerId}
+		  and product_id  = #{productId}
 	</update>
 	
 </mapper>

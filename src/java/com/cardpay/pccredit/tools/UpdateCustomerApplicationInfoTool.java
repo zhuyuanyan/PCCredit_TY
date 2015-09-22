@@ -7,10 +7,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import com.cardpay.pccredit.intopieces.constant.Constant;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.service.IntoPiecesService;
@@ -31,7 +33,7 @@ public class UpdateCustomerApplicationInfoTool {
 	 * 同步进件状态
 	 * @throws IOException 
 	 */
-	//@Scheduled(cron = "0 35 14 * * ?")
+	@Scheduled(cron = "0 22 11 * * ?")
 	private void dosynchMethod() throws IOException{
 		//获取今日日期
 		DateFormat format = new SimpleDateFormat("yyyyMMdd");
@@ -44,6 +46,7 @@ public class UpdateCustomerApplicationInfoTool {
 			IntoPieces  pieces = new IntoPieces();
 			pieces.setCustomerId(intoPieces.getCustomerId());
 			pieces.setStatus(Constant.END);//放款成功
+			pieces.setProductId(intoPieces.getProductId());
 			intoPiecesService.updateCustomerApplicationInfo(pieces);
 		}
 		log.info(dateString+"进件状态更新结束**********");

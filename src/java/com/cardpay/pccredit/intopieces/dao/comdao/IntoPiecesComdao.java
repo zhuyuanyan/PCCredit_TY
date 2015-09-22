@@ -25,6 +25,7 @@ import com.cardpay.pccredit.intopieces.model.CustomerApplicationGuarantor;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationOther;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecom;
+import com.cardpay.pccredit.intopieces.model.CustomerCreditInfo;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.model.MakeCard;
 import com.cardpay.pccredit.intopieces.model.VideoAccessories;
@@ -351,18 +352,57 @@ public class IntoPiecesComdao {
 	public List<IntoPieces> findCustomerApplicationInfo() {
 		//String sql = "select * from customer_application_info where status = 'approved'";
 		
-		String sql = "		select a.customer_id 								"+        
-					 "		from customer_application_info  a,  				"+        
-					 "		     basic_customer_information b,  				"+        
-					 "		     ty_customer_base           c,  				"+        
-					 "		     ty_repayment_report        d   				"+        
-					 "		where a.customer_id =b.id           				"+        
-					 "		      and b.ty_customer_id = c.id   				"+        
-					 "		      and c.khh = d.khh             				"+        
-					 "		      and a.status ='approved'      				"+        
-					 "		      and d.sfzf !=1               					";        
+		String sql =     	"        select a.customer_id,e.id as product_id,e.product_name "+
+						    "           from customer_application_info  a,    "+              
+						    "                basic_customer_information b,    "+              
+						    "                ty_customer_base           c,    "+             
+						    "                ty_repay_tkmx              d,    "+
+						    "                product_attribute          e     "+    
+						    "           where a.customer_id =b.id             "+             
+						    "                 and b.ty_customer_id = c.id     "+              
+						    "                 and c.khh = d.khh               "+
+						    "                 and a.product_id = e.id         "+
+						    "                 and e.PRODUCT_TYPE_CODE = d.cpmc     "+                       
+						    "                 and a.status ='approved'        "+             
+						    "                 and d.sfzf !=1                  ";    
 
 		List<IntoPieces> list = commonDao.queryBySql(IntoPieces.class,sql,null);
 		return list;
+	}
+	
+	
+	public CustomerCreditInfo findCustCreditInfomation(String appId){
+		
+	   String sql = "		select tkmz.jzll,							  "+
+					"		       tkmz.htll,                             "+
+					"		       tkmz.ffje,                             "+
+					"		       tkmz.jkrq,                             "+
+					"		       tkmz.dqrq,                             "+
+					"		       tkmz.dkqx,                             "+
+					"		       yehz.jkje,                             "+
+					"		       yehz.zhhkr,                            "+
+					"		       yehz.shbj,                             "+
+					"		       yehz.shlx,                             "+
+					" case when  tkmz.DQRQ < to_char(sysdate,'yyyyMMdd') and yehz.DKYE!=0 then yehz.DKYE else '0' end as yqbj"+	
+					"		    from customer_application_info app,       "+
+					"		         basic_customer_information info,     "+
+					"		         product_attribute prod,              "+
+					"		         ty_customer_base base,               "+
+					"		         ty_repay_tkmx tkmz,                  "+
+					"		         ty_repay_yehz yehz                   "+
+					"		    where app.customer_id = info.id           "+
+					"		          and app.product_id  = prod.id       "+
+					"		          and info.ty_customer_id = base.id   "+
+					"		          and prod.PRODUCT_TYPE_CODE = tkmz.cpmc   "+
+					"		          and base.khh = tkmz.khh             "+
+					"		          and tkmz.jjh = yehz.jjh             "+
+	   				"				  and app.id = '"+appId+"'		      ";
+
+		List<CustomerCreditInfo> list = commonDao.queryBySql(CustomerCreditInfo.class,sql,null);
+		if(list!=null&&!list.isEmpty()){
+			return list.get(0);
+		}else{
+			return null;
+		}
 	}
 }

@@ -151,7 +151,7 @@
 		$("#id_yx_button").click(function() {
 			if ($(".checkbox :checked").length == 1) {
 				var rowid = $("input[name='checkbox']:checked").val();
-				window.location.href="${contextPath}/intopieces/intopiecesdecision/input_letter.page?appId="+rowid.split("_")[0];
+				window.location.href="${contextPath}/intopieces/intopiecesquery/browe.page?appId="+rowid.split("_")[0];
 			}
 			else{
 				Dialog.message("请选择一行!");
