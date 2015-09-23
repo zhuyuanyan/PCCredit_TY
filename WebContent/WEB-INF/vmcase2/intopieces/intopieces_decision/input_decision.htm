@@ -25,7 +25,7 @@
               <td><select id="status" name="status" onChange="changeDecisionRefusereason();">
                   	#dict("intopieces_decision",$!customerApplicationInfo.status)
                   </select></td>
-              <td  class="titlefc3"><label id ="decisionRefusereason" for=decisionRefusereason>拒绝原因:</label></td>
+              <td  class="titlefc3"><label id ="reason" for=reason>拒绝原因:</label></td>
               <td><textarea name="decisionRefusereason" id="decisionRefusereason">$!customerApplicationInfo.decisionRefusereason</textarea></td>
             </tr>
             <tr>
@@ -96,6 +96,14 @@
 					 return;
 				}
 			}
+			
+			if( status == "nopass_replenish"){
+				if($("#decisionRefusereason").val() == ""){
+					 $("#decisionRefusereason").after("<label class='error myerror' generated='true' >补充调查原因不能为空</label>");   
+					 return;
+				}
+			}
+			
 			//判断金额必须在产品的授信区间内
 			var decisionAmout = $("#decisionAmount").val();
 			var str = $("#prodCreditRange").val();
@@ -143,9 +151,9 @@
 			}
 			
 			if(status =='nopass_replenish'){
-			  $("#decisionRefusereason").text("补充调查原因");
+			  $("#reason").text("补充调查原因");
 			}else{
-		      $("#decisionRefusereason").text("拒绝原因");	
+		      $("#reason").text("拒绝原因");	
 			}
 			
 		});
