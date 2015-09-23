@@ -138,6 +138,11 @@ public class ProductService {
 		QueryResult<ProductAttribute> qs = new QueryResult<ProductAttribute>(size, productAttribute);
 		return qs;
 	}
+	
+	// 根据过滤条件查询产品
+    public QueryResult<ProductAttribute> findProductsByNameFilter(ProductFilter filter) {
+		return commonDao.findObjectsByFilter(ProductAttribute.class, filter);
+    }
 
 	/*
 	 * 根据filter查询已发布产品

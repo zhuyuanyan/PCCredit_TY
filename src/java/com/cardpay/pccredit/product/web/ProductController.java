@@ -91,7 +91,7 @@ public class ProductController extends BaseController {
 	public AbstractModelAndView browse(@ModelAttribute ProductFilter filter, HttpServletRequest request) {
 		filter.setRequest(request);
 
-		QueryResult<ProductAttribute> result = productService.findProductsByFilter(filter);
+		QueryResult<ProductAttribute> result = productService.findProductsByNameFilter(filter);
 		JRadPagedQueryResult<ProductAttribute> pagedResult = new JRadPagedQueryResult<ProductAttribute>(filter, result);
 
 		JRadModelAndView mv = new JRadModelAndView("/product/product_browse", request);
