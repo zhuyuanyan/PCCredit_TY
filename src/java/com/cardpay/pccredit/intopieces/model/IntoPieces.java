@@ -20,7 +20,17 @@ public class IntoPieces  extends BusinessModel {
     
     private String tyCustomerId;
     
+    private String decisionRefuseReason; //备注
     
+    
+    
+    
+	public String getDecisionRefuseReason() {
+		return decisionRefuseReason;
+	}
+	public void setDecisionRefuseReason(String decisionRefuseReason) {
+		this.decisionRefuseReason = decisionRefuseReason;
+	}
 	//进度
 	public String getId() {
 		return id;
