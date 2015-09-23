@@ -99,6 +99,55 @@ public class AddIntoPiecesService {
 		
 		commonDao.insertObject(localExcel);
 	}
+	
+	//补充调查模板先删除原有的调查模板信息再新增
+	public void importExcelSupple(MultipartFile file,String productId, String customerId,String appId) {
+		// TODO Auto-generated method stub
+		Map<String, String> map = UploadFileTool.uploadYxzlFileBySpring(file,customerId);
+		String fileName = map.get("fileName");
+		String url = map.get("url");
+		//删除
+		localImageDao.deleteByProductIdAndCustomerId(productId,customerId);
+		
+		LocalExcel localExcel = new LocalExcel();
+		localExcel.setProductId(productId);
+		localExcel.setCustomerId(customerId);
+		localExcel.setApplicationId(appId);
+		localExcel.setCreatedTime(new Date());
+		if (StringUtils.trimToNull(url) != null) {
+			localExcel.setUri(url);
+		}
+		if (StringUtils.trimToNull(fileName) != null) {
+			localExcel.setAttachment(fileName);
+		}
+		
+		//读取excel内容
+		JXLReadExcel readExcel = new JXLReadExcel();
+		String sheet[] = readExcel.readExcelToHtml(url, true);
+		for(String str : sheet){
+			if(StringUtils.isEmpty(str)){
+				throw new RuntimeException("导入失败，请检查excel文件与模板是否一致！");
+			}
+		}
+		localExcel.setSheetJy(sheet[0]);
+		localExcel.setSheetJjbs(sheet[1]);
+		localExcel.setSheetJbzk(sheet[2]);
+		localExcel.setSheetJyzt(sheet[3]);
+		localExcel.setSheetSczt(sheet[4]);
+		localExcel.setSheetDdpz(sheet[5]);
+		localExcel.setSheetFz(sheet[6]);
+		localExcel.setSheetLrjb(sheet[7]);
+		localExcel.setSheetBzlrb(sheet[8]);
+		localExcel.setSheetXjllb(sheet[9]);
+		localExcel.setSheetJc(sheet[10]);
+		localExcel.setSheetDhd(sheet[11]);
+		localExcel.setSheetGdzc(sheet[12]);
+		localExcel.setSheetYfys(sheet[13]);
+		localExcel.setSheetYsyf(sheet[14]);
+		localExcel.setSheetLsfx(sheet[15]);
+		
+		commonDao.insertObject(localExcel);
+	}
 
 	/* 查询影像资料信息 */
 	public QueryResult<LocalImageForm> findLocalImageByProductAndCustomer(AddIntoPiecesFilter filter) {

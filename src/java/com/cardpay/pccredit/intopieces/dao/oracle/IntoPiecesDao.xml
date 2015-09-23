@@ -13,6 +13,7 @@
 		<result property="cardId" column="card_id" />
 		<result property="applyQuota" column="apply_quota" />
 		<result property="status" column="status" />
+		<result property="decisionRefuseReason" column="DECISION_REFUSEREASON" />
 	</resultMap>
 	
     <select id="checkValue" resultType="int">
@@ -34,7 +35,8 @@
 		               p.product_name,
 		               b.card_id,
 		               t.apply_quota,
-		               t.status
+		               t.status,
+		               t.DECISION_REFUSEREASON
 		          from customer_application_info  t,
 		               basic_customer_information b,
 		               product_attribute          p
