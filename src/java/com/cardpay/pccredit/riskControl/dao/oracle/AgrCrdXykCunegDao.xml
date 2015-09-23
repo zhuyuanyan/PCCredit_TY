@@ -28,7 +28,7 @@
 				FROM (
 					SELECT risk.*
 					 FROM f_agr_crd_xyk_cuneg risk
-					  WHERE 1=1
+					  left join ty_customer_base info on 1=1 and info.khnm=risk.khnm 
 					 <if test="custrNbr != null and custrNbr != '' ">
 						AND risk.custr_nbr like '%${custrNbr}%'
 					 </if>

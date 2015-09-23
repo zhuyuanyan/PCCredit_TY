@@ -378,13 +378,4 @@ AND A.IS_DELETED = '0'
 		ORDER BY  A .TYPE_CODE  ASC
 	</dictionary>
 	
-		<dictionary name="PRODUCTTYPE" title="太原产品种类"
-		timeout="10000">
-		SELECT
-		A .PRODUCT_CODE AS NAME,
-		A .PRODUCT_NAME AS title
-		FROM
-		TY_PRODUCT_TYPE A
-		ORDER BY  A .PRODUCT_CODE  ASC
-	</dictionary>
 </dictionaries>

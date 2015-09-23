@@ -788,5 +788,9 @@
 		(#{createTime,jdbcType=VARCHAR},
 		#{productCode,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR})
 	</insert>
-
+	<insert id="insertHmd" parameterType="map">
+		INSERT INTO f_agr_crd_xyk_cuneg (id,CREATED_TIME,ZBJG,KHNM,SXRQ,TCRQ,SBYY) values
+		(#{id,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},
+		#{zbjg,jdbcType=VARCHAR}, #{khnm,jdbcType=VARCHAR}, #{sxrq,jdbcType=VARCHAR}, #{tcrq,jdbcType=VARCHAR}, #{sbyy,jdbcType=VARCHAR})
+	</insert>
 </mapper>
