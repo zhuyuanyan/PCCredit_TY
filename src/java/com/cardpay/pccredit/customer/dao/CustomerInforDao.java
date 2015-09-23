@@ -239,4 +239,6 @@ public interface CustomerInforDao {
 	public int insertRepayTKMX(Map<String, Object> map);
 	
 	public int insertProduct(Map<String, Object> map);
+	
+	public int insertHmd(Map<String, Object> map);
 }
