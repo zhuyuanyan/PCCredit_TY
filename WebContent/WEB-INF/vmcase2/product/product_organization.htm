@@ -86,13 +86,28 @@
 		     	 
 		     	 $("#organizationIds").val(organizationIds);
 		     	 var formjson = $($formName).serialize();
-		          $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
+		     /*      $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
 		            if (data.success) {
 		            
 		                navigateTo("${contextPath}/product/productpublic/browse.page");
 		              
 		            }
-		          });
+		          }); */
+		          
+				     	$.ajax({
+		    				url : $($formName).attr("action"),
+		    				type : "get",
+		    				data : formjson,
+		    				success : function(data) {
+		    					if (data.success) {
+		    						 navigateTo("${contextPath}/product/productpublic/browse.page");
+		    						 topWin.Dialog.message("审核成功！");
+		    					}else{
+		    						topWin.Dialog.message(data.message);
+		    				    }
+		    				}
+		    		});
+		          
 		        }
 		      });
 	}); 
