@@ -131,16 +131,20 @@
                 var rowid = $($(".checkbox :checked")[0]).attr("value");
                 var status =  document.getElementById(rowid).value;
                 if (status=="Approved") {
-                   $.post("${contextPath}/product/productpublic/productPublished.json", {
-		                    id: rowid
-		                },
-		                function(data, textStatus, jqXhr) {
-		                    if (data.success) {
-		                        window.location.reload(true);
-		                    } else {
-		                        //Dialog.message(data.message);
-		                    }
-		                });
+               	    var url = "${contextPath}/product/productpublic/productPublished.json";
+            		$.ajax({
+            				url : url,
+            				type : "get",
+            				data : {"id": rowid},
+            				success : function(data) {
+            					if (data.success) {
+            						 window.location.reload(true);
+            						 topWin.Dialog.message("发布成功！");
+            					}else{
+            						topWin.Dialog.message(data.message);
+            				    }
+            				}
+            		});
                 }else {
                 	Dialog.message("请选择审核通过的产品进行发布");
                 }

@@ -35,6 +35,7 @@ import com.cardpay.pccredit.customer.service.MaintenanceService;
 import com.cardpay.pccredit.intopieces.constant.CardStatus;
 import com.cardpay.pccredit.intopieces.constant.Constant;
 import com.cardpay.pccredit.intopieces.constant.IntoPiecesException;
+import com.cardpay.pccredit.intopieces.filter.AddIntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.filter.IntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.filter.MakeCardFilter;
 import com.cardpay.pccredit.intopieces.model.CustomerAccountData;
@@ -47,8 +48,10 @@ import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationOther;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecom;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecomVo;
+import com.cardpay.pccredit.intopieces.model.CustomerCreditInfo;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.model.MakeCard;
+import com.cardpay.pccredit.intopieces.service.AddIntoPiecesService;
 import com.cardpay.pccredit.intopieces.service.IntoPiecesService;
 import com.cardpay.pccredit.manager.web.AccountManagerParameterForm;
 import com.cardpay.pccredit.product.model.AddressAccessories;
@@ -70,6 +73,7 @@ import com.wicresoft.jrad.base.web.result.JRadPagedQueryResult;
 import com.wicresoft.jrad.base.web.security.LoginManager;
 import com.wicresoft.util.spring.Beans;
 import com.wicresoft.util.spring.mvc.mv.AbstractModelAndView;
+import com.wicresoft.util.web.RequestHelper;
 
 @Controller
 @RequestMapping("/intopieces/intopiecesquery/*")
@@ -91,7 +95,8 @@ public class IntoPiecesControl extends BaseController {
 	@Autowired
 	private MaintenanceService maintenanceService;
 
-
+	@Autowired
+	private AddIntoPiecesService addIntoPiecesService;
 	/**
 	 * 浏览页面
 	 * 
@@ -1310,5 +1315,61 @@ public class IntoPiecesControl extends BaseController {
 	public void initBinder(WebDataBinder binder) {
 		DataBindHelper.initStandardBinder(binder);
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value = "browe.page", method = { RequestMethod.GET })
+	public AbstractModelAndView browe(HttpServletRequest request) {
+		JRadModelAndView mv = new JRadModelAndView("/intopieces/intopieces_decision/input_letter", request);
+		String id = request.getParameter("appId");
+		CustomerCreditInfo info =  intoPiecesService.findCustCreditInfomation(id);
+		mv.addObject("info",info);
+		return mv;
+	}
+	
+	
+	//补充调查模板界面
+		@ResponseBody
+		@RequestMapping(value = "reportImport.page", method = { RequestMethod.GET })
+		@JRadOperation(JRadOperation.BROWSE)
+		public AbstractModelAndView reportImport(@ModelAttribute AddIntoPiecesFilter filter,HttpServletRequest request) {
+			filter.setRequest(request);
+			QueryResult<LocalExcelForm> result = addIntoPiecesService.findLocalExcelByProductAndCustomer(filter);
+			JRadPagedQueryResult<LocalExcelForm> pagedResult = new JRadPagedQueryResult<LocalExcelForm>(filter, result);
+			JRadModelAndView mv = new JRadModelAndView("/intopieces/intopieces_decision/report_import_supple",request);
+			mv.addObject(PAGED_RESULT, pagedResult);
+			
+			return mv;
+		}
+		
+		//导入调查报告
+		@ResponseBody
+		@RequestMapping(value = "reportImport.json")
+		public Map<String, Object> reportImport_json(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response) throws Exception {        
+			response.setContentType("text/html;charset=utf-8");
+			Map<String, Object> map = new HashMap<String, Object>();
+			try {
+				if(file==null||file.isEmpty()){
+					map.put(JRadConstants.SUCCESS, false);
+					map.put(JRadConstants.MESSAGE, CustomerInforConstant.IMPORTEMPTY);
+					return map;
+				}
+				String productId = request.getParameter("productId");
+				String customerId = request.getParameter("customerId");
+				String appId = request.getParameter("applicationId");
+				addIntoPiecesService.importExcelSupple(file,productId,customerId,appId);
+				map.put(JRadConstants.SUCCESS, true);
+				map.put(JRadConstants.MESSAGE, CustomerInforConstant.IMPORTSUCCESS);
+				JSONObject obj = JSONObject.fromObject(map);
+				response.getWriter().print(obj.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				map.put(JRadConstants.SUCCESS, false);
+				map.put(JRadConstants.MESSAGE, "上传失败:"+e.getMessage());
+				JSONObject obj = JSONObject.fromObject(map);
+				response.getWriter().print(obj.toString());
+			}
+			return null;
+		}
+		
+	
 }

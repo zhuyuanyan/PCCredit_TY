@@ -67,4 +67,9 @@
     select count(0) from local_image
     where application_id=#{applicationId}
   </select>
+  
+  
+  <delete id="deleteByProductIdAndCustomerId">
+   	delete LOCAL_EXCEL t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
+  </delete>
 </mapper>
