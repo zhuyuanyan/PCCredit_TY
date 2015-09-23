@@ -201,6 +201,8 @@ public class MaintenanceController extends BaseController{
 					result.getItems().get(i).setEndResult("维护中");
 				}else if("complete".equals(web.getEndResult())){
 					result.getItems().get(i).setEndResult("维护完成");
+				}else{
+					result.getItems().get(i).setEndResult("维护中");
 				}
 			}
 		}

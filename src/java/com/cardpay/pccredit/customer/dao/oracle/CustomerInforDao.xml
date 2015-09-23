@@ -561,7 +561,8 @@
 		d.display_name as userName
 		from basic_customer_information a,customer_application_info
 		b,PRODUCT_ATTRIBUTE c,sys_user d
-		WHERE 1=1 and a.id=b.customer_id and b.product_id=c.id and d.id=a.user_id
+		WHERE 1=1 and a.id=b.customer_id and b.product_id=c.id and d.id=a.user_id 
+		and b.status ='approved'
 		<if test="cardId != null and cardId != '' ">
 			AND a.card_id=#{cardId}
 		</if>
@@ -592,6 +593,7 @@
 		from basic_customer_information a,customer_application_info
 		b,PRODUCT_ATTRIBUTE c,sys_user d
 		WHERE 1=1 and a.id=b.customer_id and b.product_id=c.id and d.id=a.user_id
+		and b.status ='approved'
 		<if test="cardId != null and cardId != '' ">
 			AND a.card_id=#{cardId}
 		</if>
