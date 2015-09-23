@@ -13,7 +13,7 @@ import com.wicresoft.jrad.base.database.model.ModelParam;
 @ModelParam(table = "f_agr_crd_xyk_cuneg",generator=IDType.uuid32)
 public class AgrCrdXykCuneg extends BaseModel {
 	private static final long serialVersionUID = 693517148960639826L;
-
+	private String id;
 	private String bank;
 
     private String fileType;
@@ -47,6 +47,16 @@ public class AgrCrdXykCuneg extends BaseModel {
     private String instNo;
 
     private String createdTime;
+    
+    private String khmc;
+    
+    private String khnm;
+    
+    private String sxrq;
+    
+    private String tcrq;
+    
+    private String sbyy;
 
     public String getBank() {
         return bank;
@@ -183,4 +193,53 @@ public class AgrCrdXykCuneg extends BaseModel {
     public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime == null ? null : createdTime.trim();
     }
+
+	public String getKhmc() {
+		return khmc;
+	}
+
+	public void setKhmc(String khmc) {
+		this.khmc = khmc;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getKhnm() {
+		return khnm;
+	}
+
+	public void setKhnm(String khnm) {
+		this.khnm = khnm;
+	}
+
+	public String getSxrq() {
+		return sxrq;
+	}
+
+	public void setSxrq(String sxrq) {
+		this.sxrq = sxrq;
+	}
+
+	public String getTcrq() {
+		return tcrq;
+	}
+
+	public void setTcrq(String tcrq) {
+		this.tcrq = tcrq;
+	}
+
+	public String getSbyy() {
+		return sbyy;
+	}
+
+	public void setSbyy(String sbyy) {
+		this.sbyy = sbyy;
+	}
+	
 }

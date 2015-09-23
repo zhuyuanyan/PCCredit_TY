@@ -16,12 +16,13 @@ import com.jcraft.jsch.SftpException;
  * @version 创建时间：2015年3月18日 下午4:57:44
  */
 public class CardFtpUtils {
-	public static String bank_ftp_host="33.1.49.1";// 制卡ftp地址
+	public static String bank_ftp_host="10.2.1.5";// 制卡ftp地址
 	public static int bank_ftp_port=21;// 制卡ftp端口
-	public static String bank_ftp_username="ftpxm";// 制卡ftp用户名
-	public static String bank_ftp_password="fil@xm123";// 制卡ftp密码
-	public static String bank_ftp_path="/u/ftppub/xm/xm_response/";// 制卡ftp文件目录
-	public static String bank_ftp_down_path="f:/";// 下载本地目录
+	public static String bank_ftp_username="xdls";// 制卡ftp用户名
+	public static String bank_ftp_password="xdls";// 制卡ftp密码
+	public static String bank_ftp_path="/xdls";// 制卡ftp文件目录
+	public static String bank_ftp_down_path="/usr/local/tmp/";// 下载本地目录
+//	public static String bank_ftp_down_path="f:/";// 下载本地目录
 	public static String bank_ftp_privateKey="";// 密钥文件路径
 	public static String bank_ftp_passphrase="";// 密钥口令
 	private ChannelSftp sftp = null;
@@ -69,9 +70,7 @@ public class CardFtpUtils {
 				if (obj instanceof com.jcraft.jsch.ChannelSftp.LsEntry) {
 					String path = ((com.jcraft.jsch.ChannelSftp.LsEntry) obj)
 							.getFilename();
-					if (path.startsWith("6517-APPLNRESULT")) {
-						files.add(path);
-					}
+					files.add(path);
 
 				}
 			}

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -1516,7 +1517,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyCustomerBase.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyCustomerBase.xml");
 
 			// 解析”客户基础表“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1586,7 +1587,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyCustomerFamilyCy.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyCustomerFamilyCy.xml");
 
 			// 解析”帐单记录表“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1621,7 +1622,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyCustomerFamilyCc.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyCustomerFamilyCc.xml");
 
 			// 解析”帐单记录表“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1656,7 +1657,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyCustomerStudy.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyCustomerStudy.xml");
 
 			// 解析”帐单记录表“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1691,7 +1692,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyCustomerWork.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyCustomerWork.xml");
 
 			// 解析”帐单记录表“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1726,7 +1727,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyCustomerManage.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyCustomerManage.xml");
 
 			// 解析”帐单记录表“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1761,7 +1762,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyCustomerSafe.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyCustomerSafe.xml");
 
 			// 解析”帐单记录表“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1796,17 +1797,17 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyRepayLSZ.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyRepayLSZ.xml");
 
 			// 解析”流水号“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
+			//删除历史数据
+			String sql = "delete from ty_repay_lsz ";
+			commonDao.queryBySql(sql, null);
 			for(Map<String, Object> map : datas){
 				count++;
 				System.out.println(count);
-				//删除历史数据
-				String sql = "delete from ty_repay_lsz ";
-				commonDao.queryBySql(sql, null);
 				// 保存数据
 				customerInforDao.insertRepayLSZ(map);
 				}
@@ -1825,7 +1826,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyRepayYEHZ.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyRepayYEHZ.xml");
 
 			// 解析”流水号“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1858,7 +1859,7 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyRepayTKMX.xml").getPath());
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyRepayTKMX.xml");
 
 			// 解析”流水号“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
@@ -1889,8 +1890,8 @@ public class CustomerInforService {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
-			List<DataFileConf> confList = tools.parseDataFileConf(XmlUtil.class.getResource("/mapping/tyRepayProduct.xml").getPath());
-
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyRepayProduct.xml");
+			
 			// 解析”流水号“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
@@ -1908,4 +1909,36 @@ public class CustomerInforService {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 保数据文件到”黑名单“表
+	 * @param fileName
+	 * @return
+	 * @throws Exception 
+	 */
+	public void saveHMDDataFile(String fileName) {
+		try {
+			ImportBankDataFileTools tools = new ImportBankDataFileTools();
+			// 解析数据文件配置
+			
+			List<DataFileConf> confList = tools.parseDataFileConf("/mapping/tyRepayHMD.xml");
+
+			// 解析”黑名单“数据文件
+			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
+			System.out.println(datas);
+			int count=0;
+			//删除历史数据
+			String sql = "delete from f_agr_crd_xyk_cuneg ";
+			commonDao.queryBySql(sql, null);
+			for(Map<String, Object> map : datas){
+				count++;
+				System.out.println(count);
+				map.put("id", IDGenerator.generateID());
+				// 保存数据
+				customerInforDao.insertHmd(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
