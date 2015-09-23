@@ -965,7 +965,7 @@ public class ProductController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "update.json", method = { RequestMethod.POST })
 	@JRadOperation(JRadOperation.CHANGE)
-	public JRadReturnMap update(@RequestParam(value = "file", required = false) MultipartFile file, @ModelAttribute ProductAttributeForm productAttributeForm, HttpServletRequest request) {
+	public JRadReturnMap update(@ModelAttribute ProductAttributeForm productAttributeForm, HttpServletRequest request) {
 
 		JRadReturnMap returnMap = WebRequestHelper.requestValidation(getModuleName(), productAttributeForm);
 		if (returnMap.isSuccess()) {
@@ -976,13 +976,13 @@ public class ProductController extends BaseController {
 				productAttribute.setModifiedBy(loginId);
 				String prodLimitTime = RequestHelper.getStringValue(request, "prodLimitTime");
 				productAttribute.setProdLimitTime(DateHelper.getDateFormat(prodLimitTime, "yyyy-MM-dd HH:mm:ss"));
-				if (!file.isEmpty()) {
+				/*if (!file.isEmpty()) {
 					Map<String, String> result = UploadFileTool.uploadYxzlFileBySpring(file);
 					String fileName = result.get("fileName");
 					String pictureUrl = result.get("url");
 					productAttribute.setPictureUrl(pictureUrl);
 					productAttribute.setPictureName(fileName);
-				}
+				}*/
 
 				int i = productService.updateProductAttribute(productAttribute);
 				returnMap.put(MESSAGE, "修改成功");
