@@ -21,11 +21,11 @@
             </colgroup>
               <tr><td class="titlec" colspan="4" style="text-align: center;">审议结论</td></tr>
             <tr>
-              <td class="titlefc3"><label for="status">审议结论:</label></td>
-              <td><select id="status" name="status" >
+              <td  class="titlefc3"><label for="status">审议结论:</label></td>
+              <td><select id="status" name="status" onChange="changeDecisionRefusereason();">
                   	#dict("intopieces_decision",$!customerApplicationInfo.status)
                   </select></td>
-              <td class="titlefc3"><label for=decisionRefusereason>拒绝原因:</label></td>
+              <td  class="titlefc3"><label id ="decisionRefusereason" for=decisionRefusereason>拒绝原因:</label></td>
               <td><textarea name="decisionRefusereason" id="decisionRefusereason">$!customerApplicationInfo.decisionRefusereason</textarea></td>
             </tr>
             <tr>
@@ -62,9 +62,12 @@
 	var layout = new FormsLayout("formsId");
 	window.top.currentWindow.setLayout(layout);
 	
+	
 	$(document).ready(function() {		
 		var info = "$!customerApplicationInfo.status";
 		//已提交的显示只读
+		
+		
 		if(info!='audit'){
 			$("input[type='text']").attr("disabled",true);
 			$("input[type='radio']").attr("disabled",true);
@@ -137,6 +140,12 @@
 				if($("textarea[name=decision_refusereason]").val() == ""){
 					 $("textarea[name='decision_refusereason']").after("<label class='error myerror' generated='true' >拒绝原因不能为空</label>");   
 				}
+			}
+			
+			if(status =='nopass_replenish'){
+			  $("#decisionRefusereason").text("补充调查原因");
+			}else{
+		      $("#decisionRefusereason").text("拒绝原因");	
 			}
 			
 		});
