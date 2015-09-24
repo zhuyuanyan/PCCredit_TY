@@ -72,4 +72,9 @@
   <delete id="deleteByProductIdAndCustomerId">
    	delete LOCAL_EXCEL t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
   </delete>
+  
+  
+  <update id="updateCustomerInfoStatus">
+		update customer_application_info  set status = 'audit' where id =#{appId}
+  </update>
 </mapper>
