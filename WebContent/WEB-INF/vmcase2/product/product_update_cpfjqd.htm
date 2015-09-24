@@ -69,7 +69,6 @@
 		window.top.currentWindow.setLayout(layout);
 
 		#set ($formName = "'#id_module_form'")
-		#validator($formName)
 		 $(document).ready(function() {
 			 $("#id_save_button").click(function() {
 			        if ($($formName).valid()) {
