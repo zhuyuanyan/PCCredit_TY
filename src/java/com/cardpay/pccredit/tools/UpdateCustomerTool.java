@@ -39,7 +39,7 @@ public class UpdateCustomerTool {
 	public String curRemotePath = "";//本次下载服务器目录
 	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_yehz.zip","kdk_lsz.zip","kdk_tkmx.zip","cxd_dkcpmc.zip","kkh_hmdgl.zip"};
 	//客户原始信息
-	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt"};
+	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt","kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt","cxd_dkcpmc.txt","kkh_hmdgl.txt"};
 	//流水账、余额汇总表、借据表
 	private String[] fileTxtRepay ={"kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt"};
 	//产品信息、黑名单
@@ -47,7 +47,7 @@ public class UpdateCustomerTool {
 	@Autowired
 	private CustomerInforService customerInforService;
 	
-	@Scheduled(cron = "0 08 16 * * ?")
+	@Scheduled(cron = "0 25 17 * * ?")
 	public void downloadFiles(){
 		log.error("下载文件：");
 		CardFtpUtils sftp = new CardFtpUtils();
@@ -163,7 +163,7 @@ public class UpdateCustomerTool {
 	 * 解析（原始信息）
 	 * @throws IOException 
 	 */
-	@Scheduled(cron = "0 12 17 * * ?")
+	@Scheduled(cron = "0 30 17 * * ?")
 	private void readFile() throws IOException{
 		//获取今日日期
 	      //yyyyMMdd格式
@@ -179,8 +179,8 @@ public class UpdateCustomerTool {
 						String fileN = "";
 						//判断文件大小，超过50M的先分割
 						if (f.exists() && f.isFile()){
-							if(f.length()>40000000){
-								int spCount = (int) (f.length()/40000000);
+							if(f.length()>30000000){
+								int spCount = (int) (f.length()/30000000);
 								SPTxt.splitTxt(url,spCount);
 								int to = fileTxt[i].lastIndexOf('.');
 						    	fileN = fileTxt[i].substring(0, to);
@@ -223,6 +223,21 @@ public class UpdateCustomerTool {
 									if(fn.startsWith("kkh_grrbxx")){
 										log.error("*****************客户入保信息表********************");  
 										customerInforService.saveSafeDataFile(gzFile+File.separator+fn);
+									}else if(fn.startsWith("kdk_lsz")){
+										log.error("*****************流水账信息********************");  
+										customerInforService.saveLSZDataFile(gzFile+File.separator+fn);
+									}else if(fn.startsWith("kdk_yehz")){
+										log.error("*****************余额汇总信息********************");  
+										customerInforService.saveYEHZDataFile(gzFile+File.separator+fn);
+									}else if(fn.startsWith("kdk_tkmx")){
+										log.error("*****************借据表信息********************");  
+										customerInforService.saveTKMXDataFile(gzFile+File.separator+fn);
+									}else if(fn.startsWith("cxd_dkcpmc")){
+										log.error("*****************产品信息********************");  
+										customerInforService.saveProductDataFile(gzFile+File.separator+fn);
+									}else if(fn.startsWith("kkh_hmdgl")){
+										log.error("*****************黑名单********************");  
+										customerInforService.saveHMDDataFile(gzFile+File.separator+fn);
 									}
 								} 
 							}catch(Exception e){
@@ -230,6 +245,7 @@ public class UpdateCustomerTool {
 								throw new RuntimeException(e);
 							}
 						}
+						f.delete();
 				}
 	        }
 	        log.error(dateString+"******************完成读取原始信息文件********************");
@@ -241,7 +257,7 @@ public class UpdateCustomerTool {
 	 *解析贷款信息
 	 * @throws IOException 
 	 */
-	@Scheduled(cron = "0 20 17 * * ?")
+//	@Scheduled(cron = "0 05 19 * * ?")
 	private void readFileRepay() throws IOException{
 		//获取今日日期
 	      //yyyyMMdd格式
@@ -302,7 +318,7 @@ public class UpdateCustomerTool {
 	 *解析产品信息
 	 * @throws IOException 
 	 */
-	@Scheduled(cron = "0 30 17 * * ?")
+//	@Scheduled(cron = "0 20 19 * * ?")
 	private void readFileProduct() throws IOException{
 		//获取今日日期
 	      //yyyyMMdd格式
