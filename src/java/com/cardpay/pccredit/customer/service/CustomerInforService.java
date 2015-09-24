@@ -1415,8 +1415,11 @@ public class CustomerInforService {
 	
 	public CustomerFirsthendBaseLocal findCustomerFirsthendLocalByNm(String nmId){
 		String sql = "select * from ty_customer_base_local where khnm='"+nmId+"'";
-		CustomerFirsthendBaseLocal info = commonDao.queryBySql(CustomerFirsthendBaseLocal.class,sql , null).get(0);
-		return info;
+		List<CustomerFirsthendBaseLocal> infolist = commonDao.queryBySql(CustomerFirsthendBaseLocal.class,sql , null);
+		if(infolist.size()>0){
+			return infolist.get(0);
+		}
+		return null;
 	}
 	
 	public void updateCustomerFirsthendLocal(CustomerFirsthendBaseLocal baseLocal){

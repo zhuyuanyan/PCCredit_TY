@@ -341,11 +341,9 @@
 		}
     </script>
 	<script type="text/javascript">
-		var layout = new FormsLayout("formsId");
-		window.top.currentWindow.setLayout(layout);
+	
 
 		#set ($formName = "'#id_module_form'")
-		#validator($formName)
 		 $(document).ready(function() {
 		     #if($!collectionType == "age")
 			    	document.getElementById("age").style.display="block";
