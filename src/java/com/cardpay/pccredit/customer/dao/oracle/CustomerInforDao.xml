@@ -561,7 +561,8 @@
 		d.display_name as userName
 		from basic_customer_information a,customer_application_info
 		b,PRODUCT_ATTRIBUTE c,sys_user d
-		WHERE 1=1 and a.id=b.customer_id and b.product_id=c.id and d.id=a.user_id
+		WHERE 1=1 and a.id=b.customer_id and b.product_id=c.id and d.id=a.user_id 
+		and b.status ='approved'
 		<if test="cardId != null and cardId != '' ">
 			AND a.card_id=#{cardId}
 		</if>
@@ -592,6 +593,7 @@
 		from basic_customer_information a,customer_application_info
 		b,PRODUCT_ATTRIBUTE c,sys_user d
 		WHERE 1=1 and a.id=b.customer_id and b.product_id=c.id and d.id=a.user_id
+		and b.status ='approved'
 		<if test="cardId != null and cardId != '' ">
 			AND a.card_id=#{cardId}
 		</if>
@@ -786,5 +788,9 @@
 		(#{createTime,jdbcType=VARCHAR},
 		#{productCode,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR})
 	</insert>
-
+	<insert id="insertHmd" parameterType="map">
+		INSERT INTO f_agr_crd_xyk_cuneg (id,CREATED_TIME,ZBJG,KHNM,SXRQ,TCRQ,SBYY) values
+		(#{id,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},
+		#{zbjg,jdbcType=VARCHAR}, #{khnm,jdbcType=VARCHAR}, #{sxrq,jdbcType=VARCHAR}, #{tcrq,jdbcType=VARCHAR}, #{sbyy,jdbcType=VARCHAR})
+	</insert>
 </mapper>

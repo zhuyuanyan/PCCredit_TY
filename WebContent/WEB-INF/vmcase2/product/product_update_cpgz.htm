@@ -11,7 +11,7 @@
             <li class="tab"><a href="${contextPath}/product/productinformation/change_cpfjqd.page?id=${productId}">附件清单</a></li>
             <li class="tab activeTab"><a href="${contextPath}/product/productinformation/change_cpgz.page?id=${productId}">产品规则</a></li>
             <li class="tab"><a href="${contextPath}/product/productinformation/change_csgz.page?id=${productId}">催收规则</a></li>
-            <li class="tab"><a href="${contextPath}/product/productinformation/change_cpsxgz.page?id=${productId}">筛选规则</a></li>
+           <!--  <li class="tab"><a href="${contextPath}/product/productinformation/change_cpsxgz.page?id=${productId}">筛选规则</a></li> -->
          </ul>
         </div>
 			</div>
@@ -196,13 +196,24 @@
 			     	 
 			     	 $("#accessorieIds").val(accessorieIds);
 			     	 var formjson = $($formName).serialize();
-			          $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
+			       /*    $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
 			            if (data.success) {
-			            
 			                navigateTo("${contextPath}/product/productinformation/browse.page");
-			              
 			            }
-			          });
+			          }); */
+			     	$.ajax({
+						url : $($formName).attr("action"),
+						type : "get",
+						data : formjson,
+						success : function(data) {
+							if (data.success) {
+								 navigateTo("${contextPath}/product/productinformation/browse.page");
+								topWin.Dialog.message("保存成功！");
+							}else{
+								topWin.Dialog.message(data.message);
+						    }
+						}
+					});
 			        }
 			      });
 		});

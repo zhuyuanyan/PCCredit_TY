@@ -29,39 +29,17 @@
               <col width="80" />
               <col width="80" />
               <col width="80" />
-              <col width="130" />
-              <col width="130" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
               <col width="80" />
             </colgroup>
             <tr class="title">
               <th nowrap="nowrap"></th>
-              <th nowrap="nowrap">客户证件号码</th>
-              <th nowrap="nowrap">银行</th>
-              <th nowrap="nowrap">文件类型</th>
-              <th nowrap="nowrap">文件状态</th>
+
               <th nowrap="nowrap">客户姓名/公司名称</th>
-              <th nowrap="nowrap">客户参考资料编号</th>
-              <th nowrap="nowrap">申请书编号</th>
-              <th nowrap="nowrap">产品</th>
-              <th nowrap="nowrap">原因代码</th>
-              <th nowrap="nowrap">原因代码</th>
-              <th nowrap="nowrap">黑名单来源</th>
-              <th nowrap="nowrap">评分备注</th>
-              <th nowrap="nowrap">变更日期</th>
-              <th nowrap="nowrap">变更时间</th>
-              <th nowrap="nowrap">变更员工</th>
-              <th nowrap="nowrap">机构号</th>
-              <th nowrap="nowrap">创建日期</th>
+              <th nowrap="nowrap">客户内码</th>
+              <th nowrap="nowrap">生效时间</th>
+              <th nowrap="nowrap">退出时间</th>
+              <th nowrap="nowrap">上榜原因</th>
+              
             </tr>
           </table>
         </div>
@@ -73,41 +51,17 @@
               <col width="80" />
               <col width="80" />
               <col width="80" />
-              <col width="130" />
-              <col width="130" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
-              <col width="80" />
               <col width="80" />
             </colgroup>
             #foreach ($agrCrdXykCuneg in $result.items)
             <tr status="$!agrCrdXykCuneg.status">
               <td class="checkbox"><input type="radio" name="checkbox" value="$!agrCrdXykCuneg.id"
                   #if ($!request.getParameter("recordId") == $!agrCrdXykCuneg.id) checked="checked" #end /></td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.custrNbr</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.bank</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.fileType</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.cunegSts</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.nameExtnd</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.custrRef</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.applnref</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.product</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.reasnCode</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.reasnDesc</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.inpSource</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.scorNote</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.chgDay</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.chgTime</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.chgEmploy</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.instNo</td>
-              <td nowrap="nowrap">$!agrCrdXykCuneg.createdTime</td>
+              <td nowrap="nowrap">$!agrCrdXykCuneg.khmc</td>
+              <td nowrap="nowrap">$!agrCrdXykCuneg.khnm</td>
+              <td nowrap="nowrap">$!agrCrdXykCuneg.sxrq</td>
+              <td nowrap="nowrap">$!agrCrdXykCuneg.tcrq</td>
+              <td nowrap="nowrap">$!agrCrdXykCuneg.sbyy</td>
             </tr>
             #end
           </table>

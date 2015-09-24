@@ -35,8 +35,15 @@ public class MaintenanceWeb {
 	private String endDay;
 	private String appId;
 	
+	private String dkye;//贷款余额即剩余本金
 	
 	
+	public String getDkye() {
+		return dkye;
+	}
+	public void setDkye(String dkye) {
+		this.dkye = dkye;
+	}
 	public String getStartDay() {
 		return startDay;
 	}

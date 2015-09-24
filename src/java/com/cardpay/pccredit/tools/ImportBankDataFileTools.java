@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.net.URL;
@@ -61,7 +62,8 @@ public class ImportBankDataFileTools {
 		//创建一个读取工具
 	    SAXReader xmlReader = new SAXReader();
 	    //获取xml文档实例 
-	    Document xmlDocument = (Document) xmlReader.read(new FileInputStream(fileName));
+	    InputStream is = ImportBankDataFileTools.class.getResourceAsStream(fileName);
+	    Document xmlDocument = (Document) xmlReader.read(is);
 	    List<Element> elements = xmlDocument.getRootElement().elements();
 	    String column, jdbcType, index, style;
 	    for(Element element : elements){

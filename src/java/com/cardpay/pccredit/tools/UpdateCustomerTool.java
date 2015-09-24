@@ -37,19 +37,19 @@ public class UpdateCustomerTool {
 	public Logger log = Logger.getLogger(UpdateCustomerTool.class);
 	
 	public String curRemotePath = "";//本次下载服务器目录
-	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_yehz.zip","kdk_lsz.zip","kdk_tkmx.zip","cxd_dkcpmc.zip"};
+	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_yehz.zip","kdk_lsz.zip","kdk_tkmx.zip","cxd_dkcpmc.zip","kkh_hmdgl.zip"};
 	//客户原始信息
 	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt"};
 	//流水账、余额汇总表、借据表
 	private String[] fileTxtRepay ={"kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt"};
-	//产品信息
-	private String[] fileTxtProduct ={"cxd_dkcpmc.txt"};
+	//产品信息、黑名单
+	private String[] fileTxtProduct ={"cxd_dkcpmc.txt","kkh_hmdgl.txt"};
 	@Autowired
 	private CustomerInforService customerInforService;
 	
-//	@Scheduled(cron = "0/1 * * * * ?")
+	@Scheduled(cron = "0 08 16 * * ?")
 	public void downloadFiles(){
-		System.out.println("下载文件：");
+		log.error("下载文件：");
 		CardFtpUtils sftp = new CardFtpUtils();
 		try {
 			sftp.connect();
@@ -58,16 +58,16 @@ public class UpdateCustomerTool {
 	      //yyyyMMdd格式
 			DateFormat format = new SimpleDateFormat("yyyyMMdd");
 			String dateString = format.format(new Date());
-			curRemotePath = curRemotePath+File.separator+"XDDATA_"+dateString;
+			curRemotePath = curRemotePath+File.separator+dateString;
 			//获取文件列表
 			ArrayList<String> files = sftp.getList(curRemotePath);
 			// 处理ftp文件
 			processFtpFile(sftp, files);
 			
 		} catch (JSchException e) {
-			log.error("", e);
+			e.printStackTrace();
 		} catch (SftpException e) {
-			log.error("", e);
+			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -118,8 +118,8 @@ public class UpdateCustomerTool {
 				log.error("处理文件" + file + "出错", e);
 			}
 		}
-		System.out.println(dateString+"******************开始解压********************");  
-		String gzFile = CardFtpUtils.bank_ftp_down_path+"XDDATA_"+dateString;
+		log.error(dateString+"******************开始解压********************");  
+		String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
 		for(int i=0;i<fileName.length;i++){
 			String url1 = gzFile+File.separator+fileName[i];
 			File fileUrl = new File(url1);
@@ -155,7 +155,7 @@ public class UpdateCustomerTool {
 			}
 			
 		}
-		 System.out.println(dateString+"******************解压完毕********************");  
+		log.error(dateString+"******************解压完毕********************");  
 	}
 	
 	
@@ -163,14 +163,14 @@ public class UpdateCustomerTool {
 	 * 解析（原始信息）
 	 * @throws IOException 
 	 */
-	@Scheduled(cron = "0 50 16 * * ?")
+	@Scheduled(cron = "0 12 17 * * ?")
 	private void readFile() throws IOException{
 		//获取今日日期
 	      //yyyyMMdd格式
 		DateFormat format = new SimpleDateFormat("yyyyMMdd");
 		String dateString = format.format(new Date());
-	        System.out.println(dateString+"******************开始读取原始信息文件********************");  
-	        String gzFile = CardFtpUtils.bank_ftp_down_path+"XDDATA_"+dateString;
+		log.error(dateString+"******************开始读取原始信息文件********************");  
+	        String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
 	        for(int i=0;i<fileTxt.length;i++){
 				String url = gzFile+File.separator+fileTxt[i];
 				File f = new File(url);
@@ -197,31 +197,31 @@ public class UpdateCustomerTool {
 							try{
 								if(fn.contains(fileN)) {
 									if(fn.startsWith("kkh_grxx")){
-										System.out.println("*****************客户基本表********************");  
+										log.error("*****************客户基本表********************");  
 										customerInforService.saveBaseDataFile(gzFile+File.separator+fn);
 									}
 									if(fn.startsWith("kkh_grjtcy")){
-										System.out.println("*****************客户家庭关系表********************");  
+										log.error("*****************客户家庭关系表********************");  
 										customerInforService.saveCyDataFile(gzFile+File.separator+fn);
 									}
 									if(fn.startsWith("kkh_grjtcc")){
-										System.out.println("*****************客户家庭财产表********************");  
+										log.error("*****************客户家庭财产表********************");  
 										customerInforService.saveCcDataFile(gzFile+File.separator+fn);
 									}
 									if(fn.startsWith("kkh_grxxll")){
-										System.out.println("*****************客户学习表********************");  
+										log.error("*****************客户学习表********************");  
 										customerInforService.saveStudyDataFile(gzFile+File.separator+fn);
 									}
 									if(fn.startsWith("kkh_grgzll")){
-										System.out.println("*****************客户工作履历表********************");  
+										log.error("*****************客户工作履历表********************");  
 										customerInforService.saveWorkDataFile(gzFile+File.separator+fn);
 									}
 									if(fn.startsWith("kkh_grscjy")){
-									System.out.println("*****************客户生产经营表********************");  
+										log.error("*****************客户生产经营表********************");  
 									customerInforService.saveManageDataFile(gzFile+File.separator+fn);
 								}
 									if(fn.startsWith("kkh_grrbxx")){
-										System.out.println("*****************客户入保信息表********************");  
+										log.error("*****************客户入保信息表********************");  
 										customerInforService.saveSafeDataFile(gzFile+File.separator+fn);
 									}
 								} 
@@ -232,7 +232,7 @@ public class UpdateCustomerTool {
 						}
 				}
 	        }
-	      System.out.println(dateString+"******************完成读取原始信息文件********************");
+	        log.error(dateString+"******************完成读取原始信息文件********************");
 
 	}
 	
@@ -241,15 +241,15 @@ public class UpdateCustomerTool {
 	 *解析贷款信息
 	 * @throws IOException 
 	 */
-	@Scheduled(cron = "0 03 12 * * ?")
+	@Scheduled(cron = "0 20 17 * * ?")
 	private void readFileRepay() throws IOException{
 		//获取今日日期
 	      //yyyyMMdd格式
 		DateFormat format = new SimpleDateFormat("yyyyMMdd");
 		String dateString = format.format(new Date());
-		String gzFile = CardFtpUtils.bank_ftp_down_path+"XDDATA_"+dateString;
+		String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
 
-        System.out.println("******************开始读取文件********************");  
+		log.error(dateString+"******************开始读取贷款文件********************");  
         for(int i=0;i<fileTxtRepay.length;i++){
 			String url = gzFile+File.separator+fileTxtRepay[i];
 			File f = new File(url);
@@ -276,13 +276,13 @@ public class UpdateCustomerTool {
 						try{
 							if(fn.contains(fileN)) {
 								if(fn.startsWith("kdk_lsz")){
-									System.out.println("*****************流水账信息********************");  
+									log.error("*****************流水账信息********************");  
 									customerInforService.saveLSZDataFile(gzFile+File.separator+fn);
 								}else if(fn.startsWith("kdk_yehz")){
-									System.out.println("*****************余额汇总信息********************");  
+									log.error("*****************余额汇总信息********************");  
 									customerInforService.saveYEHZDataFile(gzFile+File.separator+fn);
 								}else if(fn.startsWith("kdk_tkmx")){
-									System.out.println("*****************借据表信息********************");  
+									log.error("*****************借据表信息********************");  
 									customerInforService.saveTKMXDataFile(gzFile+File.separator+fn);
 								}
 							} 
@@ -294,7 +294,7 @@ public class UpdateCustomerTool {
 					f.delete();
 			}
         }
-      System.out.println("******************完成读取文件********************");
+        log.error(dateString+"******************完成读取贷款文件********************");
 
 	}
 	
@@ -302,15 +302,15 @@ public class UpdateCustomerTool {
 	 *解析产品信息
 	 * @throws IOException 
 	 */
-	@Scheduled(cron = "0 02 11 * * ?")
+	@Scheduled(cron = "0 30 17 * * ?")
 	private void readFileProduct() throws IOException{
 		//获取今日日期
 	      //yyyyMMdd格式
 		DateFormat format = new SimpleDateFormat("yyyyMMdd");
 		String dateString = format.format(new Date());
-		String gzFile = CardFtpUtils.bank_ftp_down_path+"XDDATA_"+dateString;
+		String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
 
-        System.out.println("******************开始读取文件********************");  
+		log.error("******************开始读取产品文件********************");  
         for(int i=0;i<fileTxtProduct.length;i++){
 			String url = gzFile+File.separator+fileTxtProduct[i];
 			File f = new File(url);
@@ -337,8 +337,11 @@ public class UpdateCustomerTool {
 						try{
 							if(fn.contains(fileN)) {
 								if(fn.startsWith("cxd_dkcpmc")){
-									System.out.println("*****************产品信息********************");  
+									log.error("*****************产品信息********************");  
 									customerInforService.saveProductDataFile(gzFile+File.separator+fn);
+								}else if(fn.startsWith("kkh_hmdgl")){
+									log.error("*****************黑名单********************");  
+									customerInforService.saveHMDDataFile(gzFile+File.separator+fn);
 								}
 							} 
 						}catch(Exception e){
@@ -349,7 +352,7 @@ public class UpdateCustomerTool {
 					f.delete();
 			}
         }
-      System.out.println("******************完成读取文件********************");
+        log.error("******************完成读取产品文件********************");
 
 	}
 	public static void main(String[] args) throws Exception{
