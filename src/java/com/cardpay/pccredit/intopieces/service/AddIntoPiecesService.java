@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -147,6 +148,10 @@ public class AddIntoPiecesService {
 		localExcel.setSheetLsfx(sheet[15]);
 		
 		commonDao.insertObject(localExcel);
+		
+		//修改进件状态为已申请-audit
+		localImageDao.updateCustomerInfoStatus(appId);
+		
 	}
 
 	/* 查询影像资料信息 */
