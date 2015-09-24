@@ -86,7 +86,6 @@
 	window.top.currentWindow.setLayout(layout);
 	#set ($formName = "'#id_module_form'")
 	#parse ("/customer/maintenance/maintenance_validation.js")
-	#validator($formName)
 	
 	$("#id_save_button").click(function() {
 		if(submitFlag == 1){
