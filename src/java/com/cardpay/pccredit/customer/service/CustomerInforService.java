@@ -1564,14 +1564,16 @@ public class CustomerInforService {
 						commonDao.updateObject(info);
 					}
 				}
-				//先查询客户维护表，存在不操作否则插入(新增原始信息维护表)
-				String sql1 = "select * from ty_customer_base_local where khnm='"+map.get("khnm").toString()+"'";
-				List<CustomerFirsthendBase> list1 = commonDao.queryBySql(CustomerFirsthendBase.class, sql1, null);
-				if(list1.size()==0){
-					customerInforDao.insertCustomerBaseLocal(map);
-				}
+				//先查询客户维护表，存在不操作否则插入(新增原始信息维护表)(触发器执行)
+//				String sql1 = "select * from ty_customer_base_local where khnm='"+map.get("khnm").toString()+"'";
+//				List<CustomerFirsthendBase> list1 = commonDao.queryBySql(CustomerFirsthendBase.class, sql1, null);
+//				if(list1.size()==0){
+//					customerInforDao.insertCustomerBaseLocal(map);
+//				}
 				
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1607,6 +1609,8 @@ public class CustomerInforService {
 
 				
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1642,6 +1646,8 @@ public class CustomerInforService {
 
 				
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1677,6 +1683,8 @@ public class CustomerInforService {
 
 				
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1712,6 +1720,8 @@ public class CustomerInforService {
 
 				
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1747,6 +1757,8 @@ public class CustomerInforService {
 
 				
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1782,6 +1794,8 @@ public class CustomerInforService {
 
 				
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1811,6 +1825,8 @@ public class CustomerInforService {
 				// 保存数据
 				customerInforDao.insertRepayLSZ(map);
 				}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1833,6 +1849,7 @@ public class CustomerInforService {
 			int count=0;
 			for(Map<String, Object> map : datas){
 				count++;
+				System.out.println(count);
 				// 保存数据
 				String sql = "select * from ty_repay_yehz where jjh='"+map.get("jjh").toString()+"'";
 				List<TyRepayYehz> list = commonDao.queryBySql(TyRepayYehz.class, sql, null);
@@ -1841,9 +1858,11 @@ public class CustomerInforService {
 				}else{
 					customerInforDao.insertRepayYEHZ(map);
 				}
-				//历史表新增
-				customerInforDao.insertRepayYEHZHistory(map);
+				//历史表新增(用触发器)
+//				customerInforDao.insertRepayYEHZHistory(map);
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1876,6 +1895,8 @@ public class CustomerInforService {
 					customerInforDao.insertRepayTKMX(map);
 				}
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1905,6 +1926,8 @@ public class CustomerInforService {
 					customerInforDao.insertProduct(map);
 				}
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1936,6 +1959,8 @@ public class CustomerInforService {
 				// 保存数据
 				customerInforDao.insertHmd(map);
 			}
+			//释放空间
+			datas=null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
