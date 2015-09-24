@@ -23,11 +23,11 @@
             <li class="tab"><a href="${contextPath}/product/productinformation/change_cpfjqd.page?id=${productId}">附件清单</a></li>
             <li class="tab"><a href="${contextPath}/product/productinformation/change_cpgz.page?id=${productId}">产品规则</a></li>
             <li class="tab"><a href="${contextPath}/product/productinformation/change_csgz.page?id=${productId}">催收规则</a></li>
-            <li class="tab"><a href="${contextPath}/product/productinformation/change_cpsxgz.page?id=${productId}">筛选规则</a></li>
+            <!-- <li class="tab"><a href="${contextPath}/product/productinformation/change_cpsxgz.page?id=${productId}">筛选规则</a></li> -->
          </ul>
         </div>
 			</div>
-			<form id="id_module_form" action="${contextPath}/product/productinformation/update.json" enctype="multipart/form-data" method="post">
+			<form id="id_module_form" action="${contextPath}/product/productinformation/update.json"  method="post">
 				<div class="forms" id="formsId">
 					<input type="hidden" name="id" value="$!product.id" />
 					<table class="rule">
@@ -154,7 +154,7 @@
 							<td><input type="text" id="productRiskTolerance" name="productRiskTolerance"
 								value="$!product.productRiskTolerance" /></td>
 						</tr>
-						</tr>
+						<!-- <tr>
 							<td><label>产品图片：</label></td>
             				<td>
               					 <input type="file" name="file">
@@ -163,10 +163,10 @@
             				<td><label>查看当前图片：</label></td>
             				<td>
             				<a href="javascript:void(0)" onclick="viewPicture('${contextPath}/product/productinformation/getPicture.page?id=$!{product.id}&flag=true')">产品图片预览</a>
-            				 <!--  <div class="divcss5_list_title"><a class="ml20" href="#" id="click_test2">产品图片预览</a></div> -->
+            				  <div class="divcss5_list_title"><a class="ml20" href="#" id="click_test2">产品图片预览</a></div>
               					 
             				</td>
-						<tr>
+						</tr> -->
 					</table>
 				</div>
 			</form>
@@ -178,6 +178,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+	
 	function viewPicture(url){
 		url+='&tempid='+Math.random();
 		Dialog.img(url,"原始图片","650","120");
@@ -201,14 +202,14 @@
 				Dialog.message("操作失败");
 				return false;
 			}
-		});
+		}); 
 	}
 	
 		var layout = new FormsLayout("formsId");
 		window.top.currentWindow.setLayout(layout);
 
 		 #set ($formName = "'#id_module_form'")
-			#validator($formName)
+		 #parse ("product/product_create_validation.js")
 		 $(document).ready(function() {
 			 $("#id_save_button").click(function() {
 			        if ($($formName).valid()) {

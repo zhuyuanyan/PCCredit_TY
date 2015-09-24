@@ -193,7 +193,6 @@
 
 	 #set ($formName = "'#id_module_form'")
 	 #parse ("product/product_create_validation.js")
-	#validator($formName)
 	 $(document).ready(function() {
 		 $("#id_save_button").click(function() {
 		        if ($($formName).valid()) {

@@ -199,11 +199,25 @@
 		     	 
 		     	 $("#accessorieIds").val(accessorieIds);
 		     	 var formjson = $($formName).serialize();
-		          $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
+		         /*  $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
 		            if (data.success) {
 		                navigateTo("${contextPath}/product/productinformation/create_cpcsjh.page" + "?productId=" + data.productId);
 		            }
-		          });
+		          }); */
+		     	$.ajax({
+					url : $($formName).attr("action"),
+					type : "get",
+					data : formjson,
+					success : function(data) {
+						if (data.success) {
+							navigateTo("${contextPath}/product/productinformation/create_cpcsjh.page" + "?productId=" + data.productId);
+							topWin.Dialog.message("保存成功！");
+						}
+						else{
+							topWin.Dialog.message(data.message);
+					    }
+					}
+				});
 		        }
 		      });
 	}); 
