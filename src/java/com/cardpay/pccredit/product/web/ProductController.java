@@ -91,7 +91,7 @@ public class ProductController extends BaseController {
 	public AbstractModelAndView browse(@ModelAttribute ProductFilter filter, HttpServletRequest request) {
 		filter.setRequest(request);
 
-		QueryResult<ProductAttribute> result = productService.findProductsByNameFilter(filter);
+		QueryResult<ProductAttribute> result = productService.findProductsFilter(filter);
 		JRadPagedQueryResult<ProductAttribute> pagedResult = new JRadPagedQueryResult<ProductAttribute>(filter, result);
 
 		JRadModelAndView mv = new JRadModelAndView("/product/product_browse", request);
@@ -222,6 +222,13 @@ public class ProductController extends BaseController {
 				IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 				String prodLimitTime = RequestHelper.getStringValue(request, "prodLimitTime");
 				String loginId = user.getId();
+				//新增验证产品名称是否重复
+				int i = productService.findProductCountByName(productAttributeForm.getProductName(),null);
+				if(i > 0){
+					returnMap.setSuccess(false);
+					returnMap.addGlobalError("该产品名称已经存在："+productAttributeForm.getProductName());
+					return returnMap;
+				}
 				ProductAttribute productAttribute = productAttributeForm.createModel(ProductAttribute.class);
 				productAttribute.setCreatedBy(loginId);
 				productAttribute.setProdLimitTime(DateHelper.getDateFormat(prodLimitTime, "yyyy-MM-dd HH:mm:ss"));
@@ -976,13 +983,13 @@ public class ProductController extends BaseController {
 				productAttribute.setModifiedBy(loginId);
 				String prodLimitTime = RequestHelper.getStringValue(request, "prodLimitTime");
 				productAttribute.setProdLimitTime(DateHelper.getDateFormat(prodLimitTime, "yyyy-MM-dd HH:mm:ss"));
-				/*if (!file.isEmpty()) {
-					Map<String, String> result = UploadFileTool.uploadYxzlFileBySpring(file);
-					String fileName = result.get("fileName");
-					String pictureUrl = result.get("url");
-					productAttribute.setPictureUrl(pictureUrl);
-					productAttribute.setPictureName(fileName);
-				}*/
+			
+				int n = productService.findProductCountByName(productAttributeForm.getProductName(),productAttributeForm.getId());
+				if(n > 0){
+					returnMap.setSuccess(false);
+					returnMap.addGlobalError("该产品名称已经存在："+productAttributeForm.getProductName());
+					return returnMap;
+				}
 
 				int i = productService.updateProductAttribute(productAttribute);
 				returnMap.put(MESSAGE, "修改成功");
