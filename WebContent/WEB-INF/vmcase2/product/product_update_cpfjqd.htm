@@ -93,7 +93,8 @@
 						data : formjson,
 						success : function(data) {
 							if (data.success) {
-								navigateTo("${contextPath}/product/productinformation/browse.page");
+								//navigateTo("${contextPath}/product/productinformation/browse.page");
+								window.location.reload(true);
 								topWin.Dialog.message("保存成功！");
 							}else{
 								topWin.Dialog.message(data.message);
