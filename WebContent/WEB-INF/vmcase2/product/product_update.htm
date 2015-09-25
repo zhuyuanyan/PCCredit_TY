@@ -193,7 +193,7 @@
 						navigateTo("${contextPath}/product/productinformation/browse.page");
 					 });
 				} else {
-					Dialog.message(data.message);
+					Dialog.message(data.errors.errors[0].message);
 					return false;
 				}
 			},

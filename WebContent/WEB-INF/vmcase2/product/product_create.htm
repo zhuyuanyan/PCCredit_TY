@@ -174,7 +174,7 @@
 						navigateTo("${contextPath}/product/productinformation/create_cpfjqd.page"+"?productId=" +data.productId);
 					 });
 				} else {
-					Dialog.message(data.message);
+					Dialog.message(data.errors.errors[0].message);
 					return false;
 				}
 			},
