@@ -360,7 +360,7 @@ public class IntoPiecesComdao {
 						    "                product_attribute          e     "+    
 						    "           where a.customer_id =b.id             "+             
 						    "                 and b.ty_customer_id = c.id     "+              
-						    "                 and c.khh = d.khh               "+
+						    "                 and c.KHNM = d.khh               "+
 						    "                 and a.product_id = e.id         "+
 						    "                 and e.PRODUCT_TYPE_CODE = d.cpmc     "+                       
 						    "                 and a.status ='approved'        "+             
@@ -394,7 +394,7 @@ public class IntoPiecesComdao {
 					"		          and app.product_id  = prod.id       "+
 					"		          and info.ty_customer_id = base.id   "+
 					"		          and prod.PRODUCT_TYPE_CODE = tkmz.cpmc   "+
-					"		          and base.khh = tkmz.khh             "+
+					"		          and base.KHNM = tkmz.khh             "+
 					"		          and tkmz.jjh = yehz.jjh             "+
 	   				"				  and app.id = '"+appId+"'		      ";
 
