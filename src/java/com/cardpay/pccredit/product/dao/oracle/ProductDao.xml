@@ -256,7 +256,10 @@
 				AND PRODUCT_NAME=#{productName}
 			</if>
 			And t.prod_limit_time >= sysdate
-			And t.status ='Published'
+		    <if test="status != null and status != '' ">
+				And t.status = #{status}
+			</if>
+			
 		 <![CDATA[		
 							) ROW_
 						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
@@ -275,7 +278,21 @@
 			AND PRODUCT_NAME=#{productName}
 		</if>
 		And t.prod_limit_time >= sysdate
-		And t.status ='Published'
+		<if test="status != null and status != '' ">
+		    And t.status = #{status}
+		</if>
 		)
+	</select>
+	
+	<select id="findProductCountByName" resultType="int">
+	select count(*)
+	from PRODUCT_ATTRIBUTE p
+	where 1=1
+	<if test="productName != null and productName != '' ">
+	 And p.PRODUCT_NAME = #{productName}
+    </if>
+    <if test="productId != null and productId != '' ">
+	 And p.ID != #{productId}
+    </if>
 	</select>
 </mapper>

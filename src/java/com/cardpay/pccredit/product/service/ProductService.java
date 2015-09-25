@@ -130,19 +130,29 @@ public class ProductService {
 		return productAttribute.getId();
 	}
 
-	// 根据过滤条件查询产品
+	// 根据过滤条件查询产品（进件新增）
 	public QueryResult<ProductAttribute> findProductsByFilter(ProductFilter filter) {
 		//return commonDao.findObjectsByFilter(ProductAttribute.class, filter);
+		filter.setStatus("Published");
 		List<ProductAttribute> productAttribute = productDao.findProductsByFilter(filter);
 		int size = productDao.findProductsCountByFilter(filter);
 		QueryResult<ProductAttribute> qs = new QueryResult<ProductAttribute>(size, productAttribute);
 		return qs;
 	}
 	
-	// 根据过滤条件查询产品
+	// 根据过滤条件查询产品（产品发布）
     public QueryResult<ProductAttribute> findProductsByNameFilter(ProductFilter filter) {
-		return commonDao.findObjectsByFilter(ProductAttribute.class, filter);
+		//return commonDao.findObjectsByFilter(ProductAttribute.class, filter);
+    	List<ProductAttribute> productAttribute = productDao.findProductsByFilter(filter);
+		int size = productDao.findProductsCountByFilter(filter);
+		QueryResult<ProductAttribute> qs = new QueryResult<ProductAttribute>(size, productAttribute);
+		return qs;
     }
+    
+    //产品信息
+    public QueryResult<ProductAttribute> findProductsFilter(ProductFilter filter) {
+  		return commonDao.findObjectsByFilter(ProductAttribute.class, filter);
+      }
 
 	/*
 	 * 根据filter查询已发布产品
@@ -481,5 +491,10 @@ public class ProductService {
 	public List<TyProductType> getProductType(){
 		String sql = "select product_code,product_name from ty_product_type";
 		return commonDao.queryBySql(TyProductType.class, sql, null);
+	}
+	
+	
+	public int findProductCountByName(String prodName,String productId){
+		return productDao.findProductCountByName(prodName,productId);
 	}
 }
