@@ -262,6 +262,7 @@ public class ProductController extends BaseController {
 		String productId = RequestHelper.getStringValue(request, ID);
 		List<FlatTreeNode> listOrg = pccOrganizationService.queryAllOrgTreeList(PrivilegeConstants.INIT_ID);
 		List<ProductsAgencyAssociation> paa = productService.findInstitutionByProductId(productId);
+		mv.addObject("paa", paa);
 		List<String> pOrganizationId = new ArrayList<String>();
 		for (ProductsAgencyAssociation productsAgencyAssociation : paa) {
 			String organizationId = productsAgencyAssociation.getInstitution();
