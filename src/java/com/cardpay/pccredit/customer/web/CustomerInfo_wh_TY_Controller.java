@@ -117,7 +117,9 @@ public class CustomerInfo_wh_TY_Controller extends BaseController {
 			CustomerInfor info = customerInforService.findCustomerInforById(customerInforId);
 			CustomerFirsthendBaseLocal baseLocal = customerInforService.findCustomerFirsthendLocalByNm(info.getTyCustomerId());
 			mv.addObject("customerInfor", baseLocal);
-			mv.addObject("customerNm", baseLocal.getKhnm());
+			if(baseLocal!=null){
+				mv.addObject("customerNm", baseLocal.getKhnm());
+			}
 			mv.addObject("customerInforId", customerInforId);
 			
 			//查询权限 非本人只能查看 不能操作

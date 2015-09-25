@@ -342,10 +342,8 @@
     </script>
 	
 	<script type="text/javascript">
-	var layout=new FormsLayout("formsId");			
-	window.top.currentWindow.setLayout(layout);
 	#set ($formName = "'#id_module_form'")
-	#validator($formName)
+	
 	$(document).ready(function() {	
 		document.getElementById("age").style.display="block";
 		 $("#id_save_button").click(function() {
