@@ -351,6 +351,29 @@
     </bean>
     
     
+     <!--同步系统中的进件的status -->
+    <bean id="updateCustomerAppInfoStatusJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="customerApplicationInfoSynchScheduleService"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>dosynchMethod</value>
+        </property>
+    </bean>
+    <!-- 定义触发时间 -->
+    <bean id="updateCustomerAppInfoStatusTigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="updateCustomerAppInfoStatusJob"/>
+        </property>
+        <!-- cron表达式 每月1号1点执行 0 0 1 1 * ? -->
+        <property name="cronExpression">
+            <value>0 18 11 * * ?</value>
+        </property>
+    </bean>
+    
+    
     
     <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
    
@@ -376,6 +399,7 @@
 				<ref bean="addDownLevelAdjustmentTigger"/> 
 				
 				<ref bean="addManagerAdjustmentTigger"/>-->
+				<ref bean="updateCustomerAppInfoStatusTigger"/>
 			
             </list>
         </property>
