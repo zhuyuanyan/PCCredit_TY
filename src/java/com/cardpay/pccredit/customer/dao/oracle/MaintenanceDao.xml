@@ -85,7 +85,7 @@
 				       left join ty_repay_yehz  yehz  on yehz.JJH = tkmx.JJH
 				       --left join MAINTENANCE_PLAN m on m.app_id = c.id
 					  WHERE 1=1 
-					  and c.status ='approved'
+					  and c.status in ('approved','end')
 					<if test="customerManagerIds != null and customerManagerIds != '' ">  
  					  	AND b.user_id in  
 	 					<foreach collection="customerManagerIds" index="index" item="item" open="(" separator="," close=")"> 
@@ -128,7 +128,7 @@
 				       left join ty_repay_tkmx tkmx	   on base.KHH = tkmx.KHH  and p.product_type_code = tkmx.cpmc
 				       left join ty_repay_yehz  yehz  on yehz.JJH = tkmx.JJH
 					  WHERE 1=1 
-					  and c.status ='approved'
+					 	  and c.status in ('approved','end')
 		<if test="customerManagerIds != null and customerManagerIds != '' ">  
  			AND b.user_id in  
 	 		<foreach collection="customerManagerIds" index="index" item="item" open="(" separator="," close=")"> 

@@ -351,7 +351,7 @@
     </bean>
     
     
-     <!--同步系统中的进件的status -->
+     <!--同步系统中的进件的status 每两个小时跑一次-->
     <bean id="updateCustomerAppInfoStatusJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!-- 调用的类 -->
         <property name="targetObject">
@@ -369,7 +369,7 @@
         </property>
         <!-- cron表达式 每月1号1点执行 0 0 1 1 * ? -->
         <property name="cronExpression">
-            <value>0 18 11 * * ?</value>
+            <value>0 0 0/2 * * ?</value>
         </property>
     </bean>
     
