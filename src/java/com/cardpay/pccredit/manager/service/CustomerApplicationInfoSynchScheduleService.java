@@ -35,7 +35,6 @@ public class CustomerApplicationInfoSynchScheduleService {
 	 * 同步进件状态
 	 * @throws IOException 
 	 */
-	@Scheduled(cron = "0 57 18 * * ?")
 	private void dosynchMethod() throws IOException{
 		//获取今日日期
 		DateFormat format = new SimpleDateFormat("yyyyMMdd");
