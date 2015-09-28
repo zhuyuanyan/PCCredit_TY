@@ -190,10 +190,11 @@
 			success : function(data) {
 				if (data.success) {
 					Dialog.message(data.message,"提示", function() {
-						navigateTo("${contextPath}/product/productinformation/browse.page");
+						//navigateTo("${contextPath}/product/productinformation/browse.page");
+						window.location.reload(true);
 					 });
 				} else {
-					Dialog.message(data.message);
+					Dialog.message(data.errors.errors[0].message);
 					return false;
 				}
 			},

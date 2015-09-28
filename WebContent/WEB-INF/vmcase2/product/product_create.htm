@@ -47,7 +47,7 @@
 						    		   readonly="readonly"/>
 						</tr>
 
-						<!-- <tr>
+						<tr>
 							<td><label for="name">信用额度:</label></td>
 							<td><input type="text" id="creditLine" name="creditLine"
 								value="$!product.creditLine" /></td>
@@ -55,7 +55,7 @@
 							<td><label for="name">利率区间:</label></td>
 							<td><input type="text" id="rateRange" name="rateRange"
 								value="$!product.rateRange" /></td>
-						</tr> -->
+						</tr>
 						<tr>
 							<td><label for="name">贷款期限:</label></td>
 							<td>
@@ -174,7 +174,7 @@
 						navigateTo("${contextPath}/product/productinformation/create_cpfjqd.page"+"?productId=" +data.productId);
 					 });
 				} else {
-					Dialog.message(data.message);
+					Dialog.message(data.errors.errors[0].message);
 					return false;
 				}
 			},

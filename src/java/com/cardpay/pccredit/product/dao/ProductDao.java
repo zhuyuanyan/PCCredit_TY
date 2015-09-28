@@ -67,4 +67,6 @@ public interface ProductDao {
 	public List<ProductsAgencyAssociation> findProductsAgencyAssociationByOrganizationIdPage(@Param("organizationId") String organizationId,@Param("page") int currentPage,@Param("limit") int limit);
 	
 	public int findProductsAgencyAssociationCountByOrganizationId(@Param("organizationId") String organizationId);
+	
+	public int findProductCountByName(@Param("productName") String productName,@Param("productId") String productId);
 }

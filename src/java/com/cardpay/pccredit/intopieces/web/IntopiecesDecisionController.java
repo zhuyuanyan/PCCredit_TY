@@ -91,7 +91,7 @@ public class IntopiecesDecisionController extends BaseController {
 		filter.setRequest(request);
 		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
 		String userId = user.getId();
-		//查询客户经理
+		/*//查询客户经理
 		List<AccountManagerParameterForm> forms = maintenanceService.findSubListManagerByManagerId(user);
 		if(forms != null && forms.size() > 0){
 			StringBuffer userIds = new StringBuffer();
@@ -104,7 +104,7 @@ public class IntopiecesDecisionController extends BaseController {
 			filter.setCustManagerIds(userIds.toString());
 		}else{
 			filter.setUserId(userId);
-		}
+		}*/
 		
 		QueryResult<IntoPieces> result = intoPiecesService.findintoPiecesByFilter(filter);
 		JRadPagedQueryResult<IntoPieces> pagedResult = new JRadPagedQueryResult<IntoPieces>(filter, result);

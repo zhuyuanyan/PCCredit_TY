@@ -341,11 +341,9 @@
 		}
     </script>
 	<script type="text/javascript">
-		var layout = new FormsLayout("formsId");
-		window.top.currentWindow.setLayout(layout);
+	
 
 		#set ($formName = "'#id_module_form'")
-		#validator($formName)
 		 $(document).ready(function() {
 		     #if($!collectionType == "age")
 			    	document.getElementById("age").style.display="block";
@@ -377,7 +375,8 @@
 						data : formjson,
 						success : function(data) {
 							if (data.success) {
-								navigateTo("${contextPath}/product/productinformation/browse.page");
+								//navigateTo("${contextPath}/product/productinformation/browse.page");
+								window.location.reload(true);
 								topWin.Dialog.message("保存成功！");
 							}
 							else{
