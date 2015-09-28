@@ -1,9 +1,12 @@
 package com.cardpay.pccredit.customer.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +18,7 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -24,6 +28,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -72,8 +77,11 @@ import com.cardpay.pccredit.system.model.NodeAudit;
 import com.cardpay.pccredit.system.model.NodeControl;
 import com.cardpay.pccredit.system.model.SystemUser;
 import com.cardpay.pccredit.system.service.NodeAuditService;
+import com.cardpay.pccredit.tools.CardFtpUtils;
 import com.cardpay.pccredit.tools.DataFileConf;
 import com.cardpay.pccredit.tools.ImportBankDataFileTools;
+import com.cardpay.pccredit.tools.SPTxt;
+import com.cardpay.pccredit.tools.UpdateCustomerTool;
 import com.cardpay.workflow.models.WfProcessInfo;
 import com.cardpay.workflow.models.WfStatusInfo;
 import com.cardpay.workflow.models.WfStatusResult;
@@ -91,6 +99,7 @@ import com.wicresoft.jrad.modules.privilege.model.User;
  */
 @Service
 public class CustomerInforService {
+	public Logger log = Logger.getLogger(UpdateCustomerTool.class);
 	@Autowired
 	private DataAccessSqlService dataAccessSqlService;
 
@@ -108,7 +117,10 @@ public class CustomerInforService {
 	
 	@Autowired
 	private ProcessService processService;
-	
+	//客户原始信息
+	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt","cxd_dkcpmc.txt","kkh_hmdgl.txt"};
+	//流水账、余额汇总表、借据表
+	private String[] fileTxtRepay ={"kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt"};
 	/**
 	 * 得到该客户经理下的客户数量
 	 * @param userId
@@ -1516,7 +1528,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveBaseDataFile(String fileName) {
+	public void saveBaseDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1526,8 +1538,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				//先查询客户原始表，存在则更新否则插入(更新原始信息表)
 				String sql = "select * from ty_customer_base where khnm='"+map.get("khnm").toString()+"'";
@@ -1588,7 +1601,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveCyDataFile(String fileName) {
+	public void saveCyDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1598,8 +1611,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				//先查询家庭关系表，存在则更新否则插入
 				String sql = "select * from ty_customer_family_cy where khnm='"+map.get("khnm").toString()+"'";
@@ -1625,7 +1639,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveCcDataFile(String fileName) {
+	public void saveCcDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1635,8 +1649,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				//先查询家庭关系表，存在则更新否则插入
 				String sql = "select * from ty_customer_family_cc where khnm='"+map.get("khnm").toString()+"'";
@@ -1662,7 +1677,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveStudyDataFile(String fileName) {
+	public void saveStudyDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1672,8 +1687,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				//先查询家庭关系表，存在则更新否则插入
 				String sql = "select * from ty_customer_study where khnm='"+map.get("khnm").toString()+"'";
@@ -1699,7 +1715,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveWorkDataFile(String fileName) {
+	public void saveWorkDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1709,8 +1725,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				//先查询工作履历表，存在则更新否则插入
 				String sql = "select * from ty_customer_work where khnm='"+map.get("khnm").toString()+"'";
@@ -1736,7 +1753,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveManageDataFile(String fileName) {
+	public void saveManageDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1746,8 +1763,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				//先查询生产经营表，存在则更新否则插入
 				String sql = "select * from ty_customer_manage where khnm='"+map.get("khnm").toString()+"'";
@@ -1773,7 +1791,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveSafeDataFile(String fileName) {
+	public void saveSafeDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1783,8 +1801,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				//先查询生产经营表，存在则更新否则插入
 				String sql = "select * from ty_customer_safe where khnm='"+map.get("khnm").toString()+"'";
@@ -1810,7 +1829,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveLSZDataFile(String fileName) {
+	public void saveLSZDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1819,12 +1838,10 @@ public class CustomerInforService {
 			// 解析”流水号“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
-			//删除历史数据
-			String sql = "delete from ty_repay_lsz ";
-			commonDao.queryBySql(sql, null);
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				customerInforDao.insertRepayLSZ(map);
 				}
@@ -1841,7 +1858,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveYEHZDataFile(String fileName) {
+	public void saveYEHZDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1851,8 +1868,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				String sql = "select * from ty_repay_yehz where jjh='"+map.get("jjh").toString()+"'";
 				List<TyRepayYehz> list = commonDao.queryBySql(TyRepayYehz.class, sql, null);
@@ -1877,7 +1895,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveTKMXDataFile(String fileName) {
+	public void saveTKMXDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1887,8 +1905,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				String sql = "select * from ty_repay_tkmx where jjh='"+map.get("jjh").toString()+"'";
 				List<TyRepayTkmx> list = commonDao.queryBySql(TyRepayTkmx.class, sql, null);
@@ -1910,7 +1929,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveProductDataFile(String fileName) {
+	public void saveProductDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1920,8 +1939,9 @@ public class CustomerInforService {
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
 			int count=0;
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
+//				System.out.println(count);
 				// 保存数据
 				String sql = "select * from ty_product_type where product_code='"+map.get("productCode").toString()+"'";
 				List<TyProductType> list = commonDao.queryBySql(TyProductType.class, sql, null);
@@ -1941,7 +1961,7 @@ public class CustomerInforService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveHMDDataFile(String fileName) {
+	public void saveHMDDataFile(String fileName,String date) {
 		try {
 			ImportBankDataFileTools tools = new ImportBankDataFileTools();
 			// 解析数据文件配置
@@ -1950,15 +1970,14 @@ public class CustomerInforService {
 
 			// 解析”黑名单“数据文件
 			List<Map<String, Object>> datas = tools.parseDataFile(fileName, confList);
-			System.out.println(datas);
 			int count=0;
 			//删除历史数据
-			String sql = "delete from f_agr_crd_xyk_cuneg ";
+			String sql = "delete from f_agr_crd_xyk_cuneg where created_time !='"+date+"'";
 			commonDao.queryBySql(sql, null);
 			for(Map<String, Object> map : datas){
+				map.put("createTime", date);
 				count++;
-				System.out.println(count);
-				map.put("id", IDGenerator.generateID());
+//				System.out.println(count);
 				// 保存数据
 				customerInforDao.insertHmd(map);
 			}
@@ -1969,4 +1988,163 @@ public class CustomerInforService {
 		}
 	}
 	
+	
+	
+	
+	/**
+	 * 解析（原始信息）
+	 * @throws IOException 
+	 */
+	public void readFile() throws IOException{
+		//获取今日日期
+	      //yyyyMMdd格式
+		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		String dateString = format.format(new Date());
+		log.info(dateString+"******************开始读取原始信息文件********************");  
+	        String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
+	        for(int i=0;i<fileTxt.length;i++){
+				String url = gzFile+File.separator+fileTxt[i];
+				File f = new File(url);
+				if(f.exists()){
+						List<String> spFile = new ArrayList<String>();
+						String fileN = "";
+						//判断文件大小，超过50M的先分割
+						if (f.exists() && f.isFile()){
+							if(f.length()>20000000){
+								int spCount = (int) (f.length()/20000000);
+								SPTxt.splitTxt(url,spCount);
+								int to = fileTxt[i].lastIndexOf('.');
+						    	fileN = fileTxt[i].substring(0, to);
+								for(int j=0;j<spCount;j++){
+									spFile.add(fileN+"_"+j+".txt");
+								}
+							}else{
+								int to = fileTxt[i].lastIndexOf('.');
+						    	fileN = fileTxt[i].substring(0, to);
+								spFile.add(fileN+".txt");
+							}
+						}
+						for(String fn : spFile){
+							try{
+								if(fn.contains(fileN)) {
+									if(fn.startsWith("kkh_grxx")){
+										log.info("*****************客户基本表********************");  
+										saveBaseDataFile(gzFile+File.separator+fn,dateString);
+										System.gc();
+									}
+									if(fn.startsWith("kkh_grjtcy")){
+										log.info("*****************客户家庭关系表********************");  
+										saveCyDataFile(gzFile+File.separator+fn,dateString);
+									}
+									if(fn.startsWith("kkh_grjtcc")){
+										log.info("*****************客户家庭财产表********************");  
+										saveCcDataFile(gzFile+File.separator+fn,dateString);
+									}
+									if(fn.startsWith("kkh_grxxll")){
+										log.info("*****************客户学习表********************");  
+										saveStudyDataFile(gzFile+File.separator+fn,dateString);
+									}
+									if(fn.startsWith("kkh_grgzll")){
+										log.info("*****************客户工作履历表********************");  
+										saveWorkDataFile(gzFile+File.separator+fn,dateString);
+									}
+									if(fn.startsWith("kkh_grscjy")){
+										log.info("*****************客户生产经营表********************");  
+									saveManageDataFile(gzFile+File.separator+fn,dateString);
+								}
+									if(fn.startsWith("kkh_grrbxx")){
+										log.info("*****************客户入保信息表********************");  
+										saveSafeDataFile(gzFile+File.separator+fn,dateString);
+									}else if(fn.startsWith("cxd_dkcpmc")){
+										log.info("*****************产品信息********************");  
+										saveProductDataFile(gzFile+File.separator+fn,dateString);
+									}else if(fn.startsWith("kkh_hmdgl")){
+										log.info("*****************黑名单********************");  
+										saveHMDDataFile(gzFile+File.separator+fn,dateString);
+									}/*else if(fn.startsWith("kdk_lsz")){
+										log.error("*****************流水账信息********************");  
+										//删除历史数据
+										String sql = " truncate   table   ty_repay_lsz";
+										commonDao.queryBySql(sql, null);
+										saveLSZDataFile(gzFile+File.separator+fn,dateString);
+									}else if(fn.startsWith("kdk_yehz")){
+										log.error("*****************余额汇总信息********************");  
+										saveYEHZDataFile(gzFile+File.separator+fn,dateString);
+										System.gc();
+									}else if(fn.startsWith("kdk_tkmx")){
+										log.error("*****************借据表信息********************");  
+										saveTKMXDataFile(gzFile+File.separator+fn,dateString);
+									}*/
+								} 
+							}catch(Exception e){
+								e.printStackTrace();
+								throw new RuntimeException(e);
+							}
+						}
+						f.delete();
+				}
+	        }
+	        log.info(dateString+"******************完成读取原始信息文件********************");
+
+	}
+	
+	/**
+	 *解析贷款信息
+	 * @throws IOException 
+	 */
+	public void readFileRepay() throws IOException{
+		//获取今日日期
+	      //yyyyMMdd格式
+		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		String dateString = format.format(new Date());
+		String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
+
+		log.info(dateString+"******************开始读取贷款文件********************");  
+        for(int i=0;i<fileTxtRepay.length;i++){
+			String url = gzFile+File.separator+fileTxtRepay[i];
+			File f = new File(url);
+			if(f.exists()){
+					List<String> spFile = new ArrayList<String>();
+					String fileN = "";
+					//判断文件大小，超过50M的先分割
+					if (f.exists() && f.isFile()){
+						if(f.length()>20000000){
+							int spCount = (int) (f.length()/20000000);
+							SPTxt.splitTxt(url,spCount);
+							int to = fileTxtRepay[i].lastIndexOf('.');
+					    	fileN = fileTxtRepay[i].substring(0, to);
+							for(int j=0;j<spCount;j++){
+								spFile.add(fileN+"_"+j+".txt");
+							}
+						}else{
+							int to = fileTxtRepay[i].lastIndexOf('.');
+					    	fileN = fileTxtRepay[i].substring(0, to);
+							spFile.add(fileN+".txt");
+						}
+					}
+					for(String fn : spFile){
+						try{
+							if(fn.contains(fileN)) {
+								if(fn.startsWith("kdk_lsz")){
+									log.info("*****************流水账信息********************");  
+									saveLSZDataFile(gzFile+File.separator+fn,dateString);
+								}else if(fn.startsWith("kdk_yehz")){
+									log.info("*****************余额汇总信息********************");  
+									saveYEHZDataFile(gzFile+File.separator+fn,dateString);
+								}else if(fn.startsWith("kdk_tkmx")){
+									log.info("*****************借据表信息********************");  
+									saveTKMXDataFile(gzFile+File.separator+fn,dateString);
+								}
+							} 
+						}catch(Exception e){
+							e.printStackTrace();
+							throw new RuntimeException(e);
+						}
+					}
+					f.delete();
+			}
+        }
+        log.info(dateString+"******************完成读取贷款文件********************");
+
+	}
 }

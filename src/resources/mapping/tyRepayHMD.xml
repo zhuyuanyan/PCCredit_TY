@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="GBK"?>
 
 <resultMap>
-    <result column="CREATE_TIMED" jdbcType="DATE_NOW" index="" style="yyyyMMdd"/>
+   <!--  <result column="CREATE_TIMED" jdbcType="DATE_NOW" index="" style="yyyyMMdd"/> -->
 	<result column="ZBJG" jdbcType="VARCHAR" index="1" />
 
 	<result column="KHNM" jdbcType="VARCHAR" index="2" />

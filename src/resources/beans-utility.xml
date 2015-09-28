@@ -350,7 +350,48 @@
         </property>
     </bean>
     
-    
+         <!--基本信息 start -->
+    <bean id="addbaseJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="customerInforService"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>readFile</value>
+        </property>
+    </bean>
+    <!-- 定义触发时间 -->
+    <bean id="addBaseTigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="addbaseJob"/>
+        </property>
+        <!-- cron表达式 每月1号1点执行 0 0 1 1 * ? -->
+        <property name="cronExpression">
+            <value>0 35 15 * * ?</value>
+        </property>
+    </bean>
+       <!--贷款信息 start -->
+    <bean id="addRepayJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="customerInforService"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>readFileRepay</value>
+        </property>
+    </bean>
+    <!-- 定义触发时间 -->
+    <bean id="addRepayTigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="addRepayJob"/>
+        </property>
+        <!-- cron表达式 每月1号1点执行 0 0 1 1 * ? -->
+        <property name="cronExpression">
+            <value>0 38 15 * * ?</value>
+        </property>
+    </bean>
      <!--同步系统中的进件的status 每两个小时跑一次-->
     <bean id="updateCustomerAppInfoStatusJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!-- 调用的类 -->
@@ -373,13 +414,14 @@
         </property>
     </bean>
     
-    
-    
     <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
    
     <bean id="scheduler" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
+                 <ref bean="addBaseTigger"/>
+                 <ref bean="addRepayTigger"/>
+                 <ref bean="updateCustomerAppInfoStatusTigger"/>
 				<!-- <ref bean="addManagerAssessmentScoreTigger"/>
 				
 				<ref bean="addStatisticalTableTigger"/> -->
@@ -399,7 +441,7 @@
 				<ref bean="addDownLevelAdjustmentTigger"/> 
 				
 				<ref bean="addManagerAdjustmentTigger"/>-->
-				<ref bean="updateCustomerAppInfoStatusTigger"/>
+				
 			
             </list>
         </property>

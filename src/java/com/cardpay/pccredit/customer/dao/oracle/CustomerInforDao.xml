@@ -285,7 +285,7 @@
 		SJ,DZYX,GJ,MZ,ZZMM,XL,XW,JKZK,HYZK,
 		XYDJ,XYDJSXRQ,XYDJDQRQ,SFXYH,SXED,SXJZRQ,YXYE,BLDKYE,NNJHSXED,
 		JHYSSXED,ZYYW,CSHY,SFBHZG,SFGD,SFGJGZRY,SFHZ,POXM,POSFZH,
-		PODH,POGZDW,GHJL,ZBJG,DJRY,DJRQ,ZHXGRY,ZHXGSJ) values
+		PODH,POGZDW,GHJL,ZBJG,DJRY,DJRQ,ZHXGRY,ZHXGSJ,KHJL) values
 		(#{id,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{khnm,jdbcType=VARCHAR},
 		#{khmc,jdbcType=VARCHAR}, #{khh,jdbcType=VARCHAR},
 		#{rh,jdbcType=VARCHAR}, #{khlx,jdbcType=VARCHAR},
@@ -315,7 +315,7 @@
 		#{podh,jdbcType=VARCHAR}, #{pogzdw,jdbcType=VARCHAR},
 		#{ghjl,jdbcType=VARCHAR},
 		#{zbjg,jdbcType=VARCHAR}, #{djry,jdbcType=VARCHAR}, #{djrq,jdbcType=VARCHAR},
-		#{zhxgry,jdbcType=VARCHAR}, #{zhxgsj,jdbcType=VARCHAR})
+		#{zhxgry,jdbcType=VARCHAR}, #{zhxgsj,jdbcType=VARCHAR}, #{khjl,jdbcType=VARCHAR})
 
 	</insert>
 
@@ -335,7 +335,7 @@
 		CSHY=#{cshy,jdbcType=VARCHAR},SFBHZG=#{sfbhzg,jdbcType=VARCHAR},SFGD=#{sfgd,jdbcType=VARCHAR},SFGJGZRY=#{sfgjgzry,jdbcType=VARCHAR},
 		SFHZ=#{sfhz,jdbcType=VARCHAR},POXM=#{poxm,jdbcType=VARCHAR},POSFZH=#{posfzh,jdbcType=VARCHAR},PODH=#{podh,jdbcType=VARCHAR},
 		POGZDW=#{pogzdw,jdbcType=VARCHAR},GHJL=#{ghjl,jdbcType=VARCHAR},ZBJG=#{zbjg,jdbcType=VARCHAR},DJRY=#{djry,jdbcType=VARCHAR},
-		DJRQ=#{djrq,jdbcType=VARCHAR},ZHXGRY=#{zhxgry,jdbcType=VARCHAR},ZHXGSJ=#{zhxgsj,jdbcType=VARCHAR}
+		DJRQ=#{djrq,jdbcType=VARCHAR},ZHXGRY=#{zhxgry,jdbcType=VARCHAR},ZHXGSJ=#{zhxgsj,jdbcType=VARCHAR},KHJL=#{khjl,jdbcType=VARCHAR}
 		where
 		KHNM=#{khnm,jdbcType=VARCHAR}
 	</update>
@@ -348,7 +348,7 @@
 		SJ,DZYX,GJ,MZ,ZZMM,XL,XW,JKZK,HYZK,
 		XYDJ,XYDJSXRQ,XYDJDQRQ,SFXYH,SXED,SXJZRQ,YXYE,BLDKYE,NNJHSXED,
 		JHYSSXED,ZYYW,CSHY,SFBHZG,SFGD,SFGJGZRY,SFHZ,POXM,POSFZH,
-		PODH,POGZDW,GHJL,ZBJG,DJRY,DJRQ,ZHXGRY,ZHXGSJ) values
+		PODH,POGZDW,GHJL,ZBJG,DJRY,DJRQ,ZHXGRY,ZHXGSJ,KHJL) values
 		(#{id,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{khnm,jdbcType=VARCHAR},
 		#{khmc,jdbcType=VARCHAR}, #{khh,jdbcType=VARCHAR},
 		#{rh,jdbcType=VARCHAR}, #{khlx,jdbcType=VARCHAR},
@@ -378,7 +378,7 @@
 		#{podh,jdbcType=VARCHAR}, #{pogzdw,jdbcType=VARCHAR},
 		#{ghjl,jdbcType=VARCHAR},
 		#{zbjg,jdbcType=VARCHAR}, #{djry,jdbcType=VARCHAR}, #{djrq,jdbcType=VARCHAR},
-		#{zhxgry,jdbcType=VARCHAR}, #{zhxgsj,jdbcType=VARCHAR})
+		#{zhxgry,jdbcType=VARCHAR}, #{zhxgsj,jdbcType=VARCHAR}, #{khjl,jdbcType=VARCHAR})
 
 	</insert>
 
@@ -623,19 +623,19 @@
 		 (SELECT ROW_.*,ROWNUM ROWNUM_
 		   FROM (
 			select 
-			id,
-			chinese_name as chineseName,
-			card_type as cardType,
-			card_id as cardId,ty_customer_id as tyCustomerId
-			from BASIC_CUSTOMER_INFORMATION T1 where 1 = 1
+			T1.id,
+			T1.chinese_name as chineseName,
+			T1.card_type as cardType,
+			T1.card_id as cardId,T1.ty_customer_id as tyCustomerId,b.khjl as tyUserId
+			from BASIC_CUSTOMER_INFORMATION T1,ty_customer_base b where 1 = 1 and T1.card_id=b.zjhm
 				<if test="chineseName != null and chineseName != '' ">
-					AND chinese_name=#{chineseName}
+					AND T1.chinese_name=#{chineseName}
 				</if>
 				<if test="cardType != null and cardType != '' ">
-					AND card_type=#{cardType}
+					AND T1.card_type=#{cardType}
 				</if>
 				<if test="cardId != null and cardId != '' ">
-					AND card_id=#{cardId}
+					AND T1.card_id=#{cardId}
 				</if>
 				<if test="customerManagerIds != null and customerManagerIds != '' ">  
  		    		AND T1.user_id in  
@@ -789,8 +789,8 @@
 		#{productCode,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertHmd" parameterType="map">
-		INSERT INTO f_agr_crd_xyk_cuneg (id,CREATED_TIME,ZBJG,KHNM,SXRQ,TCRQ,SBYY) values
-		(#{id,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},
+		INSERT INTO f_agr_crd_xyk_cuneg (CREATED_TIME,ZBJG,KHNM,SXRQ,TCRQ,SBYY) values
+		(#{createTime,jdbcType=VARCHAR},
 		#{zbjg,jdbcType=VARCHAR}, #{khnm,jdbcType=VARCHAR}, #{sxrq,jdbcType=VARCHAR}, #{tcrq,jdbcType=VARCHAR}, #{sbyy,jdbcType=VARCHAR})
 	</insert>
 </mapper>
