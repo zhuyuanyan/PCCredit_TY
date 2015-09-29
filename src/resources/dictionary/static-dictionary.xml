@@ -289,12 +289,20 @@
 		<item name="0" title="否" />
 	</dictionary>
 	<dictionary name="khlx" title="客户类型">
-		<item name="1" title="类型1" />
-		<item name="2" title="类型2" />
+		<item name="11" title="企业法人" />
+		<item name="12" title="事业单位" />
+		<item name="13" title="其他经济组织" />
+		<item name="14" title="农民专业合作社" />
+		<item name="25" title="农户" />
+		<item name="26" title="商户" />
+		<item name="27" title="其他自然人" />
+		<item name="2" title="个人" />
+		<item name="1" title="企业" />
+		<item name="15" title="金融机构" />
 	</dictionary>
 	<dictionary name="zjlx" title="证件类型">
-		<item name="1" title="类型1" />
-		<item name="2" title="类型2" />
+		<item name="0" title="身份证" />
+		<item name="3" title="军官证" />
 	</dictionary>
 	<dictionary name="sfcq" title="是否长期">
 		<item name="1" title="是" />
@@ -309,27 +317,64 @@
 		<item name="2" title="国籍2" />
 	</dictionary>
 	<dictionary name="mz" title="民族">
-		<item name="1" title="民族1" />
-		<item name="2" title="民族2" />
+		<item name="01" title="汉族" />
+		<item name="02" title="回族" />
 	</dictionary>
 	<dictionary name="zzmm" title="政治面貌">
 		<item name="1" title="面貌1" />
 		<item name="2" title="面貌2" />
 	</dictionary>
 	<dictionary name="xl" title="学历">
-		<item name="1" title="学历1" />
-		<item name="2" title="学历2" />
+		<item name="20" title="大学本科" />
+		<item name="30" title="大学专科和专科学校" />
+		<item name="40" title="中等专业学校或中等技术学校" />
+		<item name="50" title="技术学校" />
+		<item name="60" title="高中" />
+		<item name="70" title="初中" />
+		<item name="80" title="小学" />
+		<item name="90" title="文盲与半文盲" />
+		<item name="99" title="未知" />
+		<item name="10" title="研究生" />
 	</dictionary>
 	<dictionary name="xw" title="学位">
-		<item name="1" title="学位1" />
-		<item name="2" title="学位2" />
+		<item name="3" title="硕士" />
+		<item name="2" title="博士" />
+		<item name="1" title="名誉博士" />
+		<item name="0" title="其他" />
+		<item name="4" title="学士" />
+		<item name="9" title="未知" />
 	</dictionary>
 	<dictionary name="jkzk" title="健康状况">
-		<item name="1" title="健康状况1" />
-		<item name="2" title="健康状况2" />
+		<item name="01" title="良好" />
+		<item name="02" title="一般" />
+		<item name="03" title="差" />
+		<item name="04" title="未知" />
 	</dictionary>
 	<dictionary name="hyzk" title="婚姻状况">
-		<item name="1" title="婚姻状况1" />
-		<item name="2" title="婚姻状况2" />
+		<item name="30" title="未知" />
+		<item name="10" title="未婚" />
+		<item name="20" title="已婚" />
+		<item name="40" title="离婚" />
+		<item name="50" title="丧偶" />
+	</dictionary>
+	<dictionary name="cygx" title="成员关系">
+		<item name="20" title="兄弟" />
+		<item name="21" title="姐妹" />
+		<item name="22" title="亲属" />
+		<item name="23" title="合伙人" />
+		<item name="24" title="其他" />
+		<item name="01" title="父亲" />
+		<item name="02" title="母亲" />
+		<item name="03" title="兄弟" />
+		<item name="04" title="姐妹" />
+		<item name="05" title="配偶" />
+		<item name="06" title="子女" />
+		<item name="07" title="其他亲属" />
+		<item name="08" title="孙子女" />
+		<item name="25" title="同事" />
+		<item name="26" title="儿媳" />
+		<item name="27" title="叔侄" />
+		<item name="28" title="朋友" />
+		<item name="29" title="企业关联客户" />
 	</dictionary>
 </dictionaries>
