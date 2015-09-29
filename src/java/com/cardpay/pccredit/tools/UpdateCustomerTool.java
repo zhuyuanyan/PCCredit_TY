@@ -38,16 +38,16 @@ public class UpdateCustomerTool {
 	
 	public String curRemotePath = "";//本次下载服务器目录
 	private String[] fileName = {"kkh_grxx.zip","kkh_grjtcy.zip","kkh_grjtcc.zip","kkh_grscjy.zip","kkh_grxxll.zip","kkh_grgzll.zip","kkh_grrbxx.zip","kdk_yehz.zip","kdk_lsz.zip","kdk_tkmx.zip","cxd_dkcpmc.zip","kkh_hmdgl.zip"};
-	//客户原始信息
-	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt","kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt","cxd_dkcpmc.txt","kkh_hmdgl.txt"};
-	//流水账、余额汇总表、借据表
-	private String[] fileTxtRepay ={"kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt"};
-	//产品信息、黑名单
-	private String[] fileTxtProduct ={"cxd_dkcpmc.txt","kkh_hmdgl.txt"};
+//	//客户原始信息
+//	private String[] fileTxt = {"kkh_grxx.txt","kkh_grjtcy.txt","kkh_grjtcc.txt","kkh_grscjy.txt","kkh_grxxll.txt","kkh_grgzll.txt","kkh_grrbxx.txt","kdk_tkmx.txt","kdk_lsz.txt","kdk_yehz.txt","cxd_dkcpmc.txt","kkh_hmdgl.txt"};
+//	//流水账、余额汇总表、借据表
+//	private String[] fileTxtRepay ={"kdk_yehz.txt","kdk_lsz.txt","kdk_tkmx.txt"};
+//	//产品信息、黑名单
+//	private String[] fileTxtProduct ={"cxd_dkcpmc.txt","kkh_hmdgl.txt"};
 	@Autowired
 	private CustomerInforService customerInforService;
 	
-	@Scheduled(cron = "0 25 17 * * ?")
+	@Scheduled(cron = "0 20 15 * * ?")
 	public void downloadFiles(){
 		log.error("下载文件：");
 		CardFtpUtils sftp = new CardFtpUtils();
@@ -159,227 +159,216 @@ public class UpdateCustomerTool {
 	}
 	
 	
-	/**
-	 * 解析（原始信息）
-	 * @throws IOException 
-	 */
-	@Scheduled(cron = "0 30 17 * * ?")
-	private void readFile() throws IOException{
-		//获取今日日期
-	      //yyyyMMdd格式
-		DateFormat format = new SimpleDateFormat("yyyyMMdd");
-		String dateString = format.format(new Date());
-		log.error(dateString+"******************开始读取原始信息文件********************");  
-	        String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
-	        for(int i=0;i<fileTxt.length;i++){
-				String url = gzFile+File.separator+fileTxt[i];
-				File f = new File(url);
-				if(f.exists()){
-						List<String> spFile = new ArrayList<String>();
-						String fileN = "";
-						//判断文件大小，超过50M的先分割
-						if (f.exists() && f.isFile()){
-							if(f.length()>30000000){
-								int spCount = (int) (f.length()/30000000);
-								SPTxt.splitTxt(url,spCount);
-								int to = fileTxt[i].lastIndexOf('.');
-						    	fileN = fileTxt[i].substring(0, to);
-								for(int j=0;j<spCount;j++){
-									spFile.add(fileN+"_"+j+".txt");
-								}
-							}else{
-								int to = fileTxt[i].lastIndexOf('.');
-						    	fileN = fileTxt[i].substring(0, to);
-								spFile.add(fileN+".txt");
-							}
-						}
-						for(String fn : spFile){
-							try{
-								if(fn.contains(fileN)) {
-									if(fn.startsWith("kkh_grxx")){
-										log.error("*****************客户基本表********************");  
-										customerInforService.saveBaseDataFile(gzFile+File.separator+fn);
-									}
-									if(fn.startsWith("kkh_grjtcy")){
-										log.error("*****************客户家庭关系表********************");  
-										customerInforService.saveCyDataFile(gzFile+File.separator+fn);
-									}
-									if(fn.startsWith("kkh_grjtcc")){
-										log.error("*****************客户家庭财产表********************");  
-										customerInforService.saveCcDataFile(gzFile+File.separator+fn);
-									}
-									if(fn.startsWith("kkh_grxxll")){
-										log.error("*****************客户学习表********************");  
-										customerInforService.saveStudyDataFile(gzFile+File.separator+fn);
-									}
-									if(fn.startsWith("kkh_grgzll")){
-										log.error("*****************客户工作履历表********************");  
-										customerInforService.saveWorkDataFile(gzFile+File.separator+fn);
-									}
-									if(fn.startsWith("kkh_grscjy")){
-										log.error("*****************客户生产经营表********************");  
-									customerInforService.saveManageDataFile(gzFile+File.separator+fn);
-								}
-									if(fn.startsWith("kkh_grrbxx")){
-										log.error("*****************客户入保信息表********************");  
-										customerInforService.saveSafeDataFile(gzFile+File.separator+fn);
-									}else if(fn.startsWith("kdk_lsz")){
-										log.error("*****************流水账信息********************");  
-										customerInforService.saveLSZDataFile(gzFile+File.separator+fn);
-									}else if(fn.startsWith("kdk_yehz")){
-										log.error("*****************余额汇总信息********************");  
-										customerInforService.saveYEHZDataFile(gzFile+File.separator+fn);
-									}else if(fn.startsWith("kdk_tkmx")){
-										log.error("*****************借据表信息********************");  
-										customerInforService.saveTKMXDataFile(gzFile+File.separator+fn);
-									}else if(fn.startsWith("cxd_dkcpmc")){
-										log.error("*****************产品信息********************");  
-										customerInforService.saveProductDataFile(gzFile+File.separator+fn);
-									}else if(fn.startsWith("kkh_hmdgl")){
-										log.error("*****************黑名单********************");  
-										customerInforService.saveHMDDataFile(gzFile+File.separator+fn);
-									}
-								} 
-							}catch(Exception e){
-								e.printStackTrace();
-								throw new RuntimeException(e);
-							}
-						}
-						f.delete();
-				}
-	        }
-	        log.error(dateString+"******************完成读取原始信息文件********************");
-
-	}
-	
-	
-	/**
-	 *解析贷款信息
-	 * @throws IOException 
-	 */
-//	@Scheduled(cron = "0 05 19 * * ?")
-	private void readFileRepay() throws IOException{
-		//获取今日日期
-	      //yyyyMMdd格式
-		DateFormat format = new SimpleDateFormat("yyyyMMdd");
-		String dateString = format.format(new Date());
-		String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
-
-		log.error(dateString+"******************开始读取贷款文件********************");  
-        for(int i=0;i<fileTxtRepay.length;i++){
-			String url = gzFile+File.separator+fileTxtRepay[i];
-			File f = new File(url);
-			if(f.exists()){
-					List<String> spFile = new ArrayList<String>();
-					String fileN = "";
-					//判断文件大小，超过50M的先分割
-					if (f.exists() && f.isFile()){
-						if(f.length()>40000000){
-							int spCount = (int) (f.length()/40000000);
-							SPTxt.splitTxt(url,spCount);
-							int to = fileTxtRepay[i].lastIndexOf('.');
-					    	fileN = fileTxtRepay[i].substring(0, to);
-							for(int j=0;j<spCount;j++){
-								spFile.add(fileN+"_"+j+".txt");
-							}
-						}else{
-							int to = fileTxtRepay[i].lastIndexOf('.');
-					    	fileN = fileTxtRepay[i].substring(0, to);
-							spFile.add(fileN+".txt");
-						}
-					}
-					for(String fn : spFile){
-						try{
-							if(fn.contains(fileN)) {
-								if(fn.startsWith("kdk_lsz")){
-									log.error("*****************流水账信息********************");  
-									customerInforService.saveLSZDataFile(gzFile+File.separator+fn);
-								}else if(fn.startsWith("kdk_yehz")){
-									log.error("*****************余额汇总信息********************");  
-									customerInforService.saveYEHZDataFile(gzFile+File.separator+fn);
-								}else if(fn.startsWith("kdk_tkmx")){
-									log.error("*****************借据表信息********************");  
-									customerInforService.saveTKMXDataFile(gzFile+File.separator+fn);
-								}
-							} 
-						}catch(Exception e){
-							e.printStackTrace();
-							throw new RuntimeException(e);
-						}
-					}
-					f.delete();
-			}
-        }
-        log.error(dateString+"******************完成读取贷款文件********************");
-
-	}
-	
-	/**
-	 *解析产品信息
-	 * @throws IOException 
-	 */
-//	@Scheduled(cron = "0 20 19 * * ?")
-	private void readFileProduct() throws IOException{
-		//获取今日日期
-	      //yyyyMMdd格式
-		DateFormat format = new SimpleDateFormat("yyyyMMdd");
-		String dateString = format.format(new Date());
-		String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
-
-		log.error("******************开始读取产品文件********************");  
-        for(int i=0;i<fileTxtProduct.length;i++){
-			String url = gzFile+File.separator+fileTxtProduct[i];
-			File f = new File(url);
-			if(f.exists()){
-					List<String> spFile = new ArrayList<String>();
-					String fileN = "";
-					//判断文件大小，超过50M的先分割
-					if (f.exists() && f.isFile()){
-						if(f.length()>40000000){
-							int spCount = (int) (f.length()/40000000);
-							SPTxt.splitTxt(url,spCount);
-							int to = fileTxtProduct[i].lastIndexOf('.');
-					    	fileN = fileTxtProduct[i].substring(0, to);
-							for(int j=0;j<spCount;j++){
-								spFile.add(fileN+"_"+j+".txt");
-							}
-						}else{
-							int to = fileTxtProduct[i].lastIndexOf('.');
-					    	fileN = fileTxtProduct[i].substring(0, to);
-							spFile.add(fileN+".txt");
-						}
-					}
-					for(String fn : spFile){
-						try{
-							if(fn.contains(fileN)) {
-								if(fn.startsWith("cxd_dkcpmc")){
-									log.error("*****************产品信息********************");  
-									customerInforService.saveProductDataFile(gzFile+File.separator+fn);
-								}else if(fn.startsWith("kkh_hmdgl")){
-									log.error("*****************黑名单********************");  
-									customerInforService.saveHMDDataFile(gzFile+File.separator+fn);
-								}
-							} 
-						}catch(Exception e){
-							e.printStackTrace();
-							throw new RuntimeException(e);
-						}
-					}
-					f.delete();
-			}
-        }
-        log.error("******************完成读取产品文件********************");
-
-	}
-	public static void main(String[] args) throws Exception{
-		UpdateCustomerTool tool = new UpdateCustomerTool();
-		try {
-			CardFtpUtils sftp = new CardFtpUtils();
-			ArrayList<String> files = null;
-			tool.readFileProduct();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	/**
+//	 * 解析（原始信息）
+//	 * @throws IOException 
+//	 */
+//	@Scheduled(cron = "0 01 20 * * ?")
+//	private void readFile() throws IOException{
+//		//获取今日日期
+//	      //yyyyMMdd格式
+//		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+//		String dateString = format.format(new Date());
+//		log.error(dateString+"******************开始读取原始信息文件********************");  
+//	        String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
+//	        for(int i=0;i<fileTxt.length;i++){
+//				String url = gzFile+File.separator+fileTxt[i];
+//				File f = new File(url);
+//				if(f.exists()){
+//						List<String> spFile = new ArrayList<String>();
+//						String fileN = "";
+//						//判断文件大小，超过50M的先分割
+//						if (f.exists() && f.isFile()){
+//							if(f.length()>30000000){
+//								int spCount = (int) (f.length()/30000000);
+//								SPTxt.splitTxt(url,spCount);
+//								int to = fileTxt[i].lastIndexOf('.');
+//						    	fileN = fileTxt[i].substring(0, to);
+//								for(int j=0;j<spCount;j++){
+//									spFile.add(fileN+"_"+j+".txt");
+//								}
+//							}else{
+//								int to = fileTxt[i].lastIndexOf('.');
+//						    	fileN = fileTxt[i].substring(0, to);
+//								spFile.add(fileN+".txt");
+//							}
+//						}
+//						for(String fn : spFile){
+//							try{
+//								if(fn.contains(fileN)) {
+//									if(fn.startsWith("kkh_grxx")){
+//										log.error("*****************客户基本表********************");  
+//										customerInforService.saveBaseDataFile(gzFile+File.separator+fn,dateString);
+//									}
+//									if(fn.startsWith("kkh_grjtcy")){
+//										log.error("*****************客户家庭关系表********************");  
+//										customerInforService.saveCyDataFile(gzFile+File.separator+fn,dateString);
+//									}
+//									if(fn.startsWith("kkh_grjtcc")){
+//										log.error("*****************客户家庭财产表********************");  
+//										customerInforService.saveCcDataFile(gzFile+File.separator+fn,dateString);
+//									}
+//									if(fn.startsWith("kkh_grxxll")){
+//										log.error("*****************客户学习表********************");  
+//										customerInforService.saveStudyDataFile(gzFile+File.separator+fn,dateString);
+//									}
+//									if(fn.startsWith("kkh_grgzll")){
+//										log.error("*****************客户工作履历表********************");  
+//										customerInforService.saveWorkDataFile(gzFile+File.separator+fn,dateString);
+//									}
+//									if(fn.startsWith("kkh_grscjy")){
+//										log.error("*****************客户生产经营表********************");  
+//									customerInforService.saveManageDataFile(gzFile+File.separator+fn,dateString);
+//								}
+//									if(fn.startsWith("kkh_grrbxx")){
+//										log.error("*****************客户入保信息表********************");  
+//										customerInforService.saveSafeDataFile(gzFile+File.separator+fn,dateString);
+//									}else if(fn.startsWith("kdk_lsz")){
+//										log.error("*****************流水账信息********************");  
+//										customerInforService.saveLSZDataFile(gzFile+File.separator+fn,dateString);
+//									}else if(fn.startsWith("kdk_yehz")){
+//										log.error("*****************余额汇总信息********************");  
+//										customerInforService.saveYEHZDataFile(gzFile+File.separator+fn,dateString);
+//									}else if(fn.startsWith("kdk_tkmx")){
+//										log.error("*****************借据表信息********************");  
+//										customerInforService.saveTKMXDataFile(gzFile+File.separator+fn,dateString);
+//									}else if(fn.startsWith("cxd_dkcpmc")){
+//										log.error("*****************产品信息********************");  
+//										customerInforService.saveProductDataFile(gzFile+File.separator+fn,dateString);
+//									}else if(fn.startsWith("kkh_hmdgl")){
+//										log.error("*****************黑名单********************");  
+//										customerInforService.saveHMDDataFile(gzFile+File.separator+fn,dateString);
+//									}
+//								} 
+//							}catch(Exception e){
+//								e.printStackTrace();
+//								throw new RuntimeException(e);
+//							}
+//						}
+////						f.delete();
+//				}
+//	        }
+//	        log.error(dateString+"******************完成读取原始信息文件********************");
+//
+//	}
+//	
+//	
+//	/**
+//	 *解析贷款信息
+//	 * @throws IOException 
+//	 */
+////	@Scheduled(cron = "0 55 19 * * ?")
+//	private void readFileRepay() throws IOException{
+//		//获取今日日期
+//	      //yyyyMMdd格式
+//		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+//		String dateString = format.format(new Date());
+//		String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
+//
+//		log.error(dateString+"******************开始读取贷款文件********************");  
+//        for(int i=0;i<fileTxtRepay.length;i++){
+//			String url = gzFile+File.separator+fileTxtRepay[i];
+//			File f = new File(url);
+//			if(f.exists()){
+//					List<String> spFile = new ArrayList<String>();
+//					String fileN = "";
+//					//判断文件大小，超过50M的先分割
+//					if (f.exists() && f.isFile()){
+//						if(f.length()>30000000){
+//							int spCount = (int) (f.length()/30000000);
+//							SPTxt.splitTxt(url,spCount);
+//							int to = fileTxtRepay[i].lastIndexOf('.');
+//					    	fileN = fileTxtRepay[i].substring(0, to);
+//							for(int j=0;j<spCount;j++){
+//								spFile.add(fileN+"_"+j+".txt");
+//							}
+//						}else{
+//							int to = fileTxtRepay[i].lastIndexOf('.');
+//					    	fileN = fileTxtRepay[i].substring(0, to);
+//							spFile.add(fileN+".txt");
+//						}
+//					}
+//					for(String fn : spFile){
+//						try{
+//							if(fn.contains(fileN)) {
+//								if(fn.startsWith("kdk_lsz")){
+//									log.error("*****************流水账信息********************");  
+//									customerInforService.saveLSZDataFile(gzFile+File.separator+fn,dateString);
+//								}else if(fn.startsWith("kdk_yehz")){
+//									log.error("*****************余额汇总信息********************");  
+//									customerInforService.saveYEHZDataFile(gzFile+File.separator+fn,dateString);
+//								}else if(fn.startsWith("kdk_tkmx")){
+//									log.error("*****************借据表信息********************");  
+//									customerInforService.saveTKMXDataFile(gzFile+File.separator+fn,dateString);
+//								}
+//							} 
+//						}catch(Exception e){
+//							e.printStackTrace();
+//							throw new RuntimeException(e);
+//						}
+//					}
+//					f.delete();
+//			}
+//        }
+//        log.error(dateString+"******************完成读取贷款文件********************");
+//
+//	}
+//	
+//	/**
+//	 *解析产品信息
+//	 * @throws IOException 
+//	 */
+////	@Scheduled(cron = "0 20 19 * * ?")
+//	private void readFileProduct() throws IOException{
+//		//获取今日日期
+//	      //yyyyMMdd格式
+//		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+//		String dateString = format.format(new Date());
+//		String gzFile = CardFtpUtils.bank_ftp_down_path+dateString;
+//
+//		log.error("******************开始读取产品文件********************");  
+//        for(int i=0;i<fileTxtProduct.length;i++){
+//			String url = gzFile+File.separator+fileTxtProduct[i];
+//			File f = new File(url);
+//			if(f.exists()){
+//					List<String> spFile = new ArrayList<String>();
+//					String fileN = "";
+//					//判断文件大小，超过50M的先分割
+//					if (f.exists() && f.isFile()){
+//						if(f.length()>40000000){
+//							int spCount = (int) (f.length()/40000000);
+//							SPTxt.splitTxt(url,spCount);
+//							int to = fileTxtProduct[i].lastIndexOf('.');
+//					    	fileN = fileTxtProduct[i].substring(0, to);
+//							for(int j=0;j<spCount;j++){
+//								spFile.add(fileN+"_"+j+".txt");
+//							}
+//						}else{
+//							int to = fileTxtProduct[i].lastIndexOf('.');
+//					    	fileN = fileTxtProduct[i].substring(0, to);
+//							spFile.add(fileN+".txt");
+//						}
+//					}
+//					for(String fn : spFile){
+//						try{
+//							if(fn.contains(fileN)) {
+//								if(fn.startsWith("cxd_dkcpmc")){
+//									log.error("*****************产品信息********************");  
+//									customerInforService.saveProductDataFile(gzFile+File.separator+fn,dateString);
+//								}else if(fn.startsWith("kkh_hmdgl")){
+//									log.error("*****************黑名单********************");  
+//									customerInforService.saveHMDDataFile(gzFile+File.separator+fn,dateString);
+//								}
+//							} 
+//						}catch(Exception e){
+//							e.printStackTrace();
+//							throw new RuntimeException(e);
+//						}
+//					}
+//					f.delete();
+//			}
+//        }
+//        log.error("******************完成读取产品文件********************");
+//
+//	}
 }
