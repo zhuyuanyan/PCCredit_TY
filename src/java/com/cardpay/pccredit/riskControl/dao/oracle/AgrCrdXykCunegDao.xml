@@ -26,7 +26,7 @@
 		SELECT * FROM
 			(SELECT ROW_.*,ROWNUM ROWNUM_
 				FROM (
-					SELECT risk.*
+					SELECT risk.*,info.khmc
 					 FROM f_agr_crd_xyk_cuneg risk
 					  left join ty_customer_base info on 1=1 and info.khnm=risk.khnm 
 					 <if test="custrNbr != null and custrNbr != '' ">

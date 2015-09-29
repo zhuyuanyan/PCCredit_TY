@@ -89,8 +89,6 @@ public class ImportBankDataFileTools {
 	 */
 	public List<Map<String, Object>> parseDataFile(String fileName, List<DataFileConf> confList) throws Exception{
 		List<Map<String, Object>> datas = new ArrayList<Map<String, Object>>();
-		DateFormat format = new SimpleDateFormat("yyyyMMdd");
-		String dateString = format.format(new Date());
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		BufferedReader br = null;
@@ -146,7 +144,6 @@ public class ImportBankDataFileTools {
 					map.put(SqlJavaNameUtil.getVariableName(column, false),value);
 	            }
 	            map.put("id", IDGenerator.generateID());
-	            map.put("createdTime", dateString);
 	            if(flag){
 	            	datas.add(map);
 	            }
