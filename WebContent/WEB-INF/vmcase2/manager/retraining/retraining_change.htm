@@ -76,7 +76,7 @@
 	window.top.currentWindow.setLayout(layout);
 			
 	#set ($formName = "'#id_module_form'")
-	#validator($formName)
+	#parse ("/manager/retraining/retraining_validation.js")
 	$(document).ready(function() {		
 		
 		$("#id_add_manager_button").click(function() {
