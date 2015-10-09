@@ -1,6 +1,7 @@
 package com.cardpay.pccredit.manager.service;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -10,9 +11,15 @@ import org.springframework.stereotype.Service;
 import com.cardpay.pccredit.manager.dao.AccountManagerRetrainingDao;
 import com.cardpay.pccredit.manager.filter.AccountManagerRetrainingFilter;
 import com.cardpay.pccredit.manager.model.AccountManagerRetraining;
+import com.cardpay.pccredit.manager.model.Retraining;
+import com.cardpay.pccredit.notification.constant.NotificationConstant;
+import com.cardpay.pccredit.notification.constant.NotificationEnum;
+import com.cardpay.pccredit.notification.model.NotificationMessage;
 import com.wicresoft.jrad.base.database.dao.common.CommonDao;
 import com.wicresoft.jrad.base.database.model.QueryResult;
+import com.wicresoft.jrad.base.web.security.LoginManager;
 import com.wicresoft.jrad.modules.privilege.model.User;
+import com.wicresoft.util.spring.Beans;
 
 /**
  * 客户经理再培训计划服务类
@@ -104,7 +111,7 @@ public class AccountManagerRetrainingService {
 		return commonDao.findObjectById(AccountManagerRetraining.class, accountManagerRetrainingId);
 	}
 	
-	public boolean saveManagers(String retrainId, String deleteManagerIds, String newAddManagerIds){
+	public boolean saveManagers(String retrainId, String deleteManagerIds, String newAddManagerIds,String currentUserId){
 		boolean flag = false;
 		try{
 			// 判断是否删除了客户经理
@@ -127,6 +134,18 @@ public class AccountManagerRetrainingService {
 							managerRetraining.setRetrainId(retrainId);
 							managerRetraining.setCustomerManagerId(ids[i]);
 							insertAccountManagerRetraining(managerRetraining);
+							
+							//同时插入培训通知信息 20150928
+							Retraining retraining = commonDao.findObjectById(Retraining.class, retrainId);
+							NotificationMessage  msg = new NotificationMessage();
+							msg.setUserId(ids[i]);
+							msg.setNoticeType(NotificationEnum.peixun.toString());
+							msg.setNoticeContent(retraining.getTrainingContent());
+							msg.setIsCheck(NotificationConstant.no_read);
+							msg.setNoticeTitle(retraining.getTrainingObjective());
+							msg.setCreatedTime(new Date());
+							msg.setCreatedBy(currentUserId);
+							commonDao.insertObject(msg);
 						}
 					}
 				}

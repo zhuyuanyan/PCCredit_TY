@@ -439,12 +439,14 @@ public class RetrainingController extends BaseController {
 	@JRadOperation(JRadOperation.CHANGE)
 	public JRadReturnMap saveManagers(HttpServletRequest request) {
 		JRadReturnMap returnMap = new JRadReturnMap();
+		User u = (User) Beans.get(LoginManager.class).getLoggedInUser(request);
+		String userId= u.getId();
 		if (returnMap.isSuccess()) {
 			try {
 				String deleteManagerIds = RequestHelper.getStringValue(request, "deleteManagerIds");
 				String newAddManagerIds = RequestHelper.getStringValue(request, "newAddManagerIds");
 				String retrainId = RequestHelper.getStringValue(request, "retrainId");
-				accountManagerRetrainingService.saveManagers(retrainId, deleteManagerIds, newAddManagerIds);
+				accountManagerRetrainingService.saveManagers(retrainId, deleteManagerIds, newAddManagerIds,userId);
 				//returnMap.addGlobalMessage(CHANGE_SUCCESS);
 			}
 			catch (Exception e) {
