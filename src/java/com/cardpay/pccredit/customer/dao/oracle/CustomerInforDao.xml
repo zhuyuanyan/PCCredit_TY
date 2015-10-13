@@ -793,4 +793,145 @@
 		(#{createTime,jdbcType=VARCHAR},
 		#{zbjg,jdbcType=VARCHAR}, #{khnm,jdbcType=VARCHAR}, #{sxrq,jdbcType=VARCHAR}, #{tcrq,jdbcType=VARCHAR}, #{sbyy,jdbcType=VARCHAR})
 	</insert>
+	
+	
+	
+	
+	<select id="findCustomerYexxList" resultType="com.cardpay.pccredit.customer.model.TyRepayYehzVo">
+		SELECT * FROM
+		 (SELECT ROW_.*,ROWNUM ROWNUM_
+		   FROM (
+			select khmc,
+			       zjlx,
+			       zjhm,
+			       jjh,
+			       ywbh,
+			       khh,
+			       jgdm,
+			       kmh,
+			       hbzl,
+			       jkje,
+			       qxrq,
+			       dkye,
+			       shbj,
+			       shlx,
+			       zhhkr,
+			       bqll,
+			       create_time as createTime
+			  from (select base.khmc,
+			               base.zjlx,
+			               base.zjhm,
+			               yehz.jjh,
+			               yehz.ywbh,
+			               yehz.khh,
+			               yehz.jgdm,
+			               yehz.kmh,
+			               yehz.hbzl,
+			               yehz.jkje,
+			               yehz.qxrq,
+			               yehz.dkye,
+			               yehz.shbj,
+			               yehz.shlx,
+			               yehz.zhhkr,
+			               yehz.bqll,
+			               yehz.create_time
+			          from ty_customer_base base, ty_repay_yehz yehz
+			         where base.khnm = yehz.khh
+			        <if test="chineseName != null and chineseName != '' ">
+					     AND base.KHMC=#{chineseName}
+					</if>
+					<if test="cardId != null and cardId != '' ">
+						AND  base.ZJHM=#{cardId}
+					</if>
+			        union
+			        select base.khmc,
+			               base.zjlx,
+			               base.zjhm,
+			               yehz.jjh,
+			               yehz.ywbh,
+			               yehz.khh,
+			               yehz.jgdm,
+			               yehz.kmh,
+			               yehz.hbzl,
+			               yehz.jkje,
+			               yehz.qxrq,
+			               yehz.dkye,
+			               yehz.shbj,
+			               yehz.shlx,
+			               yehz.zhhkr,
+			               yehz.bqll,
+			               yehz.create_time
+			          from ty_customer_base base, ty_repay_yehz_history yehz
+			         where base.khnm = yehz.khh
+			        <if test="chineseName != null and chineseName != '' ">
+					     AND base.KHMC=#{chineseName}
+					</if>
+					<if test="cardId != null and cardId != '' ">
+						AND  base.ZJHM=#{cardId}
+					</if>
+					)
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+		]]>
+	</select>
+	
+    <select id="findCustomerYexxCountList" resultType="int">
+			select count(*)
+			  from (select base.khmc,
+			               base.zjlx,
+			               base.zjhm,
+			               yehz.jjh,
+			               yehz.ywbh,
+			               yehz.khh,
+			               yehz.jgdm,
+			               yehz.kmh,
+			               yehz.hbzl,
+			               yehz.jkje,
+			               yehz.qxrq,
+			               yehz.dkye,
+			               yehz.shbj,
+			               yehz.shlx,
+			               yehz.zhhkr,
+			               yehz.bqll,
+			               yehz.create_time
+			          from ty_customer_base base, ty_repay_yehz yehz
+			         where base.khnm = yehz.khh
+			        <if test="chineseName != null and chineseName != '' ">
+					     AND base.KHMC=#{chineseName}
+					</if>
+					<if test="cardId != null and cardId != '' ">
+						AND  base.ZJHM=#{cardId}
+					</if>
+			        union
+			        select base.khmc,
+			               base.zjlx,
+			               base.zjhm,
+			               yehz.jjh,
+			               yehz.ywbh,
+			               yehz.khh,
+			               yehz.jgdm,
+			               yehz.kmh,
+			               yehz.hbzl,
+			               yehz.jkje,
+			               yehz.qxrq,
+			               yehz.dkye,
+			               yehz.shbj,
+			               yehz.shlx,
+			               yehz.zhhkr,
+			               yehz.bqll,
+			               yehz.create_time
+			          from ty_customer_base base, ty_repay_yehz_history yehz
+			         where base.khnm = yehz.khh
+			        <if test="chineseName != null and chineseName != '' ">
+					     AND base.KHMC=#{chineseName}
+					</if>
+					<if test="cardId != null and cardId != '' ">
+						AND  base.ZJHM=#{cardId}
+					</if>
+				)
+			         
+	</select>
+	
 </mapper>

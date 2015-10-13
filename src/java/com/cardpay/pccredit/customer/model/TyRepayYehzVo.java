@@ -11,7 +11,7 @@ import com.wicresoft.jrad.base.database.model.ModelParam;
  *
  */
 @ModelParam(table = "ty_repay_yehz",generator=IDType.assigned)
-public class TyRepayYehz extends BusinessModel{
+public class TyRepayYehzVo extends BusinessModel{
 	private static final long serialVersionUID = 1L;
 	private String jjh;//借据号
 	private String ywbh;//业务编号
@@ -40,9 +40,30 @@ public class TyRepayYehz extends BusinessModel{
 	private String bqll;//本期利率(月利率)
 	
 	private String createTime;
+	private String khmc;
+	private String zjlx;
+	private String zjhm;
 	
 	
 	
+	public String getKhmc() {
+		return khmc;
+	}
+	public void setKhmc(String khmc) {
+		this.khmc = khmc;
+	}
+	public String getZjlx() {
+		return zjlx;
+	}
+	public void setZjlx(String zjlx) {
+		this.zjlx = zjlx;
+	}
+	public String getZjhm() {
+		return zjhm;
+	}
+	public void setZjhm(String zjhm) {
+		this.zjhm = zjhm;
+	}
 	public String getCreateTime() {
 		return createTime;
 	}
