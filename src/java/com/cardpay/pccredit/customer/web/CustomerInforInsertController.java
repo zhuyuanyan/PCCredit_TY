@@ -76,8 +76,14 @@ public class CustomerInforInsertController extends BaseController{
 					return returnMap;
 				}
 				filter.setCardType(customerinfoForm.getCardType());
-				List<CustomerInfor> ls = customerInforService.findCustomerInforByFilter(filter).getItems();
+				/*List<CustomerInfor> ls = customerInforService.findCustomerInforByFilter(filter).getItems();
 				if(ls != null && ls.size()>0){
+					returnMap.put(JRadConstants.MESSAGE, "证件号码已存在");
+					returnMap.put(JRadConstants.SUCCESS, false);
+					return returnMap;
+				}*/
+			    int i = customerInforService.findCustomerOriginaCountList(filter);
+				if(i!=0){
 					returnMap.put(JRadConstants.MESSAGE, "证件号码已存在");
 					returnMap.put(JRadConstants.SUCCESS, false);
 					return returnMap;
