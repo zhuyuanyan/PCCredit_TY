@@ -56,10 +56,12 @@ import com.cardpay.pccredit.customer.model.MaintenanceLog;
 import com.cardpay.pccredit.customer.model.TyProductType;
 import com.cardpay.pccredit.customer.model.TyRepayTkmx;
 import com.cardpay.pccredit.customer.model.TyRepayYehz;
+import com.cardpay.pccredit.customer.model.TyRepayYehzVo;
 import com.cardpay.pccredit.customer.web.MaintenanceForm;
 import com.cardpay.pccredit.datapri.service.DataAccessSqlService;
 import com.cardpay.pccredit.intopieces.constant.Constant;
 import com.cardpay.pccredit.intopieces.constant.IntoPiecesException;
+import com.cardpay.pccredit.intopieces.filter.IntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationContact;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationGuarantor;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
@@ -168,6 +170,10 @@ public class CustomerInforService {
 		int size = customerInforDao.findCustomerOriginaCountList(filter);
 		QueryResult<CustomerInfor> qr = new QueryResult<CustomerInfor>(size,ls);
 		return qr;
+	}
+	
+	public int findCustomerOriginaCountList(CustomerInforFilter filter){
+		return customerInforDao.findCustomerOriginaCountList(filter);
 	}
 	
 	//查询未办理过该产品的客户
@@ -2146,5 +2152,17 @@ public class CustomerInforService {
         }
         log.info(dateString+"******************完成读取贷款文件********************");
 
+	}
+	
+	/**
+	 * 查询贷款信息
+	 * @param filter
+	 * @return
+	 */
+	public QueryResult<TyRepayYehzVo> findCustomerYexxByFilter(IntoPiecesFilter filter) {
+		List<TyRepayYehzVo> plans = customerInforDao.findCustomerYexxList(filter);
+		int size = customerInforDao.findCustomerYexxCountList(filter);
+		QueryResult<TyRepayYehzVo> queryResult = new QueryResult<TyRepayYehzVo>(size,plans);
+		return queryResult;
 	}
 }

@@ -11,6 +11,9 @@ import com.cardpay.pccredit.customer.model.CustomerFirsthendBase;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.model.CustomerInforWeb;
 import com.cardpay.pccredit.customer.model.MaintenanceLog;
+import com.cardpay.pccredit.customer.model.TyRepayYehz;
+import com.cardpay.pccredit.customer.model.TyRepayYehzVo;
+import com.cardpay.pccredit.intopieces.filter.IntoPiecesFilter;
 import com.cardpay.pccredit.system.model.Dict;
 import com.wicresoft.jrad.base.database.model.QueryResult;
 import com.wicresoft.util.annotation.Mapper;
@@ -241,4 +244,8 @@ public interface CustomerInforDao {
 	public int insertProduct(Map<String, Object> map);
 	
 	public int insertHmd(Map<String, Object> map);
+	
+	
+	public List<TyRepayYehzVo>  findCustomerYexxList(IntoPiecesFilter filter);
+	public int  findCustomerYexxCountList(IntoPiecesFilter filter);
 }
