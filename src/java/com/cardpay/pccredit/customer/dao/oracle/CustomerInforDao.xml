@@ -801,49 +801,6 @@
 		SELECT * FROM
 		 (SELECT ROW_.*,ROWNUM ROWNUM_
 		   FROM (
-			select khmc,
-			       zjlx,
-			       zjhm,
-			       jjh,
-			       ywbh,
-			       khh,
-			       jgdm,
-			       kmh,
-			       hbzl,
-			       jkje,
-			       qxrq,
-			       dkye,
-			       shbj,
-			       shlx,
-			       zhhkr,
-			       bqll,
-			       create_time as createTime
-			  from (select base.khmc,
-			               base.zjlx,
-			               base.zjhm,
-			               yehz.jjh,
-			               yehz.ywbh,
-			               yehz.khh,
-			               yehz.jgdm,
-			               yehz.kmh,
-			               yehz.hbzl,
-			               yehz.jkje,
-			               yehz.qxrq,
-			               yehz.dkye,
-			               yehz.shbj,
-			               yehz.shlx,
-			               yehz.zhhkr,
-			               yehz.bqll,
-			               yehz.create_time
-			          from ty_customer_base base, ty_repay_yehz yehz
-			         where base.khnm = yehz.khh
-			        <if test="chineseName != null and chineseName != '' ">
-					     AND base.KHMC=#{chineseName}
-					</if>
-					<if test="cardId != null and cardId != '' ">
-						AND  base.ZJHM=#{cardId}
-					</if>
-			        union
 			        select base.khmc,
 			               base.zjlx,
 			               base.zjhm,
@@ -860,7 +817,7 @@
 			               yehz.shlx,
 			               yehz.zhhkr,
 			               yehz.bqll,
-			               yehz.create_time
+			               yehz.create_time createTime
 			          from ty_customer_base base, ty_repay_yehz_history yehz
 			         where base.khnm = yehz.khh
 			        <if test="chineseName != null and chineseName != '' ">
@@ -869,7 +826,7 @@
 					<if test="cardId != null and cardId != '' ">
 						AND  base.ZJHM=#{cardId}
 					</if>
-					)
+					
 		 <![CDATA[		
 							) ROW_
 						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
@@ -879,32 +836,7 @@
 	
     <select id="findCustomerYexxCountList" resultType="int">
 			select count(*)
-			  from (select base.khmc,
-			               base.zjlx,
-			               base.zjhm,
-			               yehz.jjh,
-			               yehz.ywbh,
-			               yehz.khh,
-			               yehz.jgdm,
-			               yehz.kmh,
-			               yehz.hbzl,
-			               yehz.jkje,
-			               yehz.qxrq,
-			               yehz.dkye,
-			               yehz.shbj,
-			               yehz.shlx,
-			               yehz.zhhkr,
-			               yehz.bqll,
-			               yehz.create_time
-			          from ty_customer_base base, ty_repay_yehz yehz
-			         where base.khnm = yehz.khh
-			        <if test="chineseName != null and chineseName != '' ">
-					     AND base.KHMC=#{chineseName}
-					</if>
-					<if test="cardId != null and cardId != '' ">
-						AND  base.ZJHM=#{cardId}
-					</if>
-			        union
+			  from (
 			        select base.khmc,
 			               base.zjlx,
 			               base.zjhm,
@@ -921,7 +853,7 @@
 			               yehz.shlx,
 			               yehz.zhhkr,
 			               yehz.bqll,
-			               yehz.create_time
+			               yehz.create_time createTime
 			          from ty_customer_base base, ty_repay_yehz_history yehz
 			         where base.khnm = yehz.khh
 			        <if test="chineseName != null and chineseName != '' ">
@@ -929,6 +861,45 @@
 					</if>
 					<if test="cardId != null and cardId != '' ">
 						AND  base.ZJHM=#{cardId}
+					</if>
+				)
+			         
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	<select id="findRepayLszList" resultType="com.cardpay.pccredit.customer.model.TyRepayLsz">
+		SELECT * FROM
+		 (SELECT ROW_.*,ROWNUM ROWNUM_
+		   FROM (
+			        select lsz.*,
+			        	   lsz.create_time as createTime
+			          from TY_REPAY_LSZ lsz
+			         where 1=1
+			        <if test="jjh != null and jjh != '' ">
+					     AND lsz.jjh=#{jjh}
+					</if>
+					order by jzrq desc
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+		]]>
+	</select>
+	
+    <select id="findRepayLszCountList" resultType="int">
+			select count(*)
+			  from (
+			        select lsz.*,
+			        	   lsz.create_time as createTime
+			          from TY_REPAY_LSZ lsz
+			         where 1=1
+			        <if test="jjh != null and jjh != '' ">
+					     AND lsz.jjh=#{jjh}
 					</if>
 				)
 			         

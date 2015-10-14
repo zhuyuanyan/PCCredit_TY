@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.cardpay.pccredit.customer.filter.CustomerInfoLszFilter;
 import com.cardpay.pccredit.customer.filter.CustomerInforFilter;
 import com.cardpay.pccredit.customer.model.CustomerCareersInformation;
 import com.cardpay.pccredit.customer.model.CustomerFirsthendBase;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.model.CustomerInforWeb;
 import com.cardpay.pccredit.customer.model.MaintenanceLog;
+import com.cardpay.pccredit.customer.model.TyRepayLsz;
 import com.cardpay.pccredit.customer.model.TyRepayYehz;
 import com.cardpay.pccredit.customer.model.TyRepayYehzVo;
 import com.cardpay.pccredit.intopieces.filter.IntoPiecesFilter;
@@ -248,4 +250,8 @@ public interface CustomerInforDao {
 	
 	public List<TyRepayYehzVo>  findCustomerYexxList(IntoPiecesFilter filter);
 	public int  findCustomerYexxCountList(IntoPiecesFilter filter);
+	
+	
+	public List<TyRepayLsz>  findRepayLszList(CustomerInfoLszFilter filter);
+	public int  findRepayLszCountList(CustomerInfoLszFilter filter);
 }

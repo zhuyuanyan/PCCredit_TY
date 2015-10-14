@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cardpay.pccredit.customer.filter.CustomerInfoLszFilter;
+import com.cardpay.pccredit.customer.filter.MaintenanceFilter;
 import com.cardpay.pccredit.customer.model.CustomerFirsthendBaseLocal;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
+import com.cardpay.pccredit.customer.model.TyRepayLsz;
 import com.cardpay.pccredit.customer.model.TyRepayYehz;
 import com.cardpay.pccredit.customer.model.TyRepayYehzVo;
 import com.cardpay.pccredit.customer.service.CustomerInforService;
@@ -60,26 +63,29 @@ public class CustomerInfo_yexx_Controller extends BaseController {
 	public AbstractModelAndView browse(@ModelAttribute IntoPiecesFilter filter,HttpServletRequest request) {
 		filter.setRequest(request);
 		IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
-		String userId = user.getId();
-		
-		//查询客户经理
-	/*	List<AccountManagerParameterForm> forms = maintenanceService.findSubListManagerByManagerId(user);
-		if(forms != null && forms.size() > 0){
-			StringBuffer userIds = new StringBuffer();
-			userIds.append("(");
-			for(AccountManagerParameterForm form : forms){
-				userIds.append("'").append(form.getUserId()).append("'").append(",");
-			}
-			userIds = userIds.deleteCharAt(userIds.length() - 1);
-			userIds.append(")");
-			filter.setCustManagerIds(userIds.toString());
-		}else{
-			filter.setUserId(userId);
-		}
-		*/
 		QueryResult<TyRepayYehzVo> result = customerInforService.findCustomerYexxByFilter(filter);
 		JRadPagedQueryResult<TyRepayYehzVo> pagedResult = new JRadPagedQueryResult<TyRepayYehzVo>(filter, result);
 		JRadModelAndView mv = new JRadModelAndView("/customer/CustomerInfo_yexx/customer_yexx_browse", request);
+		mv.addObject(PAGED_RESULT, pagedResult);
+		return mv;
+	}
+	
+	
+	/**
+	 * 显示流水计划列表页面
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "displayInfo.page", method = { RequestMethod.GET })
+	@JRadOperation(JRadOperation.BROWSE)
+	public AbstractModelAndView displayInfo(@ModelAttribute CustomerInfoLszFilter filter,HttpServletRequest request) {
+		JRadModelAndView mv = new JRadModelAndView("/customer/CustomerInfo_yexx/customer_yexx_displayInfo", request);
+		String jjh = RequestHelper.getStringValue(request, ID);
+		filter.setJjh(jjh);
+		filter.setRequest(request);
+		QueryResult<TyRepayLsz> result = customerInforService.findRepayLszByFilter(filter);
+		JRadPagedQueryResult<TyRepayLsz> pagedResult = new JRadPagedQueryResult<TyRepayLsz>(filter, result);
 		mv.addObject(PAGED_RESULT, pagedResult);
 		return mv;
 	}
