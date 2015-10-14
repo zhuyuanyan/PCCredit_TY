@@ -82,7 +82,7 @@
             </colgroup>
             #foreach ($intoPieces in $result.items)
             <tr>
-              <td class="checkbox"><input type="radio" name="checkbox" value=""/></td>
+              <td class="checkbox"><input type="radio" name="checkbox" value="$!intoPieces.jjh"/></td>
               <td nowrap="nowrap">$!intoPieces.khmc</td>
               <td nowrap="nowrap">$!intoPieces.zjlx</td>
               <td nowrap="nowrap">$!intoPieces.zjhm</td>
@@ -101,8 +101,8 @@
       </div>
       <div class="pagebar">
         <div class="controlbtn">
-<!--           <a id="id_base_local_button" class="btn_g" href="javascript:void(0);" title="基本信息">基本信息</a>
- -->        </div>
+           <a id="id_base_local_button" class="btn_g" href="javascript:void(0);" title="基本信息">流水信息</a>
+         </div>
         #parse ("common/pagination.htm")
         <div class="clear"></div>
       </div>
@@ -115,44 +115,18 @@
 	
 	$(document).ready(function() {
 		var opsObj = new Object();
-		prepareOperations(opsObj);
+		prepareOperations(opsObj); 
 		
+		//流水信息
 		$("#id_base_local_button").click(function() {
 			if ($(".checkbox :checked").length == 1) {
 				var rowid = $("input[name='checkbox']:checked").val();
-				if(rowid.split("_")[2]==''||rowid.split("_")[2]==null){
-					Dialog.message("基本信息尚未同步!");
-					return;
-				}
-				var url = "${contextPath}/customer/customerInfor_wh_ty/showInfo.page?id=" + rowid.split("_")[1];
+				var url = "${modulePath}/displayInfo.page?id=" + rowid;
 				window.location.href = url;
+			}else{
+			   topWin.Dialog.message("请选择记录！");
 			}
-			else{
-				Dialog.message("请选择一行!");
-			}
-	    });
-
-		$("#id_report_button").click(function() {
-			if ($(".checkbox :checked").length == 1) {
-				var rowid = $("input[name='checkbox']:checked").val();
-				var url = "${contextPath}/customer/customerInfor_wh_ty/report_fz.page?appId=" + rowid.split("_")[0]+"&urlType=2";
-				window.location.href = url;
-			}
-			else{
-				Dialog.message("请选择一行!");
-			}
-	    });
-		
-		$("#id_image_button").click(function() {
-			if ($(".checkbox :checked").length == 1) {
-				var rowid = $("input[name='checkbox']:checked").val();
-				var url = "${contextPath}/customer/customerInfor_wh_ty/imageImport.page?applicationId=" + rowid.split("_")[0];
-				window.location.href = url;
-			}
-			else{
-				Dialog.message("请选择一行!");
-			}
-	    });
+		});
 	});
 	
 </script>

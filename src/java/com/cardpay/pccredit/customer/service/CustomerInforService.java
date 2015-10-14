@@ -39,6 +39,7 @@ import com.cardpay.pccredit.customer.constant.CustomerInforDStatusEnum;
 import com.cardpay.pccredit.customer.constant.WfProcessInfoType;
 import com.cardpay.pccredit.customer.dao.CustomerInforDao;
 import com.cardpay.pccredit.customer.dao.comdao.CustomerInforCommDao;
+import com.cardpay.pccredit.customer.filter.CustomerInfoLszFilter;
 import com.cardpay.pccredit.customer.filter.CustomerInforFilter;
 import com.cardpay.pccredit.customer.filter.VideoAccessoriesFilter;
 import com.cardpay.pccredit.customer.model.CustomerCareersInformation;
@@ -54,6 +55,7 @@ import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.model.CustomerInforWeb;
 import com.cardpay.pccredit.customer.model.MaintenanceLog;
 import com.cardpay.pccredit.customer.model.TyProductType;
+import com.cardpay.pccredit.customer.model.TyRepayLsz;
 import com.cardpay.pccredit.customer.model.TyRepayTkmx;
 import com.cardpay.pccredit.customer.model.TyRepayYehz;
 import com.cardpay.pccredit.customer.model.TyRepayYehzVo;
@@ -2165,4 +2167,18 @@ public class CustomerInforService {
 		QueryResult<TyRepayYehzVo> queryResult = new QueryResult<TyRepayYehzVo>(size,plans);
 		return queryResult;
 	}
+	
+	
+	/**
+	 * 查询流水信息
+	 */
+	
+	public QueryResult<TyRepayLsz> findRepayLszByFilter(CustomerInfoLszFilter filter) {
+		List<TyRepayLsz> plans = customerInforDao.findRepayLszList(filter);
+		int size = customerInforDao.findRepayLszCountList(filter);
+		QueryResult<TyRepayLsz> queryResult = new QueryResult<TyRepayLsz>(size,plans);
+		return queryResult;
+	}
+	
+	
 }
