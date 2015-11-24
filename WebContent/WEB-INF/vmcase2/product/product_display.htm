@@ -64,8 +64,12 @@
 							<td></td>
 							<td><label for="name">产品种类:</label></td>
 							<td>
-							<input type="text" id="productTypeCode" name="productTypeCode"
-								value="#dictVal('CMMCPLX', $!product.productTypeCode)" disabled="true" />
+							   <select id="productTypeCode" name="productTypeCode">
+                 			   <option value=""></option>
+                			    #foreach($obj in $productList)
+                			    	<option value="$!obj.productCode" disabled="true" #if($!obj.productCode == $!product.productTypeCode) selected="selected"  #end>$!obj.productName ($!obj.productCode)</option>
+                			    #end
+                			  </select>
 							</td>
 						</tr>
 
