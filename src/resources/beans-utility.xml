@@ -419,9 +419,9 @@
     <bean id="scheduler" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                 <ref bean="addBaseTigger"/>
+                  <ref bean="addBaseTigger"/>
                  <ref bean="addRepayTigger"/>
-                 <ref bean="updateCustomerAppInfoStatusTigger"/>
+                 <ref bean="updateCustomerAppInfoStatusTigger"/> 
 				<!-- <ref bean="addManagerAssessmentScoreTigger"/>
 				
 				<ref bean="addStatisticalTableTigger"/> -->

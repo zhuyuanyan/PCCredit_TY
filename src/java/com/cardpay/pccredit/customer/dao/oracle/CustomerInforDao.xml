@@ -626,8 +626,8 @@
 			T1.id,
 			T1.chinese_name as chineseName,
 			T1.card_type as cardType,
-			T1.card_id as cardId,T1.ty_customer_id as tyCustomerId,b.khjl as tyUserId
-			from BASIC_CUSTOMER_INFORMATION T1,ty_customer_base b where 1 = 1 and T1.card_id=b.zjhm
+			T1.card_id as cardId,T1.ty_customer_id as tyCustomerId,T1.user_id as userId,b.khjl as tyUserId
+			from BASIC_CUSTOMER_INFORMATION T1 left join ty_customer_base b on T1.card_id=b.zjhm
 				<if test="chineseName != null and chineseName != '' ">
 					AND T1.chinese_name=#{chineseName}
 				</if>
@@ -638,7 +638,7 @@
 					AND T1.card_id=#{cardId}
 				</if>
 				<if test="customerManagerIds != null and customerManagerIds != '' ">  
- 		    		AND T1.user_id in  
+ 		    		where T1.user_id in  
 	 	    		<foreach collection="customerManagerIds" index="index" item="item" open="(" separator="," close=")"> 
 			   		#{item.userId} 
 					</foreach>

@@ -8,9 +8,9 @@
 				  <div class="dvTab">
             <ul class="com-tab">
            <li class="tab activeTab" ><a href="${contextPath}/product/productinformation/create.page">产品属性</a></li>
-            <li class="tab">附件清单</li>
+         <!--    <li class="tab">附件清单</li>
             <li class="tab">产品规则</li>
-            <li class="tab">催收规则</li>
+            <li class="tab">催收规则</li> -->
          <!--    <li class="tab">筛选规则</li> -->
          </ul>
         </div>
@@ -156,7 +156,7 @@
 
 			<div class="submit">
 				<input id="id_save_button" type="button"
-					value="下一步" class="current"/> <input
+					value="保存" class="current"/> <input
 					type="button" onclick="javascript:history.go(-1);"
 					value="#i18n('button.cancel')" />
 			</div>
@@ -171,7 +171,8 @@
 			success : function(data) {
 				if (data.success) {
 					Dialog.message(data.message,"提示", function() {
-						navigateTo("${contextPath}/product/productinformation/create_cpfjqd.page"+"?productId=" +data.productId);
+						/* navigateTo("${contextPath}/product/productinformation/create_cpfjqd.page"+"?productId=" +data.productId); */
+						navigateTo("${contextPath}/product/productinformation/browse.page");
 					 });
 				} else {
 					Dialog.message(data.errors.errors[0].message);
