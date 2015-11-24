@@ -364,7 +364,7 @@ public class IntoPiecesComdao {
 						    "                 and a.product_id = e.id         "+
 						    "                 and e.PRODUCT_TYPE_CODE = d.cpmc     "+                       
 						    "                 and a.status ='approved'        "+             
-						    "                 and d.sfzf !=1                  ";    
+						    "                 and d.sfzf !='1.0'                  ";    
 
 		List<IntoPieces> list = commonDao.queryBySql(IntoPieces.class,sql,null);
 		return list;

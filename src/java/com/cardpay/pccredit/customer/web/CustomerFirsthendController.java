@@ -83,6 +83,7 @@ public class CustomerFirsthendController extends BaseController{
 		JRadPagedQueryResult<CustomerInfor> pagedResult = new JRadPagedQueryResult<CustomerInfor>(filter, result);
 		JRadModelAndView mv = new JRadModelAndView("/customer/customerFirsthend/customerfirsthend_browse", request);
 		mv.addObject(PAGED_RESULT, pagedResult);
+		mv.addObject("customerName", user.getDisplayName());
 		return mv;
 	}
 	 

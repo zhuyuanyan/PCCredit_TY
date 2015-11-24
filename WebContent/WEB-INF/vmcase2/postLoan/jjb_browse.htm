@@ -3,7 +3,7 @@
   <div class="content_main">
     <div class="contentinner">
       <div class="place">
-        <div class="title">产品信息</div>
+        <div class="title">借据表信息</div>
       </div>
       <div class="inquiry">
         <div class="search_tag">#i18n("label.browse.filter")</div>
@@ -12,7 +12,7 @@
             <ul>
             
               <li>
-                <span>产品名称：<input type="text" name="productName" value="$!product.productName" /></span>
+                <span>证件号码：<input type="text" name="zjhm" value="$!result.filter.zjhm" /></span>
               </li>
               
               <li class="search_button">
@@ -27,19 +27,24 @@
             <colgroup>
              <!--  <col width="5%" /> -->
               <col width="5%" />
-              <col width="10%" />
+              <col width="20%" />
+              <col width="20%" />
+              <col />
+              <col />
               <col />
               <col />
               <col />
             </colgroup>
             <tr class="title">
               <th nowrap="nowrap"></th>
-<!--               <th nowrap="nowrap">产品类型</th> -->
+              <th nowrap="nowrap">借据号</th>
+              <th nowrap="nowrap">证件号码</th>
+              <th nowrap="nowrap">发放金额</th>
+              <th nowrap="nowrap">借款日期</th>
+              <th nowrap="nowrap">到期日期</th>
+              <th nowrap="nowrap">贷款期限(月)</th>
+              <th nowrap="nowrap">客户经理</th>
               <th nowrap="nowrap">产品名称</th>
-              <th nowrap="nowrap">授信额度</th>
-              <th nowrap="nowrap">利率区间</th>
-              <th nowrap="nowrap">贷款期限</th>
-              <th nowrap="nowrap">贷款主体</th>
             </tr>
           </table>
         </div>
@@ -48,21 +53,27 @@
             <colgroup>
 <!--               <col width="5%" /> -->
               <col width="5%" />
-              <col width="10%" />
+              <col width="20%" />
+              <col width="20%" />
+              <col />
+              <col />
               <col />
               <col />
               <col />
             </colgroup>
-            #foreach ($product in $result.items)
+            #foreach ($obj in $result.items)
             <tr>
-              <td class="checkbox"><input type="radio" name="checkbox" value="$!product.id"
-                  #if ($!request.getParameter("recordId") == $product.id) checked="checked" #end /></td>
+              <td class="checkbox"><input type="radio" name="checkbox" value="$!obj.id"
+                   /></td>
 <!--               <td nowrap="nowrap">#dictVal("CMMCPLX", $!product.productTypeCode)</td> -->
-              <td nowrap="nowrap">$!product.productName</td>
-              <td nowrap="nowrap">$!product.creditLine</td>
-              <td nowrap="nowrap">$!product.rateRange</td>
-              <td nowrap="nowrap">$!product.loanTimeLimit</td>
-              <td nowrap="nowrap">$!product.loanPrincipal</td>
+              <td nowrap="nowrap">$!obj.jjh</td>
+              <td nowrap="nowrap">$!obj.zjhm</td>
+              <td nowrap="nowrap">$!obj.ffje</td>
+              <td nowrap="nowrap">$!obj.jkrq</td>
+              <td nowrap="nowrap">$!obj.dqrq</td>
+              <td nowrap="nowrap">$!obj.dkqx</td>
+              <td nowrap="nowrap">$!obj.khjl</td>
+              <td nowrap="nowrap">$!obj.productName</td>
             </tr>
             #end
           </table>
@@ -95,30 +106,6 @@
 		opsObj.browseUrl = "${modulePath}/browse.page";
 
 		prepareOperations(opsObj);
-		
-		$("#id_config_button").click(function() {
-            if ($(".checkbox :checked").length == 1) {
-                $("#id_config_button").unbind();
-                var rowid = $($(".checkbox :checked")[0]).attr("value");
-                var url = "${contextPath}/system/nodeaudit/browse.page?productId=" + rowid + "&nodeType=Product";
-                
-                window.location.href = url;
-            } else {
-                Dialog.message("请选择一行");
-            }
-        });
-		
-		$("#id_adjust_button").click(function() {
-            if ($(".checkbox :checked").length == 1) {
-                $("#id_adjust_button").unbind();
-                var rowid = $($(".checkbox :checked")[0]).attr("value");
-                var url = "${contextPath}/system/nodeaudit/browse.page?productId=" + rowid + "&nodeType=ProductAmountAdjust";
-                
-                window.location.href = url;
-            } else {
-                Dialog.message("请选择一行");
-            }
-        });
 		
 	});
 </script>
