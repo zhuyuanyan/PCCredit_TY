@@ -41,6 +41,8 @@ public class CustomerInforFilter extends BaseQueryFilter{
 	private String productId;
 	private List<AccountManagerParameterForm> customerManagerIds;
 	
+	private String moveStatus;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -197,6 +199,12 @@ public class CustomerInforFilter extends BaseQueryFilter{
 	public void setCustomerManagerIds(
 			List<AccountManagerParameterForm> customerManagerIds) {
 		this.customerManagerIds = customerManagerIds;
+	}
+	public String getMoveStatus() {
+		return moveStatus;
+	}
+	public void setMoveStatus(String moveStatus) {
+		this.moveStatus = moveStatus;
 	}
 	
 }

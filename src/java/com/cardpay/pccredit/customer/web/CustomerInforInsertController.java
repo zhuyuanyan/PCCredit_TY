@@ -1,5 +1,8 @@
 package com.cardpay.pccredit.customer.web;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +21,12 @@ import com.cardpay.pccredit.customer.filter.CustomerInforFilter;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.service.CustomerInforService;
 import com.cardpay.pccredit.datapri.constant.DataPriConstants;
+import com.cardpay.pccredit.riskControl.model.RiskCustomer;
+import com.cardpay.pccredit.system.model.SystemUser;
 import com.wicresoft.jrad.base.auth.JRadModule;
 import com.wicresoft.jrad.base.auth.JRadOperation;
 import com.wicresoft.jrad.base.constant.JRadConstants;
+import com.wicresoft.jrad.base.database.dao.common.CommonDao;
 import com.wicresoft.jrad.base.web.JRadModelAndView;
 import com.wicresoft.jrad.base.web.controller.BaseController;
 import com.wicresoft.jrad.base.web.result.JRadReturnMap;
@@ -78,6 +84,29 @@ public class CustomerInforInsertController extends BaseController{
 				filter.setCardType(customerinfoForm.getCardType());
 				List<CustomerInfor> ls = customerInforService.findCustomerInforByFilter(filter).getItems();
 				if(ls != null && ls.size()>0){
+					String message = "";
+					String gId = customerInforService.getUserInform(ls.get(0).getUserId());
+					if(gId==null){
+						message = "此客户已挂在客户经理"+ls.get(0).getUserId()+"下!";
+//						returnMap.put(JRadConstants.MESSAGE, "此客户已挂在客户经理"+ls.get(0).getUserId()+"下!");
+					}else{
+						message = "此客户已挂在客户经理"+gId+"下!";
+//						returnMap.put(JRadConstants.MESSAGE, "此客户已挂在客户经理"+gId+"下!");
+					}
+					returnMap.put(JRadConstants.SUCCESS, false);
+					//查询是否为风险名单
+					List<RiskCustomer> riskCustomers = customerInforService.findRiskByCardId(customerinfoForm.getCardId());
+					if(riskCustomers.size()>0){
+						SystemUser user = customerInforService.getUseById(riskCustomers.get(0).getCreatedBy());
+						DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						String dateString = format.format(riskCustomers.get(0).getCreatedTime());
+						message+="此客户于"+dateString+"被"+user.getDisplayName()+"拒绝，原因为"+riskCustomers.get(0).getRefuseReason();
+					}
+					returnMap.put(JRadConstants.MESSAGE, message);
+					return returnMap;
+				}
+			    int i = customerInforService.findCustomerOriginaCountList(filter);
+				if(i!=0){
 					returnMap.put(JRadConstants.MESSAGE, "证件号码已存在");
 					returnMap.put(JRadConstants.SUCCESS, false);
 					return returnMap;
@@ -100,4 +129,5 @@ public class CustomerInforInsertController extends BaseController{
 		}
 		return returnMap;
 	}
+	
 }

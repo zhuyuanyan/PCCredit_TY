@@ -62,7 +62,7 @@
 			    	 $("#cardIde").remove();	
 			       
 			        }else{
-				       $("input[name='cardId']").after("<label class='error' id='cardIde' generated='true' >请输入正确的身份证号(15/18位)</label>");   
+				       $("input[name='cardId']").after("<label class='error' id='cardIde' generated='true' ><br>请输入正确的身份证号(15/18位)</label>");   
 			     }	
 				 }
 				
@@ -72,7 +72,7 @@
 	    	if(leng > 0){
 	    		return;
 	    	}else{
-	    	  if ($($formName).valid()) {
+	    	/*   if ($($formName).valid()) {
 	   	          var formjson = $($formName).serialize();
 	   	          $.get($($formName).attr("action"), formjson, function(data, textStatus, jqXhr) {
 	   	            if (data.success) {
@@ -83,9 +83,27 @@
 	   	            	topWin.Dialog.message(data.message);
 	   	            }
 	   	          });
-	   	        }
+	   	        } */
+	   	        
+	   			if ($($formName).valid()) {
+	   				var formjson = $($formName).serialize();
+	   	   	        var url = $($formName).attr("action");
+	   				$.ajax({
+	   					url : url,
+	   					type : "get",
+	   					data : formjson,
+	   					success : function(data) {
+	   						if (data.success) {
+	   							topWin.Dialog.message("保存成功!");
+	   		   	            	window.location.reload() ;
+	   						}else{
+	   							topWin.Dialog.message(data.message);
+	   					    }
+	   					}
+	   				});
+	   			}
+	   	        
 	    	}
-	       
 	      });
 		$("#cardId").change(function (){
 			 
@@ -101,7 +119,7 @@
 		    	 $("#cardIde").remove();	
 		       
 		        }else{
-			       $("input[name='cardId']").after("<label class='error' id='cardIde' generated='true' >请输入正确的身份证号(15/18位)</label>");   
+			       $("input[name='cardId']").after("<label class='error' id='cardIde' generated='true' ><br>请输入正确的身份证号(15/18位)</label>");   
 		     }	
 			 }
 			
@@ -120,7 +138,7 @@
 			    	 $("#cardIde").remove();	
 			       
 			        }else{
-				       $("input[name='cardId']").after("<label class='error' id='cardIde' generated='true' >请输入正确的身份证号(15/18位)</label>");   
+				       $("input[name='cardId']").after("<label class='error' id='cardIde' generated='true' ><br>请输入正确的身份证号(15/18位)</label>");   
 			     }	
 				 }	
 				

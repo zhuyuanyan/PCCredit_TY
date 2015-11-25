@@ -270,6 +270,8 @@ public class ProductController extends BaseController {
 		}
 		if (StringUtils.isNotEmpty(productId)) {
 			ProductAttribute productAttribute = productService.findProductAttributeById(productId);
+			List<TyProductType> productList = productService.getProductType();
+			mv.addObject("productList", productList);
 			mv.addObject("organizationId", pOrganizationId);
 			mv.addObject("organization", listOrg);
 			mv.addObject("product", productAttribute);
@@ -625,6 +627,8 @@ public class ProductController extends BaseController {
 
 		if (StringUtils.isNotEmpty(productId)) {
 			ProductAttribute productAttribute = productService.findProductAttributeById(productId);
+			List<TyProductType> list = productService.getProductType();
+			mv.addObject("productList", list);
 			mv.addObject("product", productAttribute);
 			mv.addObject("productId", productId);
 		}

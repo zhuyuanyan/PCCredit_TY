@@ -10,9 +10,7 @@ import com.wicresoft.jrad.base.database.model.ModelParam;
  * 借据表（太原）
  *
  */
-@ModelParam(table = "ty_repay_tkmx",generator=IDType.assigned)
-public class TyRepayTkmx extends BusinessModel{
-	private static final long serialVersionUID = 1L;
+public class TyRepayTkmxForm{
 	private String ywbh;//业务编号
 	private String khh;//客户号
 	private String zhtbh;//主合同编号
@@ -73,6 +71,9 @@ public class TyRepayTkmx extends BusinessModel{
 	private String yxr;//营销人
 	private String flcorzlc;//分流程还是主流程,2分流程,1为主流程
 	private String createTime;
+	
+	private String productName;
+	private String zjhm;
 	public String getJjh() {
 		return jjh;
 	}
@@ -433,6 +434,18 @@ public class TyRepayTkmx extends BusinessModel{
 	}
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getZjhm() {
+		return zjhm;
+	}
+	public void setZjhm(String zjhm) {
+		this.zjhm = zjhm;
 	}
 
 }

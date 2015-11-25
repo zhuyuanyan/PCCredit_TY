@@ -626,8 +626,8 @@
 			T1.id,
 			T1.chinese_name as chineseName,
 			T1.card_type as cardType,
-			T1.card_id as cardId,T1.ty_customer_id as tyCustomerId,b.khjl as tyUserId
-			from BASIC_CUSTOMER_INFORMATION T1,ty_customer_base b where 1 = 1 and T1.card_id=b.zjhm
+			T1.card_id as cardId,T1.ty_customer_id as tyCustomerId,T1.user_id as userId,b.khjl as tyUserId
+			from BASIC_CUSTOMER_INFORMATION T1 left join ty_customer_base b on T1.card_id=b.zjhm
 				<if test="chineseName != null and chineseName != '' ">
 					AND T1.chinese_name=#{chineseName}
 				</if>
@@ -638,7 +638,7 @@
 					AND T1.card_id=#{cardId}
 				</if>
 				<if test="customerManagerIds != null and customerManagerIds != '' ">  
- 		    		AND T1.user_id in  
+ 		    		where T1.user_id in  
 	 	    		<foreach collection="customerManagerIds" index="index" item="item" open="(" separator="," close=")"> 
 			   		#{item.userId} 
 					</foreach>
@@ -793,4 +793,116 @@
 		(#{createTime,jdbcType=VARCHAR},
 		#{zbjg,jdbcType=VARCHAR}, #{khnm,jdbcType=VARCHAR}, #{sxrq,jdbcType=VARCHAR}, #{tcrq,jdbcType=VARCHAR}, #{sbyy,jdbcType=VARCHAR})
 	</insert>
+	
+	
+	
+	
+	<select id="findCustomerYexxList" resultType="com.cardpay.pccredit.customer.model.TyRepayYehzVo">
+		SELECT * FROM
+		 (SELECT ROW_.*,ROWNUM ROWNUM_
+		   FROM (
+			        select base.khmc,
+			               base.zjlx,
+			               base.zjhm,
+			               yehz.jjh,
+			               yehz.ywbh,
+			               yehz.khh,
+			               yehz.jgdm,
+			               yehz.kmh,
+			               yehz.hbzl,
+			               yehz.jkje,
+			               yehz.qxrq,
+			               yehz.dkye,
+			               yehz.shbj,
+			               yehz.shlx,
+			               yehz.zhhkr,
+			               yehz.bqll,
+			               yehz.create_time createTime
+			          from ty_customer_base base, ty_repay_yehz_history yehz
+			         where base.khnm = yehz.khh
+			        <if test="chineseName != null and chineseName != '' ">
+					     AND base.KHMC=#{chineseName}
+					</if>
+					<if test="cardId != null and cardId != '' ">
+						AND  base.ZJHM=#{cardId}
+					</if>
+					
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+		]]>
+	</select>
+	
+    <select id="findCustomerYexxCountList" resultType="int">
+			select count(*)
+			  from (
+			        select base.khmc,
+			               base.zjlx,
+			               base.zjhm,
+			               yehz.jjh,
+			               yehz.ywbh,
+			               yehz.khh,
+			               yehz.jgdm,
+			               yehz.kmh,
+			               yehz.hbzl,
+			               yehz.jkje,
+			               yehz.qxrq,
+			               yehz.dkye,
+			               yehz.shbj,
+			               yehz.shlx,
+			               yehz.zhhkr,
+			               yehz.bqll,
+			               yehz.create_time createTime
+			          from ty_customer_base base, ty_repay_yehz_history yehz
+			         where base.khnm = yehz.khh
+			        <if test="chineseName != null and chineseName != '' ">
+					     AND base.KHMC=#{chineseName}
+					</if>
+					<if test="cardId != null and cardId != '' ">
+						AND  base.ZJHM=#{cardId}
+					</if>
+				)
+			         
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	<select id="findRepayLszList" resultType="com.cardpay.pccredit.customer.model.TyRepayLsz">
+		SELECT * FROM
+		 (SELECT ROW_.*,ROWNUM ROWNUM_
+		   FROM (
+			        select lsz.*,
+			        	   lsz.create_time as createTime
+			          from TY_REPAY_LSZ lsz
+			         where 1=1
+			        <if test="jjh != null and jjh != '' ">
+					     AND lsz.jjh=#{jjh}
+					</if>
+					order by jzrq desc
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+		]]>
+	</select>
+	
+    <select id="findRepayLszCountList" resultType="int">
+			select count(*)
+			  from (
+			        select lsz.*,
+			        	   lsz.create_time as createTime
+			          from TY_REPAY_LSZ lsz
+			         where 1=1
+			        <if test="jjh != null and jjh != '' ">
+					     AND lsz.jjh=#{jjh}
+					</if>
+				)
+			         
+	</select>
+	
 </mapper>
