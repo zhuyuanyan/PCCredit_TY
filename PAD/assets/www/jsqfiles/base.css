@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document by http://www.codefans.net*/
+
+#baseMainPanel {width:437px;height:480px;
+position:absolute;top:5em;left:24em;z-index:1;
+display:none;
+background:#C0C0C0;
+border-radius:1em;
+-moz-border-radius:1em;
+}
+#baseMainPanel  h3{padding:1em;text-align:center;background:black;color:white;margin-top:-1em;border-radius: 1em 1em 0 0 ;-moz-border-radius: 1em 1em 0 0 ;}
+#baseTabPanel {width:73px;height:auto;}
+#baseTabPanel ul {margin:0px;margin-left:12px;padding:0px;list-style:none;width:62px;height:62px;background:url(./cal_tab.gif) no-repeat 0 0;}
+#baseTabPanel ul li {height:31px;width:100%;text-align:center;line-height:250%;color:#FFF;cursor:pointer;}
+#baseMainPanel table {width:100%;margin-top:13px;}
+#resultIpt {height:30px;width:401px;margin-left:5px;text-align:right;font-size:30px;background:white;
++height:30px;_height:30px;height:30px\0;
++padding-top:5px;;_padding-top:5px;;padding-top:5px\0;
+}
+.resultCellCss {width:100%;}
+.calculatorExpressTitleCellCss {height:0px;text-align:center;width:0px;}
+.calculatorExpressTitleCellCss span {color:#FFF;}
+.calculatorExpressCellCss {width:0;height:0;text-align:right;}
+.calculatorExpressCellCss div {color:#FFF;overflow:hidden;text-align:right;width:310px;margin-right:30px;white-space:nowrap;display:none;
++width:300px;_width:300px;_margin-right:10px;_word-break:keep-all;
+}
+#btnTable {width:98% !important;_width:97% !important;margin:0 auto;margin-top:-5em;}
+#btnTable td {height:54px;text-align:center;}
