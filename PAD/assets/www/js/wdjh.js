@@ -161,7 +161,7 @@ function pxjh(){
 function gzjh(){
     $("#wdjh").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+ 
                     "<div class='content'>"+
-                        "<table class='cpTable' style='text-align:center;'>"+
+                        "<table id='gzjh' class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>工作事项描述</th>"+
@@ -179,9 +179,9 @@ function gzjh(){
                                 "<td><input type='text' class='addinput'/></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p>" +
-                            "<button class='btn btn-success btn-small'><img src='images/add.png'/></button>" +
-                            "<button class='btn btn-success btn-small'><img src='images/del.png'/></button>" +
+                        "<p class='Left'>" +
+                            "<button class='btn btn-info btn-small' onclick='addTd(\"gzjh\")'><img src='images/add.png'/></button>" +
+                            "<button class='btn btn-info btn-small' onclick='removeTd(\"gzjh\")'><img src='images/del.png'/></button>" +
                         "</p>"+
                         "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='mywdjh()'/></p>"+
                     "</div>");
