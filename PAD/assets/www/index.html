@@ -4,70 +4,51 @@
 <head>
     <meta charset="utf-8"> 
     <meta http-equiv="Content-type" name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
-	<title>PAD</title> 	
-	<link rel="stylesheet" href="css/index.css" /> 	
+	<title>PAD</title> 	 	
+	<link rel="stylesheet" href="css/btn.css" /> 
 	<link rel="stylesheet" href="css/login.css" /> 	
-	<link rel="stylesheet" href="css/btn.css" /> 	
+	<link rel="stylesheet" href="css/index.css" />	
 </head>
 <body>
-	<div id="page1" class="left">
-		<ul class="nav">
-			<li onclick="changeNav(this);mylogin()"><img src="images/dl.png"/><span>登录</span></li>
-			<li><img src="images/cpgl.png"/><span>产品管理</span></li>
-			<li><img src="images/khgl.png"/><span>客户管理</span></li>
-			<li><img src="images/wdsy.png"/><span>我的首页</span></li>
-			<li><img src="images/wdjh.png"/><span>我的计划</span></li>
-		</ul>
+	<div id="login">
+		<div class='loginBox'>
+             <form class='login_form' action='index.html' method='post'>
+                 <img src='images/login.png'/>              
+                 <div class='login'>
+                     <h1>PAD</h1>
+                     <input type='text' placeholder='用户名' style="background-image:url('images/login1.png');" onchange="alert($(this).val())" />
+                     <input type='password' placeholder='密码' style="background-image:url('images/login2.png');"/>
+                     <!--错误信息提示--> 
+                     <span class='errorMessage'>
+                         <img src='images/error.png'/>&nbsp;用户名或密码错误！
+                     </span>
+                     <!--/错误信息提示--> 
+                     <input type='button' class='login_btn' value='登  录' onclick='dl()'>
+                 </div>
+             </form>
+         </div>
 	</div>
-	<div id="page2" class="left" style="display:none;">
+	<div id="page1" class="left" style="display:none;">
 		<ul class="nav">
 			<li><span>欢迎您<br/>刘翔客户经理</span></li>
 			<li onclick="changeNav(this);dc()"><img src="images/dc.png"/><span>登出</span></li>
-			<li onclick="changeNav(this);mycpgl()"><img src="images/cpgl.png"/><span>产品管理</span></li>
-			<li onclick="changeNav(this);mykhgl()"><img src="images/khgl.png"/><span>客户管理</span></li>
+			<li id="product" onclick="changeNav(this);mycpgl()"><img src="images/cpgl.png"/><span>产品管理</span></li>
+			<li id="customer" onclick="changeNav(this);mykhgl()"><img src="images/khgl.png"/><span>客户管理</span></li>
 			<li onclick="changeNav(this);mywdsy()"><img src="images/wdsy.png"/><span>我的首页</span></li>
 			<li onclick="changeNav(this);mywdjh()"><img src="images/wdjh.png"/><span>我的计划</span></li>
 		</ul>
 	</div>
-	<div id="cp" class="right" style="padding-left:1em;">
-		<div class="box">
-			<img src="images/cp/1.jpg">
-			<span>速易贷1</span>
-		</div>
-		<div class="box">
-			<img src="images/cp/2.jpg">
-			<span>速易贷1</span>
-		</div>
-		<div class="box">
-			<img src="images/cp/3.jpg">
-			<span>速易贷1</span>
-		</div>
-		<div class="box">
-			<img src="images/cp/4.jpg">
-			<span>速易贷1</span>
-		</div>
-	</div>
-	<div id="login" class="right" style="display:none;">
-		<!-- 登录 -->
-	</div>
+	
 
-	<div class="right" style="padding-left:1em;">
-		<div class="box">
-			<img src="images/cp/1.jpg">
-			<span>速易贷1</span>
-		</div>
-		<div class="box">
-			<img src="images/cp/2.jpg">
-			<span>速易贷1</span>
-		</div>
-		<div class="box">
-			<img src="images/cp/3.jpg">
-			<span>速易贷1</span>
-		</div>
-		<div class="box">
-			<img src="images/cp/4.jpg">
-			<span>速易贷1</span>
-		</div>
+	<div id="cp" class="right" style="display:none;padding-left:1em;">
+		<ul class='cplist'>
+            <li onclick="$('#product').click();mycpxx();"><img src='images/cp/1.jpg'/><span>产品1</span></li>
+            <li onclick="mycpxx()"><img src='images/cp/2.jpg'/><span>产品2</span></li>
+            <li onclick="mycpxx()"><img src='images/cp/3.jpg'/><span>产品3</span></li>
+            <li onclick="mycpxx()"><img src='images/cp/4.jpg'/><span>产品4</span></li>
+            <li onclick="mycpxx()"><img src='images/cp/5.jpg'/><span>产品5</span></li>
+            <li onclick="mycpxx()"><img src='images/cp/6.jpg'/><span>产品6</span></li>
+        </ul>
 	</div>
 	<div id="cpgl" class="right" style="display:none;">
 		<!-- 产品管理 -->

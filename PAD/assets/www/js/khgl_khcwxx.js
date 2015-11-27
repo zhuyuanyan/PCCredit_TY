@@ -3,22 +3,22 @@ function khcwxx(){
     $("#khgl").html("<div class='title'>张三&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 320404165620223102</div>"+  
                     "<div class='content' style='margin-top:100px;'>" +
                         "<p>" +
-                            "<input type='button' class='btn btn-info btn-large' value='资产负债表' onclick='zcfzb()'/>" +
-                            "<input type='button' class='btn btn-info btn-large' value='损益表' onclick='syb()'/>" +
+                            "<input type='button' class='tab' value='资产负债表' onclick='zcfzb()'/>" +
+                            "<input type='button' class='tab' value='损益表' onclick='syb()'/>" +
                         "</p>"+
                         "<p>" +
-                            "<input type='button' class='btn btn-info btn-large' value='现金流表' onclick='xjlb()'/>" +
-                            "<input type='button' class='btn btn-info btn-large' value='点货单' onclick='dhd()'/>" +
+                            "<input type='button' class='tab' value='现金流表' onclick='xjlb()'/>" +
+                            "<input type='button' class='tab' value='点货单' onclick='dhd()'/>" +
                         "</p>" +
                         "<p>" +
-                            "<input type='button' class='btn btn-info btn-large' value='固定资产清单' onclick='gdzcqd()'/>" +
-                            "<input type='button' class='btn btn-info btn-large' value='应收预付清单' onclick='ysyfqd()'/>" +
+                            "<input type='button' class='tab' value='固定资产清单' onclick='gdzcqd()'/>" +
+                            "<input type='button' class='tab' value='应收预付清单' onclick='ysyfqd()'/>" +
                         "</p>" +
                         "<p>" +
-                            "<input type='button' class='btn btn-info btn-large' value='应付预收清单' onclick='yfysqd()'/>" +
-                            "<input type='button' class='btn btn-info btn-large' value='负债项目明细清单' onclick='fzxmmxqd()'/>" +
+                            "<input type='button' class='tab' value='应付预收清单' onclick='yfysqd()'/>" +
+                            "<input type='button' class='tab' value='负债项目明细清单' onclick='fzxmmxqd()'/>" +
                         "</p>" +
-                        "<p><input type='button' class='btn' value='返回' onclick='khxxzlcj()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='khxxzlcj()'/></p>" +
                     "</div>");
 $(".right").hide();
 $("#khgl").show();
@@ -28,14 +28,14 @@ function zcfzb(){
   $("#khgl").html("<div class='title'>张三&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 320404165620223102</div>"+  
                   "<div class='content' style='margin-top:100px;'>"+
                       "<p>" +
-                          "<input type='button' class='btn btn-info btn-large' value='资产状况' onclick='zczk()'/>" +
-                          "<input type='button' class='btn btn-info btn-large' value='负债情况' onclick='fzqk()'/>" +
+                          "<input type='button' class='tab' value='资产状况' onclick='zczk()'/>" +
+                          "<input type='button' class='tab' value='负债情况' onclick='fzqk()'/>" +
                       "</p>"+
                       "<p>" +
-                          "<input type='button' class='btn btn-info btn-large' value='权益状况' onclick='qyzk()'/>" +
-                          "<input type='button' class='btn btn-info btn-large' value='其他信息' onclick='zcfzqtxx()'/>" +
+                          "<input type='button' class='tab' value='权益状况' onclick='qyzk()'/>" +
+                          "<input type='button' class='tab' value='其他信息' onclick='zcfzqtxx()'/>" +
                       "</p>" +
-                      "<p><input type='button' class='btn' value='返回' onclick='khcwxx()'/></p>"+
+                      "<p><input type='button' class='btn btn-large' value='返回' onclick='khcwxx()'/></p>"+
                   "</div>");
   $(".right").hide();
   $("#khgl").show();
@@ -45,15 +45,15 @@ function syb(){
   $("#khgl").html("<div class='title'>张三&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 320404165620223102</div>"+  
                   "<div class='content' style='margin-top:100px;'>"+
                       "<p>" +
-                          "<input type='button' class='btn btn-info btn-large' value='利润表简表' onclick='lrbjb()'/>" +
+                          "<input type='button' class='tab' value='利润表简表' onclick='lrbjb()'/>" +
                       "</p>"+
                       "<p>" +                          
-                          "<input type='button' class='btn btn-info btn-large' value='利润表标准表' onclick='lrbbzb()'/>" +
+                          "<input type='button' class='tab' value='利润表标准表' onclick='lrbbzb()'/>" +
                       "</p>"+
                       "<p>" +                          
-                          "<input type='button' class='btn btn-info btn-large' value='其他信息' onclick='syqtxx()'/>" +
+                          "<input type='button' class='tab' value='其他信息' onclick='syqtxx()'/>" +
                       "</p>" +
-                      "<p><input type='button' class='btn' value='返回' onclick='khcwxx()'/></p>"+
+                      "<p><input type='button' class='btn btn-large' value='返回' onclick='khcwxx()'/></p>"+
                   "</div>");
   $(".right").hide();
   $("#khgl").show();
@@ -81,7 +81,7 @@ function dhd(){
                               "<td><input type='text' class='addinput'/></td>"+
                           "</tr>"+
                       "</table>"+
-                      "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khcwxx()'/></p>"+
+                      "<p><input type='button' class='btn btn-primary' value='保存并继续' onclick='khcwxx()'/></p>"+
                   "</div>");
   $(".right").hide();
   $("#khgl").show();
@@ -115,7 +115,7 @@ function gdzcqd(){
                                 "<td><input type='text' class='addinput'/></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khcwxx()'/></p>"+
+                        "<p><input type='button' class='btn btn-primary' value='保存并继续' onclick='khcwxx()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -149,7 +149,7 @@ function ysyfqd(){
                                 "<td><input type='text' class='addinput'/></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khcwxx()'/></p>"+
+                        "<p><input type='button' class='btn btn-primary' value='保存并继续' onclick='khcwxx()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -183,7 +183,7 @@ function yfysqd(){
                                 "<td><input type='text' class='addinput'/></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khcwxx()'/></p>"+
+                        "<p><input type='button' class='btn btn-primary' value='保存并继续' onclick='khcwxx()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -219,7 +219,7 @@ function fzxmmxqd(){
                               "<td><input type='text' class='addinput'/></td>"+
                           "</tr>"+
                       "</table>"+
-                      "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khcwxx()'/></p>"+
+                      "<p><input type='button' class='btn btn-primary' value='保存并继续' onclick='khcwxx()'/></p>"+
                   "</div>");
   $(".right").hide();
   $("#khgl").show();

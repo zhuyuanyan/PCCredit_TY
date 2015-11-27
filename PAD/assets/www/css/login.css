@@ -1,10 +1,10 @@
 @charset "UTF-8";
 *{font: normal 15px "Microsoft YaHei";margin:0;padding:0;}
 /*背景图片*/
-#login{background:#72c2bf;background-size: cover;}
+#login{background:#72c2bf;position:absolute;top:0;bottom:0;width:100%;}
 
 /*透明外框*/
-.loginBox{width:400px;height:290px;background:rgba(255,255,255,0.3);margin:150px auto;padding:15px 15px 23px 15px;border-radius:10px;}
+.loginBox{width:400px;height:290px;background:rgba(255,255,255,0.3);margin:0 auto;margin-top:200px;padding:15px 15px 23px 15px;border-radius:10px;}
 /*白色form框*/
 .login_form{background:#fff;width:100%;height:100%;border-bottom:8px solid #81bb28;}
 /*form框左上角包角图片*/

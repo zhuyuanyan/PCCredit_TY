@@ -3,12 +3,54 @@ function mycpgl(){
     $("#cpgl").html("<div class='title'>产品管理</div>"+  
                     "<div class='content'>"+
                         "<ul class='list'>"+
-                            "<li onclick='mycpxx()'><img src='images/cp/1.jpg'/><span>产品1</span></li>"+
-                            "<li onclick='mycpxx()'><img src='images/cp/2.jpg'/><span>产品2</span></li>"+
-                            "<li onclick='mycpxx()'><img src='images/cp/3.jpg'/><span>产品3</span></li>"+
-                            "<li onclick='mycpxx()'><img src='images/cp/4.jpg'/><span>产品4</span></li>"+
-                            "<li onclick='mycpxx()'><img src='images/cp/5.jpg'/><span>产品5</span></li>"+
-                            "<li onclick='mycpxx()'><img src='images/cp/6.jpg'/><span>产品6</span></li>"+
+                            "<li onclick='mycpxx()'>" +
+                                "<img src='images/cp/1.jpg'/>" +
+                                "<span>" +
+                                    "产品1<br/>" +
+                                    "<font>产品期限：<font class='blue'>2015-12-12</font></font>" +
+                                    "<font>产品利率：<font class='red'>3%</font></font>" +
+                                "</span>" +
+                            "</li>"+
+                            "<li onclick='mycpxx()'>" +
+                                "<img src='images/cp/2.jpg'/>" +
+                                "<span>" +
+                                    "产品2<br/>" +
+                                    "<font>产品期限：<font class='blue'>2015-12-12</font></font>" +
+                                    "<font>产品利率：<font class='red'>3%</font></font>" +
+                                "</span>" +
+                            "</li>"+
+                            "<li onclick='mycpxx()'>" +
+                                "<img src='images/cp/3.jpg'/>" +
+                                "<span>" +
+                                    "产品3<br/>" +
+                                    "<font>产品期限：<font class='blue'>2015-12-12</font></font>" +
+                                    "<font>产品利率：<font class='red'>3%</font></font>" +
+                                "</span>" +
+                            "</li>"+
+                            "<li onclick='mycpxx()'>" +
+                                "<img src='images/cp/4.jpg'/>" +
+                                "<span>" +
+                                    "产品4<br/>" +
+                                    "<font>产品期限：<font class='blue'>2015-12-12</font></font>" +
+                                    "<font>产品利率：<font class='red'>3%</font></font>" +
+                                "</span>" +
+                            "</li>"+
+                            "<li onclick='mycpxx()'>" +
+                                "<img src='images/cp/5.jpg'/>" +
+                                "<span>" +
+                                    "产品5<br/>" +
+                                    "<font>产品期限：<font class='blue'>2015-12-12</font></font>" +
+                                    "<font>产品利率：<font class='red'>3%</font></font>" +
+                                "</span>" +
+                            "</li>"+
+                            "<li onclick='mycpxx()'>" +
+                                "<img src='images/cp/6.jpg'/>" +
+                                "<span>" +
+                                    "产品6<br/>" +
+                                    "<font>产品期限：<font class='blue'>2015-12-12</font></font>" +
+                                    "<font>产品利率：<font class='red'>3%</font></font>" +
+                                "</span>" +
+                            "</li>"+
                         "</ul>"+
                     "</div>"+
                     "<div class='buttons'><input type='text' placeholder='搜索'/></div>");
@@ -47,8 +89,8 @@ function mycpxx(){
                         "</table>"+
                     "</div>"+
                     "<div class='buttons'>" +
-                        "<input type='button' class='btn btn-info' value='申请'/>"+                       
-                        "<input type='button' class='btn' value='返回' onclick='mycpgl()'/>" +
+                        "<input type='button' class='btn btn-large btn-primary' value='申请' onclick='$(\"#customer\").click();newUser()'/>"+                       
+                        "<input type='button' class='btn btn-large' value='返回' onclick='mycpgl()'/>" +
                     "</div>");
     $(".right").hide();
     $("#cpxx").show();

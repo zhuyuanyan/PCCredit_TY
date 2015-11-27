@@ -3,18 +3,18 @@ function khjbxx(){
   $("#khgl").html("<div class='title'>张三&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 320404165620223102</div>"+  
                   "<div class='content' style='margin-top:100px;'>" +
                       "<p>" +
-                          "<input type='button' class='btn btn-info btn-large' value='个人信息' onclick='grxx()'/>" +
-                          "<input type='button' class='btn btn-info btn-large' value='房产信息' onclick='fcxx()'/>" +
+                          "<input type='button' class='tab' value='个人信息' onclick='grxx()'/>" +
+                          "<input type='button' class='tab' value='房产信息' onclick='fcxx()'/>" +
                       "</p>"+
                       "<p>" +
-                          "<input type='button' class='btn btn-info btn-large' value='家庭信息' onclick='jtxx()'/>" +
-                          "<input type='button' class='btn btn-info btn-large' value='车产信息' onclick='ccxx()'/>" +
+                          "<input type='button' class='tab' value='家庭信息' onclick='jtxx()'/>" +
+                          "<input type='button' class='tab' value='车产信息' onclick='ccxx()'/>" +
                       "</p>" +
                       "<p>" +
-                          "<input type='button' class='btn btn-info btn-large' value='联系人信息' onclick='lxrxx()'/>" +
-                          "<input type='button' class='btn btn-info btn-large' value='居住信息' onclick='jzxx()'/>" +
+                          "<input type='button' class='tab' value='联系人信息' onclick='lxrxx()'/>" +
+                          "<input type='button' class='tab' value='居住信息' onclick='jzxx()'/>" +
                       "</p>" +
-                      "<p><input type='button' class='btn' value='返回' onclick='khxxzlcj()'/></p>" +
+                      "<p><input type='button' class='btn btn-large' value='返回' onclick='khxxzlcj()'/></p>" +
                   "</div>");
   $(".right").hide();
   $("#khgl").show();
@@ -70,7 +70,7 @@ function grxx(){
                               "<td><input type='text'/></td>"+
                           "</tr>"+
                       "</table>"+
-                      "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khjbxx()'/></p>"+
+                      "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='khjbxx()'/></p>"+
                   "</div>");
   $(".right").hide();
   $("#khgl").show();
@@ -124,7 +124,7 @@ function jtxx(){
                                 "<td><input type='text'/></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khjbxx()'/></p>"+
+                        "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='khjbxx()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -167,7 +167,7 @@ function ccxx(){
                               "<td><textarea></textarea></td>"+
                           "</tr>"+
                       "</table>"+
-                      "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khjbxx()'/></p>"+
+                      "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='khjbxx()'/></p>"+
                   "</div>");
   $(".right").hide();
   $("#khgl").show();
@@ -209,7 +209,7 @@ function fcxx(){
                                 "<td><textarea></textarea></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khjbxx()'/></p>"+
+                        "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='khjbxx()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -281,7 +281,7 @@ function jzxx(){
                                 "</td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='khjbxx()'/></p>"+
+                        "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='khjbxx()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
