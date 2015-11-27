@@ -44,7 +44,7 @@ function zczk(){
                                 "<td><textarea></textarea></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='zcfzb()'/></p>"+
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='zcfzb()'/></p>"+
                     "</div>");
 $(".right").hide();
 $("#khgl").show();
@@ -87,7 +87,7 @@ function fzqk(){
                                 "<td><textarea></textarea></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='zcfzb()'/></p>"+
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='zcfzb()'/></p>"+
                     "</div>");
 $(".right").hide();
 $("#khgl").show();

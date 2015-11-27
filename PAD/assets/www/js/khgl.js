@@ -17,8 +17,8 @@ function newUser(){
                         "<p>证件类型:<select><option>身份证</option></select></p>"+
                         "<p>证件号码:<input type='text'/></p>"+
                         "<p>" +
-                            "<input type='button' class='btn btn-info' value='确定' onclick='newUser1()'/>"+                       
-                            "<input type='button' class='btn' value='返回' onclick='mykhgl()'/>" +
+                            "<input type='button' class='btn btn-large btn-primary' value='确定' onclick='newUser1()'/>"+                       
+                            "<input type='button' class='btn btn-large' value='返回' onclick='mykhgl()'/>" +
                         "</p>" +
                     "</div>");
     $(".right").hide();
@@ -44,11 +44,11 @@ function newUser1(){
 function khxxzlcj(){
     $("#khgl").html("<div class='title'>客户管理-新建客户</div>"+  
                     "<div class='content' style='margin-top:100px;'>" +
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户基本信息' onclick='khjbxx()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户经营信息' onclick='khjyxx()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户财务信息' onclick='khcwxx()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户其他信息' onclick='khqtxx()'/></p>" +
-                        "<p><input type='button' class='btn' value='返回' onclick='newUser1()'/></p>" +
+                        "<p><input type='button' class='tab' value='客户基本信息' onclick='khjbxx()'/></p>"+
+                        "<p><input type='button' class='tab' value='客户经营信息' onclick='khjyxx()'/></p>"+
+                        "<p><input type='button' class='tab' value='客户财务信息' onclick='khcwxx()'/></p>"+
+                        "<p><input type='button' class='tab' value='客户其他信息' onclick='khqtxx()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -56,26 +56,128 @@ function khxxzlcj(){
 //客户影像资料采集
 function khyxzlcj(){
     $("#khgl").html("<div class='title'>影像资料采集</div>"+  
+                    "<div class='content' style='margin-top:100px;'>" +
+                        "<p><input type='button' class='tab' value='房产证' onclick='fcz()'/></p>"+
+                        "<p><input type='button' class='tab' value='结婚证' onclick='jhz()'/></p>"+
+                        "<p><input type='button' class='tab' value='征信报告' onclick='zxbg()'/></p>"+
+                        "<p><input type='button' class='tab' value='银行流水' onclick='yhls()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/></p>" +
+                    "</div>");
+    $(".right").hide();
+    $("#khgl").show();
+}
+//客户影像资料采集-房产证
+function fcz(){
+    $("#khgl").html("<div class='title'>影像资料采集</div>"+  
                     "<div class='content'>" +
-                        "<table class='cpTable'>"+
-							"<tr>"+                             
-								"<td style='width:25%;'>房产证</td>"+         
-								"<td><input type='file'/></td>"+
-							"</tr>"+
-							"<tr>"+                             
-								"<td style='width:25%;'>结婚证</td>"+         
-								"<td><input type='file'/></td>"+
-							"</tr>"+
-							"<tr>"+                             
-								"<td style='width:25%;'>征信报告</td>"+         
-								"<td><input type='file'/></td>"+
-							"</tr>"+
-							"<tr>"+                             
-								"<td style='width:25%;'>银行流水</td>"+         
-								"<td><input type='file'/></td>"+
-							"</tr>"+
-						"</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='mykhgl()'/></p>" +
+                        "<table class='cpTable' style='text-align:center;'>"+
+                            "<tr>"+                             
+                                "<th>序号</th>"+  
+                                "<th>房产证文件路径</th>"+
+                                "<th>操作</th>"+
+                            "</tr>"+
+                            "<tr>"+    
+                                "<td>1</td>"+
+                                "<td><input type='file'/></td>"+
+                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                            "</tr>"+
+                            "<tr>"+    
+                                "<td>2</td>"+
+                                "<td><input type='file'/></td>"+
+                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                            "</tr>"+
+                        "</table>"+
+                        "<p>" +
+                            "<input type='button' class='btn btn-large btn-primary' value='确定'/>" +
+                            "<input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/>" +
+                        "</p>" +
+                    "</div>");
+    $(".right").hide();
+    $("#khgl").show();
+}
+//客户影像资料采集-结婚证
+function jhz(){
+    $("#khgl").html("<div class='title'>影像资料采集</div>"+  
+                    "<div class='content'>" +
+                        "<table class='cpTable' style='text-align:center;'>"+
+                            "<tr>"+                             
+                                "<th>序号</th>"+  
+                                "<th>结婚证文件路径</th>"+
+                                "<th>操作</th>"+
+                            "</tr>"+
+                            "<tr>"+    
+                                "<td>1</td>"+
+                                "<td><input type='file'/></td>"+
+                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                            "</tr>"+
+                            "<tr>"+    
+                                "<td>2</td>"+
+                                "<td><input type='file'/></td>"+
+                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                            "</tr>"+
+                        "</table>"+
+                        "<p>" +
+                            "<input type='button' class='btn btn-large btn-primary' value='确定'/>" +
+                            "<input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/>" +
+                        "</p>" +
+                    "</div>");
+    $(".right").hide();
+    $("#khgl").show();
+}
+//客户影像资料采集-征信报告
+function zxbg(){
+    $("#khgl").html("<div class='title'>影像资料采集</div>"+  
+                    "<div class='content'>" +
+                        "<table class='cpTable' style='text-align:center;'>"+
+                            "<tr>"+                             
+                                "<th>序号</th>"+  
+                                "<th>征信报告文件路径</th>"+
+                                "<th>操作</th>"+
+                            "</tr>"+
+                            "<tr>"+    
+                                "<td>1</td>"+
+                                "<td><input type='file'/></td>"+
+                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                            "</tr>"+
+                            "<tr>"+    
+                                "<td>2</td>"+
+                                "<td><input type='file'/></td>"+
+                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                            "</tr>"+
+                        "</table>"+
+                        "<p>" +
+                            "<input type='button' class='btn btn-large btn-primary' value='确定'/>" +
+                            "<input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/>" +
+                        "</p>" +
+                    "</div>");
+    $(".right").hide();
+    $("#khgl").show();
+}
+//客户影像资料采集-银行流水
+function yhls(){
+    $("#khgl").html("<div class='title'>影像资料采集</div>"+  
+                    "<div class='content'>" +
+                        "<table class='cpTable' style='text-align:center;'>"+
+                            "<tr>"+                             
+                                "<th>序号</th>"+  
+                                "<th>银行流水文件路径</th>"+
+                                "<th>操作</th>"+
+                            "</tr>"+
+                            "<tr>"+    
+                                "<td>1</td>"+
+                                "<td><input type='file'/></td>"+
+                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                            "</tr>"+
+                            "<tr>"+    
+                                "<td>2</td>"+
+                                "<td><input type='file'/></td>"+
+                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                            "</tr>"+
+                        "</table>"+
+                        "<p>" +
+                            "<input type='button' class='btn btn-large btn-primary' value='确定'/>" +
+                            "<input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/>" +
+                        "</p>" +
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -84,11 +186,11 @@ function khyxzlcj(){
 function editUser(){
     $("#khgl").html("<div class='title'>客户管理-客户维护</div>"+  
                     "<div class='content' style='margin-top:100px;'>" +
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户资料查询' onclick='khzlcx()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户维护计划' onclick='khwhjh()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户维护日志' onclick='khwhrz()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户催收日志' onclick='khcsrz()'/></p>" +
-                        "<p><input type='button' class='btn' value='返回' onclick='mykhgl()'/></p>" +
+                        "<p><input type='button' class='tab' value='客户资料查询' onclick='khzlcx()'/></p>"+
+                        "<p><input type='button' class='tab' value='客户维护计划' onclick='khwhjh()'/></p>"+
+                        "<p><input type='button' class='tab' value='客户维护日志' onclick='khwhrz()'/></p>"+
+                        "<p><input type='button' class='tab' value='客户催收日志' onclick='khcsrz()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='mykhgl()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#khgl").show();

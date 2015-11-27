@@ -29,7 +29,7 @@ function khjjxx(){
                             "<input type='button' class='btn btn-info btn-large' value='补充进件' onclick='bcjj()'/>" +
                             "<input type='button' class='btn btn-info btn-large' value='拒绝进件' onclick='jjjj()'/>" +
                         "</p>" +
-                        "<p><input type='button' class='btn' value='返回' onclick='mywdsy()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='mywdsy()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -38,7 +38,7 @@ function khjjxx(){
 function bcjj(){
     $("#wdsy").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+ 
                     "<div class='content'>"+
-                        "<table class='cpTable'>"+
+                        "<table class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>客户姓名</th>"+
@@ -51,12 +51,20 @@ function bcjj(){
                                 "<td>1</td>"+
                                 "<td>张三</td>"+
                                 "<td></td>"+
-                                "<td></td>"+
+                                "<td><img src='images/success.png'/></td>"+
                                 "<td></td>"+
                                 "<td><input type='button' class='btn btn-warning' value='是'/></td>"+
                             "</tr>"+
+                            "<tr>"+    
+                                "<td>2</td>"+
+                                "<td>张三</td>"+
+                                "<td></td>"+
+                                "<td></td>"+
+                                "<td><img src='images/wrong.png'/></td>"+
+                                "<td><input type='button' class='btn btn-warning' value='是'/></td>"+
+                            "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='khjjxx()'/></p>"+
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='khjjxx()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -66,7 +74,7 @@ function bcjj(){
 function jjjj(){
     $("#wdsy").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+ 
                     "<div class='content'>"+
-                        "<table class='cpTable'>"+
+                        "<table class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>客户姓名</th>"+
@@ -78,11 +86,18 @@ function jjjj(){
                                 "<td>1</td>"+
                                 "<td>张三</td>"+
                                 "<td></td>"+
-                                "<td></td>"+
+                                "<td><img src='images/success.png'/></td>"+
                                 "<td></td>"+
                             "</tr>"+
+                            "<tr>"+    
+                                "<td>2</td>"+
+                                "<td>张三</td>"+
+                                "<td></td>"+
+                                "<td></td>"+
+                                "<td><img src='images/wrong.png'/></td>"+
+                            "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='khjjxx()'/></p>"+
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='khjjxx()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -121,7 +136,7 @@ function khyyzk(){
                                 "<td></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='mywdsy()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='mywdsy()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -131,7 +146,7 @@ function wdzj(){
     $("#wdsy").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+  
                     "<div class='content'>" +
                         "<div class='map'>地图</div>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='mywdsy()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='mywdsy()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -174,7 +189,7 @@ function tz(){
                                 "<td>1<input type='button' class='btn btn-info' value='查看' onclick='khzlbgtz()'/></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='mywdsy()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='mywdsy()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -198,10 +213,10 @@ function sdhtz(){
                             "</tr>"+
                         "</table>"+
                         "<p>" +
-                            "<input type='button' class='btn btn-info btn-large' value='确认' onclick=''/>" +
-                            "<input type='button' class='btn btn-danger btn-large' value='拒绝' onclick=''/>" +
+                            "<button class='btn btn-primary btn-success'><img src='images/yes.png'/> 确认</button>" +
+                            "<button class='btn btn-primary btn-danger'><img src='images/no.png'/> 拒绝</button>" +
                         "</p>" +
-                        "<p><input type='button' class='btn' value='返回' onclick='tz()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='tz()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -210,7 +225,7 @@ function sdhtz(){
 function pxtz(){
     $("#wdsy").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+  
                     "<div class='content'>" +
-                       "<table class='cpTable'>"+
+                       "<table class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>培训目标</th>"+
@@ -228,7 +243,7 @@ function pxtz(){
                                 "<td></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='tz()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='tz()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -237,7 +252,7 @@ function pxtz(){
 function fpjjtz(){
     $("#wdsy").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+  
                     "<div class='content'>" +
-                       "<table class='cpTable'>"+
+                       "<table class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>客户姓名</th>"+
@@ -255,7 +270,7 @@ function fpjjtz(){
                                 "<td></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='tz()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='tz()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -264,7 +279,7 @@ function fpjjtz(){
 function fxsxtz(){
     $("#wdsy").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+  
                     "<div class='content'>" +
-                       "<table class='cpTable'>"+
+                       "<table class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>风险事项描述</th>"+
@@ -278,7 +293,7 @@ function fxsxtz(){
                                 "<td></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='tz()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='tz()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -287,7 +302,7 @@ function fxsxtz(){
 function cskhtz(){
     $("#wdsy").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+  
                     "<div class='content'>" +
-                       "<table class='cpTable'>"+
+                       "<table class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                        
                                 "<th>序号</th>"+  
                                 "<th>客户姓名</th>"+
@@ -307,7 +322,7 @@ function cskhtz(){
                                 "<td></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='tz()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='tz()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -316,7 +331,7 @@ function cskhtz(){
 function khzlbgtz(){
     $("#wdsy").html("<div class='title'>刘翔客户经理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00001</div>"+  
                     "<div class='content'>" +
-                       "<table class='cpTable'>"+
+                       "<table class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                        
                                 "<th>序号</th>"+  
                                 "<th>客户姓名</th>"+
@@ -334,7 +349,7 @@ function khzlbgtz(){
                                 "<td></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='tz()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='tz()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
@@ -354,7 +369,7 @@ function jljlxx(){
                                 "<td>8</td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='mywdsy()'/></p>" +
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='mywdsy()'/></p>" +
                     "</div>");
     $(".right").hide();
     $("#wdsy").show();
