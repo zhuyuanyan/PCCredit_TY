@@ -1,16 +1,12 @@
 //我的首页
 function mywdsy(){
     $("#wdsy").html("<div class='title'>我的首页</div>"+  
-                    "<div class='content' style='margin-top:100px;padding-left:1em;'>" +
-                        "<p>" +
-                            "<input type='button' class='btn btn-info btn-large' value='客户进件信息' onclick='khjjxx()'/>" +
-                            "<input type='button' class='btn btn-info btn-large' value='客户运营状况' onclick='khyyzk()'/>" +
-                        "</p>"+
-                        "<p>" +
-                            "<input type='button' class='btn btn-info btn-large' value='我的足迹' onclick='wdzj()'/>" +
-                            "<input type='button' class='btn btn-info btn-large' value='通知' onclick='tz()'/>" +
-                        "</p>" +
-                        "<p><input type='button' class='btn btn-info btn-large' value='奖励激励信息' onclick='jljlxx()'/></p>" +
+                    "<div class='content' style='padding-left:1em;'>" +
+                        "<div class='box box5' onclick='khjjxx()'><img src='images/khjjxx.png'/><span>客户进件信息</span></div>"+
+                        "<div class='box box6' onclick='khyyzk()'><img src='images/khyyzk.png'/><span>客户运营状况</span></div>"+
+                        "<div class='box box7' onclick='wdzj()'><img src='images/wdzj.png'/><span>我的足迹</span></div>"+
+                        "<div class='box box8' onclick='tz()'><img src='images/tz.png'/><span>通知</span></div>"+
+                        "<div class='box box9' onclick='jljlxx()'><img src='images/jljlxx.png'/><span>奖励激励信息</span></div>"+
                      "</div>");
     $(".right").hide();
     $("#wdsy").show();

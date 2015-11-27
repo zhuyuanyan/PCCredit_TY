@@ -1,11 +1,11 @@
 //我的计划
 function mywdjh(){
     $("#wdjh").html("<div class='title'>我的计划</div>"+  
-                    "<div class='content' style='margin-top:100px;padding-left:1em;'>" +
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户维护计划' onclick='mykhwhjh()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='客户催收计划' onclick='khcsjh()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='培训计划' onclick='pxjh()'/></p>"+
-                        "<p><input type='button' class='btn btn-info btn-large' value='工作计划' onclick='gzjh()'/></p>" +
+                    "<div class='content' style='padding-left:1em;'>" +
+                        "<div class='box box10' onclick='mykhwhjh()'><img src='images/khwhjh.png'/><span>客户维护计划</span></div>"+
+                        "<div class='box box11' onclick='khcsjh()'><img src='images/khcsjh.png'/><span>客户催收计划</span></div>"+
+                        "<div class='box box12' onclick='pxjh()'><img src='images/pxjh.png'/><span>培训计划</span></div>"+
+                        "<div class='box box2' onclick='gzjh()'><img src='images/gzjh.png'/><span>工作计划</span></div>"+
                     "</div>");
     $(".right").hide();
     $("#wdjh").show();
