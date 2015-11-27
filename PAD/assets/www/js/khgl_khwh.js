@@ -6,8 +6,8 @@ function khzlcx(){
                         "<p>证件类型:<select><option>身份证</option></select></p>"+
                         "<p>证件号码:<input type='text'/></p>"+
                         "<p>" +
-                            "<input type='button' class='btn btn-info' value='查询' onclick='khcx()'/>"+                       
-                            "<input type='button' class='btn' value='返回' onclick='editUser()'/>" +
+                            "<input type='button' class='btn btn-large btn-primary' value='查询' onclick='khcx()'/>"+                       
+                            "<input type='button' class='btn btn-large' value='返回' onclick='editUser()'/>" +
                         "</p>" +
                     "</div>");
     $(".right").hide();
@@ -28,8 +28,8 @@ function khcx(){
                             "</tr>"+
                         "</table>"+
                         "<p>" +
-                            "<input type='button' class='btn btn-info' value='客户资料查询' onclick=''/>"+                       
-                            "<input type='button' class='btn' value='返回' onclick='khzlcx()'/>" +
+                            "<input type='button' class='btn btn-large btn-primary' value='客户资料查询' onclick=''/>"+                       
+                            "<input type='button' class='btn btn-large' value='返回' onclick='khzlcx()'/>" +
                         "</p>" +
                     "</div>");
     $(".right").hide();
@@ -66,7 +66,7 @@ function khwhjh(){
                                 "<td><input type='date' class='addinput'/></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='editUser()'/></p>"+
+                        "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='editUser()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -92,11 +92,11 @@ function khwhrz(){
                                 "<td></td>"+
                                 "<td>2015-12-12</td>"+
                                 "<td></td>"+
-                                "<td><input type='button' onclick='khwhjh()' class='btn btn-small btn-warning' value='是'/></td>"+
+                                "<td><input type='button' onclick='khwhjh()' class='btn btn-warning' value='是'/></td>"+
                             "</tr>"+
                         "</table>"+
                         "<textarea placeholder='客户维护实施描述' style='width:98%;height:15em;margin:0;border-width:1px 0;border-radius:none;'></textarea>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='editUser()'/></p>"+
+                        "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='editUser()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -126,11 +126,11 @@ function khcsrz(){
                                 "<td></td>"+
                                 "<td>3000</td>"+
                                 "<td>2015-12-12</td>"+
-                                "<td><input type='button' onclick='bgcsjh()' class='btn btn-small btn-warning' value='是'/></td>"+
+                                "<td><input type='button' onclick='bgcsjh()' class='btn btn-warning' value='是'/></td>"+
                             "</tr>"+
                         "</table>"+
                         "<textarea placeholder='客户催收实施描述' style='width:98%;height:15em;margin:0;border-width:1px 0;border-radius:none;'></textarea>"+
-                        "<p><input type='button' class='btn' value='返回' onclick='editUser()'/></p>"+
+                        "<p><input type='button' class='btn btn-large' value='返回' onclick='editUser()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
@@ -165,7 +165,7 @@ function bgcsjh(){
                                 "<td><input type='date' class='addinput'/></td>"+
                             "</tr>"+
                         "</table>"+
-                        "<p><input type='button' class='btn btn-info' value='保存并继续' onclick='editUser()'/></p>"+
+                        "<p><input type='button' class='btn btn-large btn-primary' value='保存并继续' onclick='editUser()'/></p>"+
                     "</div>");
     $(".right").hide();
     $("#khgl").show();
