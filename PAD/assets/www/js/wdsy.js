@@ -26,8 +26,8 @@ function khjjxx(){
                             "</tr>"+
                         "</table>"+
                         "<p>" +
-                            "<input type='button' class='btn btn-info btn-large' value='补充进件' onclick='bcjj()'/>" +
-                            "<input type='button' class='btn btn-info btn-large' value='拒绝进件' onclick='jjjj()'/>" +
+                            "<input type='button' class='tab' value='补充进件' onclick='bcjj()'/>" +
+                            "<input type='button' class='tab' value='拒绝进件' onclick='jjjj()'/>" +
                         "</p>" +
                         "<p><input type='button' class='btn btn-large' value='返回' onclick='mywdsy()'/></p>" +
                     "</div>");

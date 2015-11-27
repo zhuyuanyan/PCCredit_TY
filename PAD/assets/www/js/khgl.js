@@ -27,7 +27,7 @@ function newUser(){
 //新建客户1
 function newUser1(){
     $("#khgl").html("<div class='title'>客户管理-新建客户</div>"+  
-                    "<div class='content' style='margin-top:100px;padding-left:1em;'>" +
+                    "<div class='content' style='padding-left:1em;'>" +
                         "<div class='box box3 box4' onclick='khxxzlcj()'>" +
                             "<img src='images/xxzl.png'/>" +
                             "<span>客户信息资料采集</span>"+
@@ -70,7 +70,7 @@ function khyxzlcj(){
 function fcz(){
     $("#khgl").html("<div class='title'>影像资料采集</div>"+  
                     "<div class='content'>" +
-                        "<table class='cpTable' style='text-align:center;'>"+
+                        "<table id='fcz' class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>房产证文件路径</th>"+
@@ -79,17 +79,16 @@ function fcz(){
                             "<tr>"+    
                                 "<td>1</td>"+
                                 "<td><input type='file'/></td>"+
-                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
-                            "</tr>"+
-                            "<tr>"+    
-                                "<td>2</td>"+
-                                "<td><input type='file'/></td>"+
-                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                                "<td><button class='btn btn-success btn-small'><img src='images/ps.png'/></button></td>"+
                             "</tr>"+
                         "</table>"+
+                        "<p class='Left'>" +
+                            "<button class='btn btn-info btn-small' onclick='addTd(\"fcz\")'><img src='images/add.png'/></button>" +
+                            "<button class='btn btn-info btn-small' onclick='removeTd(\"fcz\")'><img src='images/del.png'/></button>" +
+                        "</p>"+
                         "<p>" +
                             "<input type='button' class='btn btn-large btn-primary' value='确定'/>" +
-                            "<input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/>" +
+                            "<input type='button' class='btn btn-large' value='返回' onclick='khyxzlcj()'/>" +
                         "</p>" +
                     "</div>");
     $(".right").hide();
@@ -99,7 +98,7 @@ function fcz(){
 function jhz(){
     $("#khgl").html("<div class='title'>影像资料采集</div>"+  
                     "<div class='content'>" +
-                        "<table class='cpTable' style='text-align:center;'>"+
+                        "<table id='jhz' class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>结婚证文件路径</th>"+
@@ -108,17 +107,16 @@ function jhz(){
                             "<tr>"+    
                                 "<td>1</td>"+
                                 "<td><input type='file'/></td>"+
-                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
-                            "</tr>"+
-                            "<tr>"+    
-                                "<td>2</td>"+
-                                "<td><input type='file'/></td>"+
-                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                                "<td><button class='btn btn-success btn-small'><img src='images/ps.png'/></button></td>"+
                             "</tr>"+
                         "</table>"+
+                        "<p class='Left'>" +
+                            "<button class='btn btn-info btn-small' onclick='addTd(\"jhz\")'><img src='images/add.png'/></button>" +
+                            "<button class='btn btn-info btn-small' onclick='removeTd(\"jhz\")'><img src='images/del.png'/></button>" +
+                        "</p>"+
                         "<p>" +
                             "<input type='button' class='btn btn-large btn-primary' value='确定'/>" +
-                            "<input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/>" +
+                            "<input type='button' class='btn btn-large' value='返回' onclick='khyxzlcj()'/>" +
                         "</p>" +
                     "</div>");
     $(".right").hide();
@@ -128,7 +126,7 @@ function jhz(){
 function zxbg(){
     $("#khgl").html("<div class='title'>影像资料采集</div>"+  
                     "<div class='content'>" +
-                        "<table class='cpTable' style='text-align:center;'>"+
+                        "<table id='zxbg' class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>征信报告文件路径</th>"+
@@ -137,17 +135,16 @@ function zxbg(){
                             "<tr>"+    
                                 "<td>1</td>"+
                                 "<td><input type='file'/></td>"+
-                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
-                            "</tr>"+
-                            "<tr>"+    
-                                "<td>2</td>"+
-                                "<td><input type='file'/></td>"+
-                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                                "<td><button class='btn btn-success btn-small'><img src='images/ps.png'/></button></td>"+
                             "</tr>"+
                         "</table>"+
+                        "<p class='Left'>" +
+                            "<button class='btn btn-info btn-small' onclick='addTd(\"zxbg\")'><img src='images/add.png'/></button>" +
+                            "<button class='btn btn-info btn-small' onclick='removeTd(\"zxbg\")'><img src='images/del.png'/></button>" +
+                        "</p>"+
                         "<p>" +
                             "<input type='button' class='btn btn-large btn-primary' value='确定'/>" +
-                            "<input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/>" +
+                            "<input type='button' class='btn btn-large' value='返回' onclick='khyxzlcj()'/>" +
                         "</p>" +
                     "</div>");
     $(".right").hide();
@@ -157,7 +154,7 @@ function zxbg(){
 function yhls(){
     $("#khgl").html("<div class='title'>影像资料采集</div>"+  
                     "<div class='content'>" +
-                        "<table class='cpTable' style='text-align:center;'>"+
+                        "<table id='yhls' class='cpTable' style='text-align:center;'>"+
                             "<tr>"+                             
                                 "<th>序号</th>"+  
                                 "<th>银行流水文件路径</th>"+
@@ -166,17 +163,16 @@ function yhls(){
                             "<tr>"+    
                                 "<td>1</td>"+
                                 "<td><input type='file'/></td>"+
-                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
-                            "</tr>"+
-                            "<tr>"+    
-                                "<td>2</td>"+
-                                "<td><input type='file'/></td>"+
-                                "<td><button class='btn btn-success'><img src='images/ps.png'/></button></td>"+
+                                "<td><button class='btn btn-success btn-small'><img src='images/ps.png'/></button></td>"+
                             "</tr>"+
                         "</table>"+
+                        "<p class='Left'>" +
+                            "<button class='btn btn-info btn-small' onclick='addTd(\"yhls\")'><img src='images/add.png'/></button>" +
+                            "<button class='btn btn-info btn-small' onclick='removeTd(\"yhls\")'><img src='images/del.png'/></button>" +
+                        "</p>"+
                         "<p>" +
                             "<input type='button' class='btn btn-large btn-primary' value='确定'/>" +
-                            "<input type='button' class='btn btn-large' value='返回' onclick='newUser1()'/>" +
+                            "<input type='button' class='btn btn-large' value='返回' onclick='khyxzlcj()'/>" +
                         "</p>" +
                     "</div>");
     $(".right").hide();
