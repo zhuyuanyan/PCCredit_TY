@@ -627,7 +627,7 @@
 			T1.chinese_name as chineseName,
 			T1.card_type as cardType,
 			T1.card_id as cardId,T1.ty_customer_id as tyCustomerId,T1.user_id as userId,b.khjl as tyUserId
-			from BASIC_CUSTOMER_INFORMATION T1 left join ty_customer_base b on T1.card_id=b.zjhm
+			from BASIC_CUSTOMER_INFORMATION T1 left join ty_customer_base b on T1.card_id=b.zjhm 
 				<if test="chineseName != null and chineseName != '' ">
 					AND T1.chinese_name=#{chineseName}
 				</if>
