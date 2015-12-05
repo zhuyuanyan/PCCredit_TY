@@ -30,6 +30,7 @@ import com.wicresoft.jrad.base.web.controller.BaseController;
 import com.wicresoft.jrad.base.web.message.Errors;
 import com.wicresoft.jrad.base.web.security.LoginManager;
 import com.wicresoft.jrad.modules.log.business.LoginLogManager;
+import com.wicresoft.util.web.RequestHelper;
 
 @Controller
 public class LoginIpadController extends BaseController{
@@ -44,11 +45,11 @@ public class LoginIpadController extends BaseController{
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/ipad/login/browse.json", method = { RequestMethod.GET })
+	@RequestMapping(value = "/ipad/login/browse.json")
 	public String browse(HttpServletRequest request) {
-		String username=request.getParameter("user_name");
-		String password=request.getParameter("pass_word");
-		AuthResult authResult = authMgr.authUserByLogin(username, password);
+		String userName = RequestHelper.getStringValue(request, "userName");
+		String passWord = RequestHelper.getStringValue(request, "passWord");
+		AuthResult authResult = authMgr.authUserByLogin(userName, passWord);
 		AuthResultType authResultType = authResult.getResultType();
 		String errorCode = null;
 		if (AuthResultType.AUTH_ACCOUNT_NOT_EXIST.equals(authResultType)) {

@@ -108,6 +108,11 @@
         });
 		
 		$("#id_next_button").click(function() {
+			if(submitFlag == 1){
+				alert("请勿重复提交!")
+				return;
+			}
+			submitFlag = 1;
 			var url = "${contextPath}/intopieces/addIntopieces/addIntopieces.json?excelId=$!result.filter.excelId&customerId=$!result.filter.customerId&productId=$!result.filter.productId";
 			 $.ajax({
 				 url : url,
@@ -120,6 +125,7 @@
 					 else{
 						 topWin.Dialog.message(data.message);
 					 }
+					 submitFlag = 0;
 				 }
 			 });
 			 
