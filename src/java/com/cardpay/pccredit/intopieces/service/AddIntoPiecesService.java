@@ -82,22 +82,25 @@ public class AddIntoPiecesService {
 			}
 		}
 		localExcel.setSheetJy(sheet[0]);
-		localExcel.setSheetJjbs(sheet[1]);
-		localExcel.setSheetJbzk(sheet[2]);
-		localExcel.setSheetJyzt(sheet[3]);
-		localExcel.setSheetSczt(sheet[4]);
-		localExcel.setSheetDdpz(sheet[5]);
-		localExcel.setSheetFz(sheet[6]);
-		localExcel.setSheetLrjb(sheet[7]);
-		localExcel.setSheetBzlrb(sheet[8]);
-		localExcel.setSheetXjllb(sheet[9]);
-		localExcel.setSheetJc(sheet[10]);
-		localExcel.setSheetDhd(sheet[11]);
-		localExcel.setSheetGdzc(sheet[12]);
-		localExcel.setSheetYfys(sheet[13]);
-		localExcel.setSheetYsyf(sheet[14]);
-		localExcel.setSheetLsfx(sheet[15]);
-		
+//		localExcel.setSheetJjbs(sheet[1]);
+		localExcel.setSheetJbzk(sheet[1]);
+		localExcel.setSheetJyzt(sheet[2]);
+		localExcel.setSheetSczt(sheet[3]);
+		localExcel.setSheetDdpz(sheet[4]);
+		localExcel.setSheetFz(sheet[5]);
+		localExcel.setSheetLrjb(sheet[6]);
+		localExcel.setSheetBzlrb(sheet[7]);
+		localExcel.setSheetXjllb(sheet[8]);
+		localExcel.setSheetJc(sheet[9]);
+		localExcel.setSheetDhd(sheet[10]);
+		localExcel.setSheetGdzc(sheet[11]);
+		localExcel.setSheetYfys(sheet[12]);
+		localExcel.setSheetYsyf(sheet[13]);
+		localExcel.setSheetLsfx(sheet[14]);
+		//删除旧模板
+		String sql = "delete from local_excel where customer_id='"+customerId+"' and product_id='"+productId+"'";
+		commonDao.queryBySql(LocalExcel.class, sql, null);
+		//添加模板
 		commonDao.insertObject(localExcel);
 	}
 	
