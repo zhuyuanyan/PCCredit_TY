@@ -252,8 +252,8 @@
 	<dictionary name="intopieces_decision" title="审议结论">
 		<item name="approved" title="通过" />
 		<item name="refuse" title="拒绝" />
-		<item name="nopass_replenish" title="补充调查" />
-		<item name="nopass_re" title="退回重新调查" />
+		<!-- <item name="nopass_replenish" title="补充调查" />
+		<item name="nopass_re" title="退回重新调查" /> -->
 	</dictionary>
 	
 	<dictionary name="decision_term" title="期限">

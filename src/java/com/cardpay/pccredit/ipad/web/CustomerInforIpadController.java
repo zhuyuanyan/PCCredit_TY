@@ -46,25 +46,13 @@ public class CustomerInforIpadController extends BaseController{
 	@JRadOperation(JRadOperation.CREATE)
 	public String insert(@ModelAttribute CustomerInforForm customerinfoForm, HttpServletRequest request) {
 		Map<String,Object> map = new LinkedHashMap<String,Object>();
-		CustomerInfor customerInfor = customerinfoForm.createModel(CustomerInfor.class);
-		//		System.out.println(request.getParameter("chineseName"));
-		Result result = new Result();
-		try{
-			boolean flag = customerInforService.insertCustomerInfor(customerInfor);
-			if(!flag){
-				result.setStatus(IpadConstant.FAIL);
-				result.setReason(IpadConstant.CREATEFAIL);
-			}else{
-				result.setStatus(IpadConstant.SUCCESS);
-				result.setReason(IpadConstant.CREATESUCCESS);
-			}
-		}catch(Exception e){
-			result.setStatus(IpadConstant.FAIL);
-			result.setReason(IpadConstant.SYSTEMERROR);
-		}
-		
-		map.put("result",result);		
-		JSONObject json = JSONObject.fromObject(map);
+		String name = request.getParameter("name");
+		String cardId = request.getParameter("cardId");
+		String userId = request.getParameter("userId");
+		map = customerInforService.addCustomer(name,cardId,userId);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor());
+		JSONObject json = JSONObject.fromObject(map, jsonConfig);
 		return json.toString();
 	}
 	/**
