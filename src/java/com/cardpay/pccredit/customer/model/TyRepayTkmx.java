@@ -72,6 +72,7 @@ public class TyRepayTkmx extends BusinessModel{
 	private String sfyxdk;//是否营销贷款
 	private String yxr;//营销人
 	private String flcorzlc;//分流程还是主流程,2分流程,1为主流程
+	private String createTime;
 	public String getJjh() {
 		return jjh;
 	}
@@ -426,6 +427,12 @@ public class TyRepayTkmx extends BusinessModel{
 	}
 	public void setFlcorzlc(String flcorzlc) {
 		this.flcorzlc = flcorzlc;
+	}
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 
 }

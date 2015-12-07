@@ -59,7 +59,7 @@
                   #if ($!request.getParameter("recordId") == $product.id) checked="checked" #end /></td>
 <!--               <td nowrap="nowrap">#dictVal("CMMCPLX", $!product.productTypeCode)</td> -->
               <td nowrap="nowrap">$!product.productName</td>
-              <td nowrap="nowrap">$format.formatNumber($!product.creditLine,2,100)</td>
+              <td nowrap="nowrap">$!product.creditLine</td>
               <td nowrap="nowrap">$!product.rateRange</td>
               <td nowrap="nowrap">$!product.loanTimeLimit</td>
               <td nowrap="nowrap">$!product.loanPrincipal</td>

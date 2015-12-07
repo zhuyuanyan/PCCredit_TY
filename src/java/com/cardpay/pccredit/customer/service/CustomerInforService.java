@@ -73,6 +73,7 @@ import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecom;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.model.VideoAccessories;
 import com.cardpay.pccredit.ipad.model.ProductAttribute;
+import com.cardpay.pccredit.riskControl.model.RiskCustomer;
 import com.cardpay.pccredit.riskControl.xml.XmlUtil;
 import com.cardpay.pccredit.system.constants.NodeAuditTypeEnum;
 import com.cardpay.pccredit.system.constants.YesNoEnum;
@@ -1565,9 +1566,12 @@ public class CustomerInforService {
 					String khjl = map.get("khjl").toString();
 					//获取客户经理id
 					String user_id=null;
-					List<User> users = commonDao.queryBySql(User.class, "select * from sys_user where external_id='"+khjl.trim()+"'", null);
+					List<SystemUser> users = commonDao.queryBySql(SystemUser.class, "select * from sys_user where external_id='"+khjl.trim()+"'", null);
+					//银行工号匹配本系统uuid，存在则替换，不存在则插入银行工号
 					if(users.size()>0){
 						user_id = users.get(0).getId();
+					}else{
+						user_id = khjl.trim();
 					}
 					List<CustomerInfor> infoList = commonDao.queryBySql(CustomerInfor.class, "select * from basic_customer_information where card_id='"+card_id+"'", null);
 					//不存在则插入
@@ -2069,20 +2073,7 @@ public class CustomerInforService {
 									}else if(fn.startsWith("kkh_hmdgl")){
 										log.info("*****************黑名单********************");  
 										saveHMDDataFile(gzFile+File.separator+fn,dateString);
-									}/*else if(fn.startsWith("kdk_lsz")){
-										log.error("*****************流水账信息********************");  
-										//删除历史数据
-										String sql = " truncate   table   ty_repay_lsz";
-										commonDao.queryBySql(sql, null);
-										saveLSZDataFile(gzFile+File.separator+fn,dateString);
-									}else if(fn.startsWith("kdk_yehz")){
-										log.error("*****************余额汇总信息********************");  
-										saveYEHZDataFile(gzFile+File.separator+fn,dateString);
-										System.gc();
-									}else if(fn.startsWith("kdk_tkmx")){
-										log.error("*****************借据表信息********************");  
-										saveTKMXDataFile(gzFile+File.separator+fn,dateString);
-									}*/
+									}
 								} 
 							}catch(Exception e){
 								e.printStackTrace();
@@ -2135,6 +2126,9 @@ public class CustomerInforService {
 							if(fn.contains(fileN)) {
 								if(fn.startsWith("kdk_lsz")){
 									log.info("*****************流水账信息********************");  
+									//删除历史数据
+									String sql = " truncate   table   ty_repay_lsz";
+									commonDao.queryBySql(sql, null);
 									saveLSZDataFile(gzFile+File.separator+fn,dateString);
 								}else if(fn.startsWith("kdk_yehz")){
 									log.info("*****************余额汇总信息********************");  
@@ -2154,6 +2148,45 @@ public class CustomerInforService {
         }
         log.info(dateString+"******************完成读取贷款文件********************");
 
+	}
+	
+	/*
+	 * 根据cardId获取user
+	 */
+	public List<CustomerInfor> findCustomerManagerIdById(String cardId){
+		String sql = "select * from basic_customer_information where card_id='"+cardId+"'";
+		List<CustomerInfor> list = commonDao.queryBySql(CustomerInfor.class, sql, null);
+		return list;
+	}
+	/*
+	 * 根据userid获取客户经理
+	 */
+	public String getUserInform(String id){
+		SystemUser user = commonDao.findObjectById(SystemUser.class, id);
+		if(user==null){
+			return null;
+		}else{
+			return user.getExternalId();
+		}
+	}
+	/*
+	 * 根据cardId获取风险名单
+	 */
+	public List<RiskCustomer> findRiskByCardId(String cardId){
+		String sql = "select * from risk_list where CUSTOMER_ID in (select id from BASIC_CUSTOMER_INFORMATION where card_id='"+cardId+"')";
+		List<RiskCustomer> list = commonDao.queryBySql(RiskCustomer.class, sql, null);
+		return list;
+	}
+	/*
+	 * 根据userid获取user
+	 */
+	public SystemUser getUseById(String id){
+		SystemUser user = commonDao.findObjectById(SystemUser.class, id);
+		if(user==null){
+			return null;
+		}else{
+			return user;
+		}
 	}
 	
 	/**

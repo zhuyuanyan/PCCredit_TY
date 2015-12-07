@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cardpay.pccredit.postLoan.dao.PostLoanDao">
+	  <resultMap id="BaseResultMap" type="com.cardpay.pccredit.customer.model.TyRepayTkmxForm" >
+   		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+ 	 </resultMap>
+ 	 <resultMap id="BaseResultMap1" type="com.cardpay.pccredit.customer.model.TyRepayLshForm" >
+   		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+ 	 </resultMap>
+	 	<select id="findListByFilter" resultMap="BaseResultMap" 
+			parameterType="com.cardpay.pccredit.postLoan.filter.PostLoanFilter">
+					SELECT * FROM
+			(SELECT ROW_.*,ROWNUM ROWNUM_
+				FROM (
+					  select a.*,b.product_name as productName,c.zjhm from ty_repay_tkmx a left join ty_product_type b on a.cpmc=b.product_code
+					  left join ty_customer_base c on c.khnm=a.khh 
+					  WHERE 1=1 
+					  <if test="zjhm != null and zjhm != '' ">
+						AND c.zjhm=#{zjhm}
+					 </if>
+					  order by c.zjhm,a.khjl 
+					
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+					]]>
+	</select>
+	<select id="findListCountByFilter" resultType="int"
+			parameterType="com.cardpay.pccredit.postLoan.filter.PostLoanFilter">
+	  	select count(*) from ty_repay_tkmx a left join ty_product_type b on a.cpmc=b.product_code
+					  left join ty_customer_base c on c.khnm=a.khh 
+					  WHERE 1=1 
+					  <if test="zjhm != null and zjhm != '' ">
+						AND c.zjhm=#{zjhm}
+					 </if>
+					  order by c.zjhm,a.khjl
+	</select> 
+	
+	
+	<select id="findLshListByFilter" resultMap="BaseResultMap1" 
+			parameterType="com.cardpay.pccredit.postLoan.filter.PostLoanFilter">
+					SELECT * FROM
+			(SELECT ROW_.*,ROWNUM ROWNUM_
+				FROM (
+					  select a.*,b.khjl as khjl1  from ty_repay_lsz a left join ty_repay_tkmx b on a.jjh=b.jjh  
+					  WHERE 1=1 
+					  <if test="jjh != null and jjh != '' ">
+						AND a.jjh=#{jjh}
+					 </if>
+					  order by a.jjh,b.khjl 
+					
+		 <![CDATA[		
+							) ROW_
+						WHERE ROWNUM <= #{limit}*#{page} + #{limit}) 
+					WHERE ROWNUM_ > #{limit}*#{page}
+					]]>
+	</select>
+	<select id="findLshListCountByFilter" resultType="int"
+			parameterType="com.cardpay.pccredit.postLoan.filter.PostLoanFilter">
+	  	select count(*)  from ty_repay_lsz a left join ty_repay_tkmx b on a.jjh=b.jjh  
+					  WHERE 1=1 
+					  <if test="jjh != null and jjh != '' ">
+						AND a.jjh=#{jjh}
+					 </if>
+	</select> 
+</mapper>

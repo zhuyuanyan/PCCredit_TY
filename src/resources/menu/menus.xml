@@ -15,10 +15,10 @@
 		<menu id="040000" name="customer" title="客户管理" operations="">
 			<menu id="040010" name="basiccustomerinfor" title="客户原始信息管理" url="/customer/firsthend/browse.page" img="" operations="create|browse"/>
 			<menu id="040011" name="basiccustomerinforCreate" title="客户信息新增" url="/customer/basiccustomerinforCreate/insert.page" img="" operations="create|browse"/>
-			<menu id="040024" name="basiccustomeryexx" title="客户余额信息" url="/customer/customerInfor_yexx/browse.page" img="" operations="create|browse"/>
+			<!-- <menu id="040024" name="basiccustomeryexx" title="客户余额信息" url="/customer/customerInfor_yexx/browse.page" img="" operations="create|browse"/> -->
 			<!-- <menu id="040012" name="basiccustomerinforUpdate" title="客户维护信息" url="/customer/basiccustomerinforUpdate/browse.page" img="" operations="create|change|transfer|maintenance|addblacklist|browse|delete"/> -->
 			<menu id="040023" name="customer_wh_ty" title="客户维护信息" url="/customer/customerInfor_wh_ty/browse.page" img="" operations="create|change|browse"/>
-			<menu id="040013" name="basiccustomerinforAssess" title="客户评估信息" url="/customer/basiccustomerinforAssess/browse.page" img="" operations="create|change|delete|display|browse"/>
+			<!-- <menu id="040013" name="basiccustomerinforAssess" title="客户评估信息" url="/customer/basiccustomerinforAssess/browse.page" img="" operations="create|change|delete|display|browse"/> -->
 			<menu id="040014" name="customerfilter" title="产品筛选客户" url="/customer/customerfilter/browse.page" img="" operations="browse"/>
 			<menu id="040015" name="customermarketingplan" title="客户营销计划列表" url="/customer/customermarketingplan/browse.page" img="" operations="create|change|display|browse"/>
 			<menu id="040016" name="customersubmarketingplan" title="所属客户经理营销计划列表" url="/customer/customersubmarketingplan/browse.page" img="" operations="change|display|browse"/>
@@ -32,8 +32,10 @@
 		<menu id="050000" name="divisional" title="分案管理" operations=""> 
 			<menu id="050010" name="customerallot" title="客户主管分配" url="/divisional/customerallot/browse.page" img="" operations="distribution|browse"/>
 			<menu id="050011" name="cfccllot" title="卡中心分配（卡中心）" url="/divisional/cfccllot/browse.page" img="" operations="distribution|browse"/>
-			<menu id="050012" name="customeraltransfer" title="移交客户" url="/divisional/customeraltransfer/browse.page" img="" operations="browse"/>
-			<menu id="050013" name="customeralreceive" title="接受客户" url="/divisional/customeralreceive/browse.page" img="" operations="display|browse"/>
+			<!-- <menu id="050012" name="customeraltransfer" title="移交客户" url="/divisional/customeraltransfer/browse.page" img="" operations="browse"/>
+			<menu id="050013" name="customeralreceive" title="接受客户" url="/divisional/customeralreceive/browse.page" img="" operations="display|browse"/> -->
+			<menu id="050024" name="basiccustomerinforMove" title="客户转交申请" url="/customer/basiccustomerinforMove/browse.page" img="" operations="create|browse"/>
+			<menu id="050025" name="basiccustomerinforMoveExamine" title="客户转交审批" url="/customer/basiccustomerinforMove/examineBrowse.page" img="" operations="create|browse"/>
 		</menu>
 		<menu id="060000" name="product" title="产品管理" url="" img="images/icon_sys.gif" operations="">
 			<menu id="060010" name="productinformation" title="产品信息" url="/product/productinformation/browse.page" img="" operations="create|change|display|browse|confignodeintopieces|confignodeamountadjustment"/>
@@ -109,7 +111,10 @@
 		    <menu id="100130" name="workQuality" title="辅助岗位人员工作质量检测报告 " url="/report/workQuality/browse.page" img="" operations="browse"/>
 			<menu id="100113" name="reviewriskcontrol" title="评审岗位人员风控状况统计 " url="/report/reviewriskcontrol/browse.page" img="" operations="browse"/>
 		</menu>
-		
+		<menu id="1020000" name="postLoan" title="贷后管理" url="" img="images/icon_sys.gif" operations="">
+			<menu id="1020010" name="postLoan1" title="借据表信息" url="/postLoan/post/browse.page" img="" operations="create|change|display|browse"/>
+			<menu id="1020020" name="postLoan2" title="流水表信息" url="/postLoan/post/lshbrowse.page" img="" operations="create|change|display|browse"/>
+		</menu>
 		<menu id="1030000" name="system" title="系统管理" url="" img="images/icon_sys.gif" operations="">
 			<menu id="1030100" name="resource" title="权限配置" url="/system/resource/browse.page" img="" operations="browse" />
 			<menu id="1030200" name="datapri" title="数据权限" url="/system/datapri/browse.page" img="" operations="display|change|browse" />
