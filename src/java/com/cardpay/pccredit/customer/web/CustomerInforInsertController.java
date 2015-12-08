@@ -87,10 +87,9 @@ public class CustomerInforInsertController extends BaseController{
 					String message = "";
 					String gId = customerInforService.getUserInform(ls.get(0).getUserId());
 					if(gId==null){
-						returnMap.put(JRadConstants.SUCCESS, true);
-						return returnMap;
+						message = "保存失败，此客户已挂在客户经理"+ls.get(0).getUserId()+"下，请线下及时联系!";
 					}else{
-						message = "此客户已挂在客户经理"+gId+"下!";
+						message = "保存失败，此客户已挂在客户经理"+gId+"下!";
 //						returnMap.put(JRadConstants.MESSAGE, "此客户已挂在客户经理"+gId+"下!");
 					}
 					//查询是否为风险名单
@@ -104,13 +103,16 @@ public class CustomerInforInsertController extends BaseController{
 					returnMap.put(JRadConstants.MESSAGE, message);
 					returnMap.put(JRadConstants.SUCCESS, false);
 					return returnMap;
+				}else{
+					returnMap.put(JRadConstants.SUCCESS, true);
 				}
-			    int i = customerInforService.findCustomerOriginaCountList(filter);
-				if(i!=0){
-					returnMap.put(JRadConstants.MESSAGE, "证件号码已存在");
-					returnMap.put(JRadConstants.SUCCESS, false);
-					return returnMap;
-				}
+			    
+//				int i = customerInforService.findCustomerOriginaCountList(filter);
+//				if(i!=0){
+//					returnMap.put(JRadConstants.MESSAGE, "证件号码已存在");
+//					returnMap.put(JRadConstants.SUCCESS, false);
+//					return returnMap;
+//				}
 				CustomerInfor customerinfor = customerinfoForm.createModel(CustomerInfor.class);
 				User user = (User) Beans.get(LoginManager.class).getLoggedInUser(request);
 				customerinfor.setCreatedBy(user.getId());
