@@ -19,6 +19,7 @@ import com.cardpay.pccredit.intopieces.dao.LocalExcelDao;
 import com.cardpay.pccredit.intopieces.dao.LocalImageDao;
 import com.cardpay.pccredit.intopieces.filter.AddIntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
+import com.cardpay.pccredit.intopieces.model.Dzjy;
 import com.cardpay.pccredit.intopieces.model.LocalExcel;
 import com.cardpay.pccredit.intopieces.model.LocalImage;
 import com.cardpay.pccredit.intopieces.model.VideoAccessories;
@@ -248,5 +249,21 @@ public class AddIntoPiecesService {
 		if(v!=null){
 			UploadFileTool.downLoadFile(response, v.getUri(), v.getAttachment());
 		}
+	}
+	
+	//save jy
+	public void saveJy(Dzjy dzjy){
+		commonDao.insertObject(dzjy);
+	}
+	
+	//update jy
+    public void updateJy(Dzjy dzjy){
+    	commonDao.updateObject(dzjy);
+	}
+	
+	//查询
+	public Dzjy findLocalImageByApplication(String customerId,String productId) {
+		Dzjy dzjy = localImageDao.findJy(customerId,productId);
+		return dzjy;
 	}
 }
