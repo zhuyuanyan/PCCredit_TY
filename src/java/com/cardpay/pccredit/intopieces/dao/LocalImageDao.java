@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.cardpay.pccredit.intopieces.filter.AddIntoPiecesFilter;
+import com.cardpay.pccredit.intopieces.model.Dzjy;
 import com.cardpay.pccredit.intopieces.model.LocalImage;
 import com.cardpay.pccredit.intopieces.web.LocalImageForm;
 import com.wicresoft.util.annotation.Mapper;
@@ -19,5 +20,7 @@ public interface LocalImageDao {
 	public int findCountByApplication(AddIntoPiecesFilter filter);
 	public void deleteByProductIdAndCustomerId(@Param("productId") String productId,@Param("customerId") String customerId);
 	public void updateCustomerInfoStatus(@Param("appId") String appId);
+	
+	public Dzjy findJy(@Param("customerId") String customerId,@Param("productId") String productId);
 	
 }

@@ -48,6 +48,7 @@ import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationOther;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecom;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationRecomVo;
+import com.cardpay.pccredit.intopieces.model.Dzjy;
 import com.cardpay.pccredit.intopieces.model.IntoPieces;
 import com.cardpay.pccredit.intopieces.model.LocalExcel;
 import com.cardpay.pccredit.intopieces.model.MakeCard;
@@ -226,6 +227,305 @@ public class AddIntoPiecesControl extends BaseController {
 			String loginId = user.getId();
 			addIntoPiecesService.addIntopieces(addIntoPiecesForm,loginId);
 			
+			returnMap.addGlobalMessage(CHANGE_SUCCESS);
+		} catch (Exception e) {
+			return WebRequestHelper.processException(e);
+		}
+
+		return returnMap;
+	}
+	
+	/**
+	 * 查询 建议
+	 * @param request
+	 * @return
+	*/
+	@ResponseBody
+	@RequestMapping(value = "changewh.page")
+	@JRadOperation(JRadOperation.MAINTENANCE)
+	public AbstractModelAndView changewh(HttpServletRequest request) {
+		JRadModelAndView mv = new JRadModelAndView("/intopieces/cframe", request);
+		String customerId = request.getParameter("customerId");
+		String productId = request.getParameter("productId");
+		Dzjy  dzjy=  addIntoPiecesService.findLocalImageByApplication(customerId,productId);
+		/*String customerInforId = RequestHelper.getStringValue(request, ID);
+		if (StringUtils.isNotEmpty(customerInforId)) {
+			CustomerInfor customerInfor = customerInforservice.findCustomerInforById(customerInforId);
+			mv.addObject("customerInfor", customerInfor);
+			mv.addObject("customerId", customerInfor.getId());
+		}*/
+		mv.addObject("dzjy", dzjy);
+		mv.addObject("productId", productId);
+		mv.addObject("customerId",customerId);
+		return mv;
+	}
+	
+	
+	//保存建议
+	@ResponseBody
+	@RequestMapping(value = "addJy.json", method = { RequestMethod.GET })
+	public JRadReturnMap addJy(HttpServletRequest request) {
+		JRadReturnMap returnMap = new JRadReturnMap();
+		try {
+			IUser user = Beans.get(LoginManager.class).getLoggedInUser(request);
+			String loginId = user.getId();
+			
+			String customerId = request.getParameter("customerId");//客户 id
+			String productId = request.getParameter("productId");//产品id
+			String sqrxm = request.getParameter("sqrxm");
+			String sqje = request.getParameter("sqje");
+			String dkyt = request.getParameter("dkyt");
+			String sqqx = request.getParameter("sqqx");
+			String xmzje = request.getParameter("xmzje");
+			String zyzj = request.getParameter("zyzj");
+			String zyzjly = request.getParameter("zyzjly");
+			String change = request.getParameter("change");
+			String fxfx_ys = request.getParameter("fxfx_ys");
+			String fxfx_ns = request.getParameter("fxfx_ns");
+			String fxfx_lxfx = request.getParameter("fxfx_lxfx");
+			String khjljy = request.getParameter("khjljy");
+			String reason1 = request.getParameter("reason1");
+			String jytg_je = request.getParameter("jytg_je");
+			String jytg_qx = request.getParameter("jytg_qx");
+			String jytg_cp = request.getParameter("jytg_cp");
+			String jytg_lv = request.getParameter("jytg_lv");
+			String jytg_myhk = request.getParameter("jytg_myhk");
+			String jytg_bl = request.getParameter("jytg_bl");
+			String jytg_jkr = request.getParameter("jytg_jkr");
+			String jytg_khgx = request.getParameter("jytg_khgx");
+			String jytg_dbr = request.getParameter("jytg_dbr");
+			String jytg_dbrgx = request.getParameter("jytg_dbrgx");
+			String jytg_dy = request.getParameter("jytg_dy");
+			String jytg_wq = request.getParameter("jytg_wq");
+			String zbkhjl_sign = request.getParameter("zbkhjl_sign");
+			String xbkhjl_sign = request.getParameter("xbkhjl_sign");
+			String rq = request.getParameter("rq");
+			String sqr_xm = request.getParameter("sqr_xm");
+			String sqr_sex = request.getParameter("sqr_sex");
+			String sqr_zjhm = request.getParameter("sqr_zjhm");
+			String sqr_hy = request.getParameter("sqr_hy");
+			String sqr_hjd = request.getParameter("sqr_hjd");
+			String sqr_hjxx = request.getParameter("sqr_hjxx");
+			String sqr_xl = request.getParameter("sqr_xl");
+			String sqr_mobile = request.getParameter("sqr_mobile");
+			String sqr_address = request.getParameter("sqr_address");
+			String jzhj_type = request.getParameter("jzhj_type");
+			String jzhj_type4_qx = request.getParameter("jzhj_type4_qx");
+			String jzhj_type4_zj = request.getParameter("jzhj_type4_zj");
+			String jzhj_type_other = request.getParameter("jzhj_type_other");
+			String jzhj_mj1 = request.getParameter("jzhj_mj1");
+			String jzhj_mj2 = request.getParameter("jzhj_mj2");
+			String jzhj_mj3 = request.getParameter("jzhj_mj3");
+			String jzhj_zf = request.getParameter("jzhj_zf");
+			String jzhj_zf_select = request.getParameter("jzhj_zf_select");
+			String jzhj_gj = request.getParameter("jzhj_gj");
+			String jzhj_gj_room = request.getParameter("jzhj_gj_room");
+			String jzhj_gj_ting = request.getParameter("jzhj_gj_ting");
+			String jzhj_jzrq = request.getParameter("jzhj_jzrq");
+			String jzhj_dzfs = request.getParameter("jzhj_dzfs");
+			String jzhj_select = request.getParameter("jzhj_select");
+			String zyfc_num = request.getParameter("zyfc_num");
+			String aj_num = request.getParameter("aj_num");
+			String fcgmrq = request.getParameter("fcgmrq");
+			String fcgmjg = request.getParameter("fcgmjg");
+			String fcmj = request.getParameter("fcmj");
+			String ajdkye = request.getParameter("ajdkye");
+			String address = request.getParameter("address");
+			String zycl_num = request.getParameter("zycl_num");
+			String dk_num = request.getParameter("dk_num");
+			String gmrq = request.getParameter("gmrq");
+			String gmjg = request.getParameter("gmjg");
+			String cp = request.getParameter("cp");
+			String other_work = request.getParameter("other_work");
+			String other_income = request.getParameter("other_income");
+			String po_name = request.getParameter("po_name");
+			String po_code = request.getParameter("po_code");
+			String po_mobile = request.getParameter("po_mobile");
+			String po_yicome = request.getParameter("po_yicome");
+			String po_unit = request.getParameter("po_unit");
+			String p_bank_numm = request.getParameter("p_bank_numm");
+			String khh_1 = request.getParameter("khh_1");
+			String zh1 = request.getParameter("zh1");
+			String fzc = request.getParameter("fzc");
+			String khh_2 = request.getParameter("khh_2");
+			String zh2 = request.getParameter("zh2");
+			String fzfz = request.getParameter("fzfz");
+			
+			String jzhj_type_select = request.getParameter("jzhj_type_select");
+			
+			//查询建议是否存在customerId和productId
+			Dzjy dzjy =  addIntoPiecesService.findLocalImageByApplication(customerId,productId);
+			
+			if(dzjy != null){
+//				dzjy.setCustomer_id(request.getParameter("customerId"));
+//				dzjy.setProduct_id(request.getParameter("productId"));
+				dzjy.setSqrxm(sqrxm);
+				dzjy.setSqje(sqje);
+				dzjy.setDkyt(dkyt);
+				dzjy.setSqqx(sqqx);
+				dzjy.setXmzje(xmzje);
+				dzjy.setZyzj(zyzj);
+				dzjy.setZyzjly(zyzjly);
+				dzjy.setChange(change);
+				dzjy.setFxfx_ys(fxfx_ys);
+				dzjy.setFxfx_ns(fxfx_ns);
+				dzjy.setFxfx_lxfx(fxfx_lxfx);
+				dzjy.setKhjljy(khjljy);
+				dzjy.setReason1(reason1);
+				dzjy.setJytg_je(jytg_je);
+				dzjy.setJytg_qx(jytg_qx);
+				dzjy.setJytg_cp(jytg_cp);
+				dzjy.setJytg_lv(jytg_lv);
+				dzjy.setJytg_myhk(jytg_myhk);
+				dzjy.setJytg_bl(jytg_bl);
+				dzjy.setJytg_jkr(jytg_jkr);
+				dzjy.setJytg_khgx(jytg_khgx);
+				dzjy.setJytg_dbr(jytg_dbr);
+				dzjy.setJytg_dbrgx(jytg_dbrgx);
+				dzjy.setJytg_dy(jytg_dy);
+				dzjy.setJytg_wq(jytg_wq);
+				dzjy.setZbkhjl_sign(zbkhjl_sign);
+				dzjy.setXbkhjl_sign(xbkhjl_sign);
+				dzjy.setRq(rq);
+				dzjy.setSqr_xm(sqr_xm);
+				dzjy.setSqr_sex(sqr_sex);
+				dzjy.setSqr_zjhm(sqr_zjhm);
+				dzjy.setSqr_hy(sqr_hy);
+				dzjy.setSqr_hjd(sqr_hjd);
+				dzjy.setSqr_hjxx(sqr_hjxx);
+				dzjy.setSqr_xl(sqr_xl);
+				dzjy.setSqr_mobile(sqr_mobile);
+				dzjy.setSqr_address(sqr_address);
+				dzjy.setJzhj_type(jzhj_type);
+				dzjy.setJzhj_type4_qx(jzhj_type4_qx);
+				dzjy.setJzhj_type4_zj(jzhj_type4_zj);
+				dzjy.setJzhj_type_other(jzhj_type_other);
+				dzjy.setJzhj_mj1(jzhj_mj1);
+				dzjy.setJzhj_mj2(jzhj_mj2);
+				dzjy.setJzhj_mj3(jzhj_mj3);
+				dzjy.setJzhj_zf(jzhj_zf);
+				dzjy.setJzhj_zf_select(jzhj_zf_select);
+				dzjy.setJzhj_gj(jzhj_gj);
+				dzjy.setJzhj_gj_room(jzhj_gj_room);
+				dzjy.setJzhj_gj_ting(jzhj_gj_ting);
+				dzjy.setJzhj_jzrq(jzhj_jzrq);
+				dzjy.setJzhj_dzfs(jzhj_dzfs);
+				dzjy.setJzhj_select(jzhj_select);
+				dzjy.setZyfc_num(zyfc_num);
+				dzjy.setAj_num(aj_num);
+				dzjy.setFcgmrq(fcgmrq);
+				dzjy.setFcgmjg(fcgmjg);
+				dzjy.setFcmj(fcmj);
+				dzjy.setAjdkye(ajdkye);
+				dzjy.setAddress(address);
+				dzjy.setZycl_num(zycl_num);
+				dzjy.setDk_num(dk_num);
+				dzjy.setGmrq(gmrq);
+				dzjy.setGmjg(gmjg);
+				dzjy.setCp(cp);
+				dzjy.setOther_work(other_work);
+				dzjy.setOther_income(other_income);
+				dzjy.setPo_name(po_name);
+				dzjy.setPo_code(po_code);
+				dzjy.setPo_mobile(po_mobile);
+				dzjy.setPo_yicome(po_yicome);
+				dzjy.setPo_unit(po_unit);
+				dzjy.setP_bank_numm(p_bank_numm);
+				dzjy.setKhh_1(khh_1);
+				dzjy.setZh1(zh1);
+				dzjy.setFzc(fzc);
+				dzjy.setKhh_2(khh_2);
+				dzjy.setZh2(zh2);
+				dzjy.setFzfz(fzfz);
+				dzjy.setJzhj_type_select(jzhj_type_select);
+				//update
+				addIntoPiecesService.updateJy(dzjy);
+			}else{
+				Dzjy dzjy1 = new Dzjy();
+				dzjy1.setCustomer_id(request.getParameter("customerId"));
+				dzjy1.setProduct_id(request.getParameter("productId"));
+				dzjy1.setSqrxm(sqrxm);
+				dzjy1.setSqje(sqje);
+				dzjy1.setDkyt(dkyt);
+				dzjy1.setSqqx(sqqx);
+				dzjy1.setXmzje(xmzje);
+				dzjy1.setZyzj(zyzj);
+				dzjy1.setZyzjly(zyzjly);
+				dzjy1.setChange(change);
+				dzjy1.setFxfx_ys(fxfx_ys);
+				dzjy1.setFxfx_ns(fxfx_ns);
+				dzjy1.setFxfx_lxfx(fxfx_lxfx);
+				dzjy1.setKhjljy(khjljy);
+				dzjy1.setReason1(reason1);
+				dzjy1.setJytg_je(jytg_je);
+				dzjy1.setJytg_qx(jytg_qx);
+				dzjy1.setJytg_cp(jytg_cp);
+				dzjy1.setJytg_lv(jytg_lv);
+				dzjy1.setJytg_myhk(jytg_myhk);
+				dzjy1.setJytg_bl(jytg_bl);
+				dzjy1.setJytg_jkr(jytg_jkr);
+				dzjy1.setJytg_khgx(jytg_khgx);
+				dzjy1.setJytg_dbr(jytg_dbr);
+				dzjy1.setJytg_dbrgx(jytg_dbrgx);
+				dzjy1.setJytg_dy(jytg_dy);
+				dzjy1.setJytg_wq(jytg_wq);
+				dzjy1.setZbkhjl_sign(zbkhjl_sign);
+				dzjy1.setXbkhjl_sign(xbkhjl_sign);
+				dzjy1.setRq(rq);
+				dzjy1.setSqr_xm(sqr_xm);
+				dzjy1.setSqr_sex(sqr_sex);
+				dzjy1.setSqr_zjhm(sqr_zjhm);
+				dzjy1.setSqr_hy(sqr_hy);
+				dzjy1.setSqr_hjd(sqr_hjd);
+				dzjy1.setSqr_hjxx(sqr_hjxx);
+				dzjy1.setSqr_xl(sqr_xl);
+				dzjy1.setSqr_mobile(sqr_mobile);
+				dzjy1.setSqr_address(sqr_address);
+				dzjy1.setJzhj_type(jzhj_type);
+				dzjy1.setJzhj_type4_qx(jzhj_type4_qx);
+				dzjy1.setJzhj_type4_zj(jzhj_type4_zj);
+				dzjy1.setJzhj_type_other(jzhj_type_other);
+				dzjy1.setJzhj_mj1(jzhj_mj1);
+				dzjy1.setJzhj_mj2(jzhj_mj2);
+				dzjy1.setJzhj_mj3(jzhj_mj3);
+				dzjy1.setJzhj_zf(jzhj_zf);
+				dzjy1.setJzhj_zf_select(jzhj_zf_select);
+				dzjy1.setJzhj_gj(jzhj_gj);
+				dzjy1.setJzhj_gj_room(jzhj_gj_room);
+				dzjy1.setJzhj_gj_ting(jzhj_gj_ting);
+				dzjy1.setJzhj_jzrq(jzhj_jzrq);
+				dzjy1.setJzhj_dzfs(jzhj_dzfs);
+				dzjy1.setJzhj_select(jzhj_select);
+				dzjy1.setZyfc_num(zyfc_num);
+				dzjy1.setAj_num(aj_num);
+				dzjy1.setFcgmrq(fcgmrq);
+				dzjy1.setFcgmjg(fcgmjg);
+				dzjy1.setFcmj(fcmj);
+				dzjy1.setAjdkye(ajdkye);
+				dzjy1.setAddress(address);
+				dzjy1.setZycl_num(zycl_num);
+				dzjy1.setDk_num(dk_num);
+				dzjy1.setGmrq(gmrq);
+				dzjy1.setGmjg(gmjg);
+				dzjy1.setCp(cp);
+				dzjy1.setOther_work(other_work);
+				dzjy1.setOther_income(other_income);
+				dzjy1.setPo_name(po_name);
+				dzjy1.setPo_code(po_code);
+				dzjy1.setPo_mobile(po_mobile);
+				dzjy1.setPo_yicome(po_yicome);
+				dzjy1.setPo_unit(po_unit);
+				dzjy1.setP_bank_numm(p_bank_numm);
+				dzjy1.setKhh_1(khh_1);
+				dzjy1.setZh1(zh1);
+				dzjy1.setFzc(fzc);
+				dzjy1.setKhh_2(khh_2);
+				dzjy1.setZh2(zh2);
+				dzjy1.setFzfz(fzfz);
+				dzjy1.setJzhj_type_select(jzhj_type_select);
+				//save
+				addIntoPiecesService.saveJy(dzjy1);
+			}
 			returnMap.addGlobalMessage(CHANGE_SUCCESS);
 		} catch (Exception e) {
 			return WebRequestHelper.processException(e);
