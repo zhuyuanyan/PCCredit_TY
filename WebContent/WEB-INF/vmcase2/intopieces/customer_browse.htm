@@ -90,14 +90,10 @@
 		opsObj.browseUrl = "${modulePath}/browseCustomer.page";
         
 		prepareOperations(opsObj);
-		/* //导入调查模板方式
+		//导入调查模板方式
 		$("#id_next_button").click(function() {
             if ($(".checkbox :checked").length == 1) {
                 var rowid = $($(".checkbox :checked")[0]).attr("value").split("/");
-                /* if(rowid[1]==''||rowid[1]==null){
-					Dialog.message("无原始信息!");
-					return;
-				} 
                 var productId = $("#productId").val();
                 var url = "${contextPath}/intopieces/addIntopieces/reportImport.page?customerId="+rowid[0]+"&productId="+productId;
                 
@@ -105,10 +101,10 @@
             } else {
                 Dialog.message("请选择一行");
             }
-        }); */
+        });
         
          //手工输入调查信息
-        $("#id_next_button").click(function() {
+    /*     $("#id_next_button").click(function() {
             if ($(".checkbox :checked").length == 1) {
                 var rowid = $($(".checkbox :checked")[0]).attr("value").split("/");
                 var productId = $("#productId").val();
@@ -118,7 +114,7 @@
             } else {
                 Dialog.message("请选择一行");
             }
-        }); 
+        });  */
 	});
 </script>
    <script src="${contextPath}/js/customerInfor/customer_infor.js"></script>
