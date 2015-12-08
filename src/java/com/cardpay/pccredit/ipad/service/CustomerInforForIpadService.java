@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.cardpay.pccredit.customer.filter.CustomerInforFilter;
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.service.CustomerInforService;
+import com.cardpay.pccredit.intopieces.model.Dzjy;
 import com.cardpay.pccredit.ipad.dao.CustomerInforIpadDao;
 import com.cardpay.pccredit.ipad.model.CustomerInforIpad;
 import com.cardpay.pccredit.riskControl.model.RiskCustomer;
@@ -110,5 +111,48 @@ public class CustomerInforForIpadService {
 	 */
 	public CustomerInforIpad findCustomerInforByCardId(String cardId){
 		return customerInfor.findCustomerInforByCardId(cardId);
+	}
+	
+	/**
+	 * 添加个人信息
+	 * @param cardId
+	 * @return
+	 */
+	public Boolean addGrxx(Dzjy dzjy){
+		try {
+			String sql = "select * from TY_DZ_MODEL_JY where customer_id='"+dzjy.getCustomer_id()+"' and product_id='"+dzjy.getProduct_id()+"' and application_id is null";
+			List<Dzjy> list = commonDao.queryBySql(Dzjy.class, sql, null);
+			if(list.size()>0){
+				Dzjy oldDzjy = list.get(0);
+				oldDzjy.setSqr_sex(dzjy.getSqr_sex());
+				oldDzjy.setSqr_hy(dzjy.getSqr_hy());
+				oldDzjy.setSqr_hjd(dzjy.getSqr_hjd());
+				oldDzjy.setSqr_hjxx(dzjy.getSqr_hjxx());
+				oldDzjy.setSqr_xl(dzjy.getSqr_xl());
+				oldDzjy.setSqr_mobile(dzjy.getSqr_mobile());
+				commonDao.updateObject(oldDzjy);
+			}else{
+				dzjy.setId(IDGenerator.generateID());
+				commonDao.insertObject(dzjy);
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	/**
+	 * 查询个人信息
+	 * @param cardId
+	 * @return
+	 */
+	public Dzjy queryGrxx(String customerId,String productId){
+		String sql = "select * from TY_DZ_MODEL_JY where customer_id='"+customerId+"' and product_id='"+productId+"' and application_id is null";
+		List<Dzjy> list = commonDao.queryBySql(Dzjy.class, sql, null);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
 	}
 }

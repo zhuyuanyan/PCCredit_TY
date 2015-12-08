@@ -87,13 +87,12 @@ public class CustomerInforInsertController extends BaseController{
 					String message = "";
 					String gId = customerInforService.getUserInform(ls.get(0).getUserId());
 					if(gId==null){
-						message = "此客户已挂在客户经理"+ls.get(0).getUserId()+"下!";
-//						returnMap.put(JRadConstants.MESSAGE, "此客户已挂在客户经理"+ls.get(0).getUserId()+"下!");
+						returnMap.put(JRadConstants.SUCCESS, true);
+						return returnMap;
 					}else{
 						message = "此客户已挂在客户经理"+gId+"下!";
 //						returnMap.put(JRadConstants.MESSAGE, "此客户已挂在客户经理"+gId+"下!");
 					}
-					returnMap.put(JRadConstants.SUCCESS, false);
 					//查询是否为风险名单
 					List<RiskCustomer> riskCustomers = customerInforService.findRiskByCardId(customerinfoForm.getCardId());
 					if(riskCustomers.size()>0){
@@ -103,6 +102,7 @@ public class CustomerInforInsertController extends BaseController{
 						message+="此客户于"+dateString+"被"+user.getDisplayName()+"拒绝，原因为"+riskCustomers.get(0).getRefuseReason();
 					}
 					returnMap.put(JRadConstants.MESSAGE, message);
+					returnMap.put(JRadConstants.SUCCESS, false);
 					return returnMap;
 				}
 			    int i = customerInforService.findCustomerOriginaCountList(filter);
