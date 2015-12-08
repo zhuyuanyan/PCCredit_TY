@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cardpay.pccredit.customer.model.CustomerInfor;
 import com.cardpay.pccredit.customer.web.CustomerInforForm;
+import com.cardpay.pccredit.intopieces.model.Dzjy;
 import com.cardpay.pccredit.ipad.constant.IpadConstant;
 import com.cardpay.pccredit.ipad.model.CustomerInforIpad;
 import com.cardpay.pccredit.ipad.model.Result;
@@ -94,5 +95,56 @@ public class CustomerInforIpadController extends BaseController{
 		JSONObject json = JSONObject.fromObject(map, jsonConfig);
 		return json.toString();
 
+	}
+	
+	/*
+	 * 个人信息（新增）
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/ipad/customerInfor/grxx_add.json")
+	@JRadOperation(JRadOperation.CREATE)
+	public String grxx( HttpServletRequest request) {
+		Map<String,Object> map = new LinkedHashMap<String,Object>();
+		String customerId = request.getParameter("customerId");
+		String prodectId = request.getParameter("prodectId");
+		String sqr_sex = request.getParameter("sqr_sex");
+		String sqr_hy = request.getParameter("sqr_hy");
+		String sqr_hjd = request.getParameter("sqr_hjd");
+		String sqr_hjxx = request.getParameter("sqr_hjxx");
+		String sqr_xl = request.getParameter("sqr_xl");
+		String sqr_mobile = request.getParameter("sqr_mobile");
+		Dzjy dzjy = new Dzjy();
+		dzjy.setCustomer_id(customerId);
+		dzjy.setProduct_id(prodectId);
+		dzjy.setSqr_sex(sqr_sex);
+		dzjy.setSqr_hy(sqr_hy);
+		dzjy.setSqr_hjd(sqr_hjd);
+		dzjy.setSqr_hjxx(sqr_hjxx);
+		dzjy.setSqr_xl(sqr_xl);
+		dzjy.setSqr_mobile(sqr_mobile);
+		Boolean result = customerInforService.addGrxx(dzjy);
+		map.put("result", result);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor());
+		JSONObject json = JSONObject.fromObject(map, jsonConfig);
+		return json.toString();
+	}
+	
+	/*
+	 * 个人信息（查询）
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/ipad/customerInfor/grxx_query.json")
+	@JRadOperation(JRadOperation.CREATE)
+	public String grxx_query( HttpServletRequest request) {
+		Map<String,Object> map = new LinkedHashMap<String,Object>();
+		String customerId = request.getParameter("customerId");
+		String prodectId = request.getParameter("prodectId");
+		Dzjy result = customerInforService.queryGrxx(customerId,prodectId);
+		map.put("result", result);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor());
+		JSONObject json = JSONObject.fromObject(map, jsonConfig);
+		return json.toString();
 	}
 }

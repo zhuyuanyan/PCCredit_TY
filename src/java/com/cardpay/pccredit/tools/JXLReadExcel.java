@@ -31,7 +31,6 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import sun.misc.BASE64Encoder;
-import sun.misc.BASE64Decoder; 
 /**
  * @功能描述 POI 读取 Excel 转 HTML 支持 03xls 和 07xlsx 版本  包含样式
  */
@@ -52,7 +51,7 @@ public class JXLReadExcel {
      */
     public String[] readExcelToHtml(String filePath, boolean isWithStyle){
         
-    	String sheet[] = new String[30];
+    	String sheet[] = new String[15];
         InputStream is = null;
 //        String htmlExcel = null;
         Map<String, String> map = new HashMap<String, String>();
@@ -72,7 +71,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
             		sheet[0] = content_base64;
-            		sheet[15] = map.get("padData").toString();
+//            		sheet[15] = map.get("padData").toString();
             	}
 //            	if(wb.getSheetAt(i).getSheetName().indexOf("进件标识信息")>=0){
 //            		if (wb instanceof XSSFWorkbook) {
@@ -96,7 +95,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
             		sheet[1] = content_base64;
-            		sheet[16] = map.get("padData").toString();
+//            		sheet[16] = map.get("padData").toString();
             	}
             	
             	if(wb.getSheetAt(i).getSheetName().indexOf("经营状态")>=0){
@@ -109,7 +108,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
             		sheet[2] = content_base64;
-            		sheet[17] = map.get("padData").toString();
+//            		sheet[17] = map.get("padData").toString();
             	}
             	
             	if(wb.getSheetAt(i).getSheetName().indexOf("生存状态")>=0){
@@ -122,7 +121,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
             		sheet[3] = content_base64;
-            		sheet[18] = map.get("padData").toString();
+//            		sheet[18] = map.get("padData").toString();
             	}
             	
             	if(wb.getSheetAt(i).getSheetName().indexOf("道德品质")>=0){
@@ -135,7 +134,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
             		sheet[4] = content_base64;
-            		sheet[19] = map.get("padData").toString();
+//            		sheet[19] = map.get("padData").toString();
             	}
             	
             	if(wb.getSheetAt(i).getSheetName().indexOf("资产负债")>=0){
@@ -148,7 +147,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
             		sheet[5] = content_base64;
-            		sheet[20] = map.get("padData").toString();
+//            		sheet[20] = map.get("padData").toString();
             	}
             	else if(wb.getSheetAt(i).getSheetName().indexOf("利润简表")>=0){
             		if (wb instanceof XSSFWorkbook) {
@@ -160,7 +159,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
             		sheet[6] = content_base64;
-            		sheet[21] = map.get("padData").toString();
+//            		sheet[21] = map.get("padData").toString();
             	}
 				else if(wb.getSheetAt(i).getSheetName().indexOf("标准利润表")>=0){
 					if (wb instanceof XSSFWorkbook) {
@@ -172,7 +171,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
 					sheet[7] = content_base64;
-					sheet[22] = map.get("padData").toString();
+//					sheet[22] = map.get("padData").toString();
             	}
 				else if(wb.getSheetAt(i).getSheetName().indexOf("现金流量表")>=0){
 					if (wb instanceof XSSFWorkbook) {
@@ -184,7 +183,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
 					sheet[8] = content_base64;
-					sheet[23] = map.get("padData").toString();
+//					sheet[23] = map.get("padData").toString();
 				}
 				else if(wb.getSheetAt(i).getSheetName().indexOf("交叉检验")>=0){
 					if (wb instanceof XSSFWorkbook) {
@@ -196,7 +195,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
 					sheet[9] = content_base64;
-					sheet[24] = map.get("padData").toString();
+//					sheet[24] = map.get("padData").toString();
 				}
             	
 				else if(wb.getSheetAt(i).getSheetName().indexOf("点货单")>=0){
@@ -209,7 +208,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
 					sheet[10] = content_base64;
-					sheet[25] = map.get("padData").toString();
+//					sheet[25] = map.get("padData").toString();
 				}
 				else if(wb.getSheetAt(i).getSheetName().indexOf("固定资产")>=0){
 					if (wb instanceof XSSFWorkbook) {
@@ -221,7 +220,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
 					sheet[11] = content_base64;
-					sheet[26] = map.get("padData").toString();
+//					sheet[26] = map.get("padData").toString();
 				}
 				else if(wb.getSheetAt(i).getSheetName().indexOf("应付预收")>=0){
 					if (wb instanceof XSSFWorkbook) {
@@ -233,7 +232,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
 					sheet[12] = content_base64;
-					sheet[27] = map.get("padData").toString();
+//					sheet[27] = map.get("padData").toString();
 				}
 				else if(wb.getSheetAt(i).getSheetName().indexOf("应收预付")>=0){
 					if (wb instanceof XSSFWorkbook) {
@@ -245,7 +244,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
 					sheet[13] = content_base64;
-					sheet[28] = map.get("padData").toString();
+//					sheet[28] = map.get("padData").toString();
 				}
 				else if(wb.getSheetAt(i).getSheetName().indexOf("流水分析")>=0){
 					if (wb instanceof XSSFWorkbook) {
@@ -257,7 +256,7 @@ public class JXLReadExcel {
                     }
                 	String content_base64 = getBASE64(map.get("computerData").toString());
 					sheet[14] = content_base64;
-					sheet[29] = map.get("padData").toString();
+//					sheet[29] = map.get("padData").toString();
 				}
             	
             }
@@ -348,15 +347,15 @@ public class JXLReadExcel {
     				   stringValue = stringValue.replaceAll(",", "");
     				   sb.append(stringValue.replace(String.valueOf((char) 160),"&nbsp;"));
     			   }
-    			   if(padAble != null && Arrays.asList(padAble).contains(tmp)){//生成pad展示数据string
-    				   padString+=stringValue+"@@";
-    			   }
+//    			   if(padAble != null && Arrays.asList(padAble).contains(tmp)){//生成pad展示数据string
+//    				   padString+=stringValue+"@@";
+//    			   }
     			   sb.append("</td>");
     		   }
     		   sb.append("</tr>");
     	   }
-    	   padString=padString.substring(0, padString.length()-2);
-    	   resultMap.put("padData", padString);
+//    	   padString=padString.substring(0, padString.length()-2);
+//    	   resultMap.put("padData", padString);
     	   
     	   sb.append("</table>");
     	   resultMap.put("computerData", sb.toString());
@@ -488,24 +487,21 @@ public class JXLReadExcel {
                 
                 XSSFColor xc = xf.getXSSFColor();
                 if (xc != null && !"".equals(xc)) {
-                    sb.append("color:#" + xc.getARGBHex().substring(2) + ";"); // 字体颜色
+                    sb.append("color:#000000;"); // 字体颜色
                 }
                 
                 XSSFColor bgColor = (XSSFColor) cellStyle.getFillForegroundColorColor();
-                //System.out.println("************************************");
                 //System.out.println("BackgroundColorColor: "+cellStyle.getFillBackgroundColorColor());
                 //System.out.println("ForegroundColor: "+cellStyle.getFillForegroundColor());//0
                 //System.out.println("BackgroundColorColor: "+cellStyle.getFillBackgroundColorColor());
                 //System.out.println("ForegroundColorColor: "+cellStyle.getFillForegroundColorColor());
-                //String bgColorStr = bgColor.getARGBHex();
-                //System.out.println("bgColorStr: "+bgColorStr);
                 if (bgColor != null && !"".equals(bgColor)) {
-                    sb.append("background-color:#" + bgColor.getARGBHex().substring(2) + ";"); // 背景颜色
+                    sb.append("background-color:#C0C0C0;"); // 背景颜色
                 }
-                sb.append(getBorderStyle(0,cellStyle.getBorderTop(), ((XSSFCellStyle) cellStyle).getTopBorderXSSFColor()));
-                sb.append(getBorderStyle(1,cellStyle.getBorderRight(), ((XSSFCellStyle) cellStyle).getRightBorderXSSFColor()));
-                sb.append(getBorderStyle(2,cellStyle.getBorderBottom(), ((XSSFCellStyle) cellStyle).getBottomBorderXSSFColor()));
-                sb.append(getBorderStyle(3,cellStyle.getBorderLeft(), ((XSSFCellStyle) cellStyle).getLeftBorderXSSFColor()));
+                sb.append("border-top:solid #000000 1px;");
+                sb.append("border-right:solid #000000 1px;");
+                sb.append("border-bottom:solid #000000 1px;");
+                sb.append("border-left:solid #000000 1px;");
                     
             }else if(wb instanceof HSSFWorkbook){
                 
