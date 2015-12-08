@@ -77,4 +77,9 @@
   <update id="updateCustomerInfoStatus">
 		update customer_application_info  set status = 'audit' where id =#{appId}
   </update>
+  
+  <!--查询建议-->
+  <select id="findJy" resultType="com.cardpay.pccredit.intopieces.model.Dzjy">
+     select * from TY_DZ_MODEL_JY t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
+  </select>
 </mapper>
