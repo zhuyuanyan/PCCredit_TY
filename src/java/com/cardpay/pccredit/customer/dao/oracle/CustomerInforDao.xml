@@ -638,7 +638,7 @@
 					AND T1.card_id=#{cardId}
 				</if>
 				<if test="customerManagerIds != null and customerManagerIds != '' ">  
- 		    		where T1.user_id in  
+ 		    		and T1.user_id in  
 	 	    		<foreach collection="customerManagerIds" index="index" item="item" open="(" separator="," close=")"> 
 			   		#{item.userId} 
 					</foreach>
