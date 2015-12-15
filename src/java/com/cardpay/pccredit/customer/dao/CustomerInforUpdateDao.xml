@@ -20,8 +20,17 @@
 		delete Balance_Sheet t where t.customer_id=#{id}
 	</delete>
 	
+	<delete id="deleteCustomerInforUpdateBalanceSheetById"> 
+		delete Balance_Sheet t where t.customer_id=#{customerId} and t.product_id =#{productId}
+	</delete>
+	
 	<select id="getCustomerInforUpdateBalanceSheetById" resultType="com.cardpay.pccredit.customer.model.CustomerInforUpdateBalanceSheet">
 		select t.loan_type as loanType,t.names,t.no,t.contents_text_numbers  as contentsTextNumbers from Balance_Sheet t where t.customer_id=#{id} order by no,loan_type
+	</select>
+	
+	<select id="getCustomerInforUpdateBalanceSheetByCustIdAndProdId" resultType="com.cardpay.pccredit.customer.model.CustomerInforUpdateBalanceSheet">
+		select t.loan_type as loanType,t.names,t.no,t.contents_text_numbers  as contentsTextNumbers from Balance_Sheet t 
+		where t.customer_id=#{customerId} and t.product_id =#{productId} order by no,loan_type
 	</select>
 	
 	<select id="getCustomerInforUpdateIncomeStatementById" resultType="com.cardpay.pccredit.customer.model.CustomerInforUpdateIncomeStatement">

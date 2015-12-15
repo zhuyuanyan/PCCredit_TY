@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.cardpay.pccredit.common.Arith;
 import com.cardpay.pccredit.customer.constant.BalanceSheetConstant;
+
 import org.apache.commons.lang.StringUtils;
+
 import com.cardpay.pccredit.customer.dao.CustomerInforUpdateDao;
 import com.cardpay.pccredit.customer.filter.CustomerInforUpdateBalanceSheetFilter;
 import com.cardpay.pccredit.customer.filter.CustomerInforUpdateWorshipFilter;
@@ -59,6 +61,10 @@ public class CustomerInforUpdateService {
 	 */
 	public List<CustomerInforUpdateBalanceSheet> getCustomerInforUpdateBalanceSheetById(String id){
 		return customerInforUpdateDao.getCustomerInforUpdateBalanceSheetById(id);
+	}
+	
+	public List<CustomerInforUpdateBalanceSheet> getCustomerInforUpdateBalanceSheetByCustIdAndProdId(String customerId,String productId){
+		return customerInforUpdateDao.getCustomerInforUpdateBalanceSheetByCustIdAndProdId(customerId,productId);
 	}
 	
 	/**
@@ -195,6 +201,23 @@ public class CustomerInforUpdateService {
 			commonDao.insertObject(balanceSheetPojo);
 		}
 	}
+	
+	public void insertCustomerInforUpdateBalanceSheet1(String customerId,String balanceSheet,String productId) {
+		customerInforUpdateDao.deleteCustomerInforUpdateBalanceSheetById(customerId,productId);
+		JSONArray balanceSheetData = JSONArray.fromObject(balanceSheet);
+		for (int i = 0; i < balanceSheetData.size(); i++) {
+			CustomerInforUpdateBalanceSheet balanceSheetPojo = (CustomerInforUpdateBalanceSheet) JSONObject
+					.toBean((JSONArray.fromObject(balanceSheetData.toString())
+							.getJSONObject(i)), CustomerInforUpdateBalanceSheet.class);
+			balanceSheetPojo.setCustomerId(customerId);
+			balanceSheetPojo.setProductId(productId);
+			if(balanceSheetPojo.getLoanType() !=14){
+				commonDao.insertObject(balanceSheetPojo);
+			}
+		}
+	}
+	
+	
 	
 	/**
 	 * 修改客户维护信息
