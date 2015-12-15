@@ -3,6 +3,9 @@ package com.cardpay.pccredit.intopieces.model;
 import com.wicresoft.jrad.base.database.model.BusinessModel;
 import com.wicresoft.jrad.base.database.model.ModelParam;
 
+/**
+ * 调查模板-建议
+ */
 @ModelParam(table = "TY_DZ_MODEL_JY")
 public class Dzjy extends BusinessModel{
 	private static final long serialVersionUID = 1L;

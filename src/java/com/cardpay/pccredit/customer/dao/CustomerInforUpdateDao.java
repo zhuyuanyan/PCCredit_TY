@@ -42,6 +42,8 @@ public interface CustomerInforUpdateDao {
 	 */
 	public int deleteCustomerInforUpdateBalanceSheet(String id);
 	
+	public int deleteCustomerInforUpdateBalanceSheetById(@Param("customerId")String customerId,@Param("productId")String productId);
+	
 	/**
 	 * 获取维护客户信息
 	 * 
@@ -51,6 +53,7 @@ public interface CustomerInforUpdateDao {
 	 * @return CustomerInforUpdateBalanceSheet
 	 */
 	public List<CustomerInforUpdateBalanceSheet> getCustomerInforUpdateBalanceSheetById(String id);
+	public List<CustomerInforUpdateBalanceSheet> getCustomerInforUpdateBalanceSheetByCustIdAndProdId(@Param("customerId")String customerId,@Param("productId")String productId);
 	
 	
 	/**
