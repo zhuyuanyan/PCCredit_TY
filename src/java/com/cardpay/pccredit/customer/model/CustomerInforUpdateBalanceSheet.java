@@ -25,6 +25,17 @@ public class CustomerInforUpdateBalanceSheet extends BaseModel {
 	private Date createdTime;
 	private String modifyUser;
 	private Date modifyDate;
+	
+	private String productId;
+	
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 
 	public String getCustomerId() {
 		return customerId;

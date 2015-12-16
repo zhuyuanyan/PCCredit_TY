@@ -19,7 +19,12 @@ import com.cardpay.pccredit.intopieces.dao.LocalExcelDao;
 import com.cardpay.pccredit.intopieces.dao.LocalImageDao;
 import com.cardpay.pccredit.intopieces.filter.AddIntoPiecesFilter;
 import com.cardpay.pccredit.intopieces.model.CustomerApplicationInfo;
+import com.cardpay.pccredit.intopieces.model.Dcddpz;
+import com.cardpay.pccredit.intopieces.model.Dclrjb;
+import com.cardpay.pccredit.intopieces.model.Dcsczt;
+import com.cardpay.pccredit.intopieces.model.Dzjbzk;
 import com.cardpay.pccredit.intopieces.model.Dzjy;
+import com.cardpay.pccredit.intopieces.model.Dzjyzt;
 import com.cardpay.pccredit.intopieces.model.LocalExcel;
 import com.cardpay.pccredit.intopieces.model.LocalImage;
 import com.cardpay.pccredit.intopieces.model.VideoAccessories;
@@ -261,9 +266,90 @@ public class AddIntoPiecesService {
     	commonDao.updateObject(dzjy);
 	}
 	
-	//查询
+	//查询jy
 	public Dzjy findLocalImageByApplication(String customerId,String productId) {
 		Dzjy dzjy = localImageDao.findJy(customerId,productId);
 		return dzjy;
+	}
+	
+	//查询 基本状况
+	public Dzjbzk  findDzjbzk(String customerId,String productId){
+		Dzjbzk jbzk = localImageDao.findDzjbzk(customerId,productId);
+		return jbzk;
+	}
+	
+	//save jbzk
+	public void saveJbzk(Dzjbzk jbzk){
+		commonDao.insertObject(jbzk);
+	}
+	
+	//update jbzk
+	public void updateJbzk(Dzjbzk jbzk){
+		commonDao.updateObject(jbzk);
+	}
+	
+	
+	//查询经营状态
+	public Dzjyzt  findDzjyzt(String customerId,String productId){
+		Dzjyzt jyzt = localImageDao.findDzjyzt(customerId,productId);
+		return jyzt;
+	}
+	
+	//save 
+	public void saveJyzt(Dzjyzt jyzt){
+		commonDao.insertObject(jyzt);
+	}
+	
+	//update
+	public void updateJyzt(Dzjyzt jyzt){
+		commonDao.updateObject(jyzt);
+    }
+	
+	//查询生存状态
+	public Dcsczt findDcsczt(String customerId,String productId){
+		Dcsczt  sczt = localImageDao.findDcsczt(customerId,productId);
+	    return sczt;
+	}
+	
+	//save 
+	public void saveSczt(Dcsczt sczt){
+		commonDao.insertObject(sczt);
+	}
+	
+	//update
+	public void updateSczt(Dcsczt sczt){
+		commonDao.updateObject(sczt);
+    }
+	
+	
+	//查询道德品质
+	public Dcddpz findDcddpz(String customerId,String productId){
+		Dcddpz  ddpz = localImageDao.findDcddpz(customerId,productId);
+	    return ddpz;
+	}
+	
+	//save 
+	public void saveDdpz(Dcddpz ddpz){
+		commonDao.insertObject(ddpz);
+	}
+	
+	//update
+	public void updateDdpz(Dcddpz ddpz){
+		commonDao.updateObject(ddpz);
+    }
+	
+	//查询利润简表
+	public Dclrjb findDclrjb(String customerId,String productId){
+		Dclrjb  lrjb = localImageDao.findDclrjb(customerId,productId);
+	    return lrjb;
+	}
+	//save
+	public void saveDclrjb(Dclrjb lrjb){
+		commonDao.insertObject(lrjb);
+	}
+	
+	//update
+	public void updateDclrjb(Dclrjb lrjb){
+		commonDao.updateObject(lrjb);
 	}
 }

@@ -82,4 +82,30 @@
   <select id="findJy" resultType="com.cardpay.pccredit.intopieces.model.Dzjy">
      select * from TY_DZ_MODEL_JY t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
   </select>
+  
+   <!--查询基本状况-->
+  <select id="findDzjbzk" resultType="com.cardpay.pccredit.intopieces.model.Dzjbzk">
+     select * from TY_DZ_MODEL_JBZK t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
+  </select>
+  
+   <!--查询经营状态-->
+  <select id="findDzjyzt" resultType="com.cardpay.pccredit.intopieces.model.Dzjyzt">
+     select * from TY_DZ_MODEL_JYZT t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
+  </select>
+  
+   <!--查询生存状态-->
+  <select id="findDcsczt" resultType="com.cardpay.pccredit.intopieces.model.Dcsczt">
+     select * from TY_DZ_MODEL_SCZT t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
+  </select>
+  
+   <!--查询道德品质-->
+  <select id="findDcddpz" resultType="com.cardpay.pccredit.intopieces.model.Dcddpz">
+     select * from TY_DZ_MODEL_DDPZ t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
+  </select>
+  
+  <!-- 查询利润简表 -->
+  <select id="findDclrjb" resultType="com.cardpay.pccredit.intopieces.model.Dclrjb">
+     select * from TY_DZ_MODEL_LRJB t WHERE t.CUSTOMER_ID = #{customerId} and t.PRODUCT_ID = #{productId} 
+  </select>
+  
 </mapper>
